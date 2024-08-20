@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inmobiliaria", "Inmobiliaria.csproj", "{0AF4D53F-CEE1-45C1-8882-408DD86D1640}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inmobiliaria", "Inmobiliaria.csproj", "{39A71924-B8EB-4ACD-9A30-837D330F2089}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{0AF4D53F-CEE1-45C1-8882-408DD86D1640}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0AF4D53F-CEE1-45C1-8882-408DD86D1640}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0AF4D53F-CEE1-45C1-8882-408DD86D1640}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0AF4D53F-CEE1-45C1-8882-408DD86D1640}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39A71924-B8EB-4ACD-9A30-837D330F2089}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39A71924-B8EB-4ACD-9A30-837D330F2089}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39A71924-B8EB-4ACD-9A30-837D330F2089}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39A71924-B8EB-4ACD-9A30-837D330F2089}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
