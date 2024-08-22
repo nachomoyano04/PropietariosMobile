@@ -94,3 +94,29 @@ body {
   font-size: 4rem; 
   margin-bottom: 40px; 
 }
+
+.image-container {
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+  flex-direction: column;
+}
+
+.centered-image {
+  width: 100%; 
+  height: 300px;
+  border-radius: 10px; 
+  max-width: 900px; 
+}
+
+.image-caption h5 {
+  color: #1A5653;
+  margin-top: 10px;
+  font-size: 1.5rem;
+  font-family: cursive;
+}
+
+.image-caption p {
+  color: #1A5653;
+  font-size: 1rem;
+}
