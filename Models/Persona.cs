@@ -1,4 +1,4 @@
-*public class Persona{
+public class Persona{
     private int dni {get; set;}
     private string apellido {get; set;}
     private string nombre {get; set;}
