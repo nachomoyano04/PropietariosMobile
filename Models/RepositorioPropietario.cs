@@ -5,7 +5,7 @@ public class RepositorioPropietario{
         _context= new InmobiliariaContext();
     }
 
-     public int AgregarPropietario(Propietario propietario){
+     public int crearPropietario(Propietario propietario){
         _context.Propietario.add(propietario)
 
         _context.SaveChanges();
@@ -21,7 +21,7 @@ public class RepositorioPropietario{
         _context.SaveChanges();
     }
 
-    public void EliminarInquilino(int id){
+    public void darDeBaja(int id){
         Propietario i = _context.Propietario.Find(id);
         _context.Propietario.Remove(i);
         _context.SaveChanges();

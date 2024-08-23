@@ -5,5 +5,9 @@ public class Propietario: Persona{
         this.id=id;
         base(dni,apellido,nombre, telefono,correo,estado);
     }
+    public Propietario( int dni, string apellido,string nombre, string telefono,string correo,bool estado){
+        
+        base(dni,apellido,nombre, telefono,correo,estado);
+    }
 
 }
