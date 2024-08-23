@@ -26,5 +26,8 @@ public class RepositorioInquilino {
         _context.Inquilino.Remove(i);
         _context.SaveChanges();
     }
+    public List<Inquilino> ObtenerInquilinos(){
+        return _context.Inquilino.ToList();
+    }
 
 }

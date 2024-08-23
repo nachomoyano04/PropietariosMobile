@@ -26,4 +26,7 @@ public class RepositorioPropietario{
         _context.Propietario.Remove(i);
         _context.SaveChanges();
     }
+    public List<Propietario> obtenerPropietarios(){
+        return _context.Propietario.ToList();
+    }
 }
