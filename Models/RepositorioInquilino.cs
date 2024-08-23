@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
@@ -45,7 +44,7 @@ public class RepositorioInquilino
         return _context.Inquilinos.ToList(); // Debería ser Inquilinos
     }
 }
-=======
+
 // public class RepositorioInquilino {
 //     public readonly InmobiliariaContext _context;
 
@@ -79,4 +78,4 @@ public class RepositorioInquilino
 //     }
 
 // }
->>>>>>> e32bd712286594d98523514ed3b21fab119831c9
+

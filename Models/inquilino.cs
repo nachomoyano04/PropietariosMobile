@@ -1,10 +1,12 @@
-// public class Inquilino: Persona
-// {
-//     private int idInquilino {get; set;}
+public class Inquilino: Persona
+{
+    public int IdInquilino {get; set;}
+    public int Dni {get; set;}
+    public string Apellido {get; set;}
+    public string Nombre {get; set;}
+    public string Telefono {get; set;}
+    public string Correo {get; set;}
+    public bool Estado {get; set;}
     
-//     public Inquilino(){}
-//     public Inquilino(int id,int dni,string apellido, string nombre,string telefono, string correo, bool estado){
-//         this.idInquilino=id;
-//         base(dni,apellido,nombre,telefono,correo,estado);
-//     }
-// }
+   
+}
