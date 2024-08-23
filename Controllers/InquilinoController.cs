@@ -1,41 +1,40 @@
-// using Microsoft.AspNetCore.Mvc;
-// using ProyetoInmobiliaria.Models;
+using Microsoft.AspNetCore.Mvc;
+using ProyetoInmobiliaria.Models;
+public class InquilinoController : Controller{
+    private readonly ILogger<InquilinoController> _logger;
+    private RepositorioInquilino repo;
+    public InquilinoController(ILogger<InquilinoController> logger){
+        _logger = logger;
+        repo = new RepositorioInquilino();
+    }        
 
-// namespace ProyetoInmobiliaria.Controllers{
-//     private RepositorioInquilino repo;
-//     public class InquilinoController : Controller{
-//         //Metodo get de todos los inquilinos para el Index
-//         public IActionResult Index(){
-//             var inquilinos = repo.getInquilinos();
-//             return View(inquilinos);
-//         }
+    public IActionResult Index(){
+        var inquilinos = repo.Listar();
+        return View(inquilinos);
+    }
 
-//         //Metodo get inquilino segun el id para vista Editar
-//         public IActionResult Editar(int Id){
-//             if(Id == 0){
-//                 return View();
-//             }else{
-//                 return View(repo.getInquilino(Id));
-//             }
-//         }
+    public IActionResult Editar(int Id){
+        if(Id == 0){
+            return View();
+        }else{
+            return View(repo.Obtener(Id));
+        }
+    }
 
-//         //Metodo que guarda segun si es para editar un inquilino o para crear uno nuevo y redirige al Index
-//         [HttpPost]
-//         public IActionResult Guardar(int Id, Inquilino inquilino){
-//             Id = inquilino.IdInquilino;
-//             if(Id == 0){
-//                 repo.DarDeAlta(inquilino);
-//             }else{
-//                 repo.Modificar(inquilino);
-//             }
-//             return RedirectToAction("Index");
-//         }
+    [HttpPost]
+    public IActionResult Guardar(int Id, Inquilino inquilino){
+        Id = inquilino.IdInquilino;
+        if(Id == 0){
+            repo.Crear(inquilino);
+        }else{
+            repo.Modificar(inquilino);
+        }
+        return RedirectToAction("Index");
+    }
 
-//         //Metodo que borra un inquilino segun el id y redirige al Index
-//         [HttpPost]
-//         public IActionResult Borrar(int Id){
-//             repo.DarDeBaja(Id);
-//             return RedirectToAction("Index");
-//         }    
-//     }
-// }
+    [HttpPost]
+    public IActionResult Borrar(int Id){
+        repo.Eliminar(Id);
+        return RedirectToAction("Index");
+    }    
+}

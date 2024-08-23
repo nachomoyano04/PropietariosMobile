@@ -3,14 +3,17 @@ using ProyetoInmobiliaria.Models;
 public class PropietarioController : Controller{
     private readonly ILogger<PropietarioController> _logger;
     private RepositorioPropietario repo;
+
     public PropietarioController(ILogger<PropietarioController> logger){
         _logger = logger;
         repo = new RepositorioPropietario();  //CREAR DESDE EL MODELO
     }
+
     public IActionResult Index(){
         var propietarios = repo.Listar();
         return View(propietarios);
     }
+
     public IActionResult Editar(int Id){
         if(Id == 0){
             return View();
@@ -35,4 +38,4 @@ public class PropietarioController : Controller{
         repo.Eliminar(Id);
         return RedirectToAction("Index");
     }    
-} 
+}
