@@ -19,7 +19,7 @@ html {
 
 body {
   margin-bottom: 60px;
-  background-color: #e2e6ea; /* Color de fondo suave */
+  background-color: #e2e6ea; 
 }
 
 .titulo-principal {
@@ -41,11 +41,15 @@ body {
 
 /* INQUILINO - PROPIETARIO  */
 
-
 .btn-agregar {
   background-color: #d6c7c7; 
   border-color: #d6c7c7;
   color: white;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 14px;
+  transition: background-color 0.3s, border-color 0.3s;
+  margin-right: 10px; 
 }
 
 .btn-agregar:hover {
@@ -53,18 +57,18 @@ body {
   border-color: #e2dd7c;
 }
 
-
 .btn-editar, .btn-eliminar {
   background-color: #bfc2a3; 
   border-color: #bfc2a3; 
   color: white;
-  padding: 10px; 
-  margin-left: 35px;
+  padding: 8px 10px; 
   border-radius: 20px; 
-  font-size: 12px;
+  font-size: 12px; 
   transition: background-color 0.3s, border-color 0.3s;
   width: 120px; 
-  text-align: center; 
+  text-align: center;
+  margin: 5px; 
+  display: inline-block; 
 }
 
 .btn-editar:hover, .btn-eliminar:hover {
@@ -72,12 +76,25 @@ body {
   border-color: #e5cdb7; 
 }
 
+/* Eliminar margen innecesario */
 .btn-eliminar {
-  margin-left: 10px;
+  margin-left: 0;
 }
+
 
 .table th {
   text-align: center; 
+  vertical-align: middle; 
+}
+
+.table-even-columns th, .table-even-columns td {
+  width: 14%;
+  text-align: center;
+  vertical-align: middle; 
+}
+
+.table-even-columns th:last-child, .table-even-columns td:last-child {
+  width: 16%;
   vertical-align: middle; 
 }
 
@@ -90,7 +107,7 @@ body {
   color: white;
   padding: 20px; 
   text-align: center; 
-  height: 200px; 
+  height: 150px; 
   font-size: 4rem; 
   margin-bottom: 40px; 
 }
