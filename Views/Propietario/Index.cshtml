@@ -2,83 +2,9 @@
     ViewData["Title"] = "Propietario";
 }
 
-
-
 <h2 class="h2-inquilino-background">Gestión de Propietarios</h2>
 
-<div class="container mt-4">
-    <div class="d-flex justify-content-between mb-3">
-        <a href="#" class="btn btn-agregar">Agregar</a>
-        <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Buscar">
-            <button class="btn btn-secondary" type="submit">Buscar</button>
-        </form>
-    </div>
-    <table class="table table-striped table-hover table-bordered table-even-columns">
-    <thead class="table-dark">
-        <tr>
-            <th>ID</th>
-            <th>DNI</th>
-            <th>Apellido</th>
-            <th>Nombre</th>
-            <th>Teléfono</th>
-            <th>Estado</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>
-                <a href="#" class="btn btn-sm btn-editar">Editar</a>
-                <a href="#" class="btn btn-sm btn-eliminar">Eliminar</a>
-            </td>
-        </tr>
-    </tbody>
-</table>
-</div>
-
-<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel">Editar Propietario</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="editForm">
-                    <input type="hidden" id="editId">
-                    <div class="mb-3">
-                        <label for="editDni" class="form-label">DNI</label>
-                        <input type="text" class="form-control" id="editDni" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editApellido" class="form-label">Apellido</label>
-                        <input type="text" class="form-control" id="editApellido" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editNombre" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" id="editNombre" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editTelefono" class="form-label">Teléfono</label>
-                        <input type="text" class="form-control" id="editTelefono" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editEstado" class="form-label">Estado</label>
-                        <input type="text" class="form-control" id="editEstado" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Guardar cambios</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+@await Html.PartialAsync("TablaModal")
 
 <div class="container mt-4 text-center">
     <div class="image-container mt-5">

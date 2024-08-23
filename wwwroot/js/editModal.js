@@ -1,7 +1,8 @@
+
 $(document).ready(function () {
-    // click en editar
+    // Al hacer clic en el botón de editar
     $('.btn-editar').click(function () {
-        //  datos de la fila correspondiente
+        // Obtén los datos de la fila correspondiente
         var row = $(this).closest('tr');
         var id = row.find('td:eq(0)').text();
         var dni = row.find('td:eq(1)').text();
@@ -17,7 +18,6 @@ $(document).ready(function () {
         $('#editNombre').val(nombre);
         $('#editTelefono').val(telefono);
         $('#editEstado').val(estado);
-
 
         // Muestra el modal
         $('#editModal').modal('show');
