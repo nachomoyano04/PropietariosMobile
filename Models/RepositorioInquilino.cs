@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using ProyetoInmobiliaria.Models;
 
 public class RepositorioInquilino
 {
@@ -11,37 +12,38 @@ public class RepositorioInquilino
         _context = new InmobiliariaContext();
     }
 
-    public int AgregarInquilino(Inquilino inquilino)
+    public int Crear(Inquilino inquilino)
     {
-        _context.Inquilinos.Add(inquilino); // Asegúrate de que la propiedad sea plural: Inquilinos
+        _context.Inquilino.Add(inquilino); // Asegúrate de que la propiedad sea plural: Inquilino
         _context.SaveChanges();
-        return inquilino.Id;
+        return inquilino.IdInquilino;
     }
 
-    public Inquilino ObtenerInquilino(int id)
+    public Inquilino Obtener(int id)
     {
-        return _context.Inquilinos.Find(id); // Debería ser Inquilinos
+        return _context.Inquilino.Find(id); // Debería ser Inquilino
     }
 
-    public void ActualizarInquilino(Inquilino inquilino)
+    public void Modificar(Inquilino inquilino)
     {
-        _context.Inquilinos.Update(inquilino); // Debería ser Inquilinos
+        _context.Inquilino.Update(inquilino); // Debería ser Inquilino
         _context.SaveChanges();
     }
 
-    public void EliminarInquilino(int id)
+    public void Eliminar(int id)
     {
-        Inquilino inquilino = _context.Inquilinos.Find(id); // Debería ser Inquilinos
+        Inquilino inquilino = _context.Inquilino.Find(id); // Debería ser Inquilino
         if (inquilino != null)
         {
-            _context.Inquilinos.Remove(inquilino); // Debería ser Inquilinos
+            inquilino.Estado = false;
+            _context.Inquilino.Update(inquilino); // Debería ser Inquilino
             _context.SaveChanges();
         }
     }
 
-    public List<Inquilino> ObtenerInquilinos()
+    public List<Inquilino> Listar()
     {
-        return _context.Inquilinos.ToList(); // Debería ser Inquilinos
+        return _context.Inquilino.ToList(); // Debería ser Inquilino
     }
 }
 
@@ -73,7 +75,7 @@ public class RepositorioInquilino
 //         _context.Inquilino.Remove(i);
 //         _context.SaveChanges();
 //     }
-//     public List<Inquilino> ObtenerInquilinos(){
+//     public List<Inquilino> ObtenerInquilino(){
 //         return _context.Inquilino.ToList();
 //     }
 
