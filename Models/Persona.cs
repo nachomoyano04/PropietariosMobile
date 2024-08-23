@@ -1,11 +1,11 @@
 public class Persona{
-    private int Id {get; set;}
-    private int Dni {get; set;}
-    private string Apellido {get; set;}
-    private string Nombre {get; set;}
-    private string Telefono {get; set;}
-    private string Correo {get; set;}
-    private bool Estado {get; set;}
+    
+    public int Dni {get; set;}
+    public string Apellido {get; set;}
+    public string Nombre {get; set;}
+    public string Telefono {get; set;}
+    public string Correo {get; set;}
+    public bool Estado {get; set;}
 
     public Persona(){
 
