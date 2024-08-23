@@ -1,4 +1,3 @@
-using System.Collections;
 using Microsoft.AspNetCore.Mvc;
 using ProyetoInmobiliaria.Models;
 public class PropietarioController : Controller{
@@ -31,7 +30,13 @@ public class PropietarioController : Controller{
         return RedirectToAction("Index");
     }
 
-    
+    [HttpPost]
+    public IActionResult Borrar(int Id){
+        repo.DarDeBaja(Id);
+        return RedirectToAction("Index");
+    }    
+
+
     // public IActionResult Mostrar(){
     //     var propietarios = repo.obtenerPropietarios(); //CREAR DESDE EL MODELO
     //     return View(propietarios);
