@@ -33,6 +33,7 @@ public class PropietarioController : Controller{
         Id = propietario.IdPropietario;
         propietario.Estado= true;
         if(Id == 0){
+            propietario.Estado = true; // Asigna estado solo al crear
             repo.Crear(propietario);
         }else{
             repo.Modificar(propietario);
