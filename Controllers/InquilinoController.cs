@@ -21,6 +21,8 @@ public class InquilinoController : Controller{
         }
     }
 
+    
+
     [HttpPost]
     public IActionResult Guardar(int Id, Inquilino inquilino){
         Id = inquilino.IdInquilino;

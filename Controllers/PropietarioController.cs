@@ -31,6 +31,7 @@ public class PropietarioController : Controller{
     [HttpPost]
     public IActionResult Guardar(int Id, Propietario propietario){
         Id = propietario.IdPropietario;
+        propietario.Estado= true;
         if(Id == 0){
             repo.Crear(propietario);
         }else{
