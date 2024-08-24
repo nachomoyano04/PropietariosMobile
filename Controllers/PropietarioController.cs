@@ -22,6 +22,12 @@ public class PropietarioController : Controller{
         }
     }
 
+    public IActionResult Crear()
+{
+    return View(); // Devuelve la vista para crear un nuevo propietario
+}
+
+
     [HttpPost]
     public IActionResult Guardar(int Id, Propietario propietario){
         Id = propietario.IdPropietario;
