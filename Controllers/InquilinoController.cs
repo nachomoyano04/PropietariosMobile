@@ -28,6 +28,7 @@ public class InquilinoController : Controller{
     [HttpPost]
     public IActionResult Guardar(int Id, Inquilino inquilino){
         Id = inquilino.IdInquilino;
+        inquilino.Estado= true;
         if(Id == 0){
             repo.Crear(inquilino);
         }else{
