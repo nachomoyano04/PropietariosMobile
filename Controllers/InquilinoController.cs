@@ -21,7 +21,9 @@ public class InquilinoController : Controller{
         }
     }
 
-    
+    public IActionResult Crear(){
+        return View();
+    }
 
     [HttpPost]
     public IActionResult Guardar(int Id, Inquilino inquilino){
