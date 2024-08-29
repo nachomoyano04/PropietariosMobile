@@ -1,7 +1,5 @@
-
+//repositorioPropietario.cs
 using Microsoft.EntityFrameworkCore;
-
-
 using MySql.Data.MySqlClient;
 namespace ProyetoInmobiliaria.Models;
 

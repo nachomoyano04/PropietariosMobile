@@ -1,3 +1,4 @@
+//propietarioController
 using Microsoft.AspNetCore.Mvc;
 using ProyetoInmobiliaria.Models;
 public class PropietarioController : Controller{
