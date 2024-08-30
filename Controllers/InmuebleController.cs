@@ -32,21 +32,21 @@ public class InmuebleController : Controller
         return View(inmuebles);
     }
 
-    public IActionResult Detalles(int id)
-    {
-        if (id == 0)
-        {
-            _logger.LogWarning("No hay detalles para ese id");
-            return NotFound();
-        }
-        var inmueble = _repo.Obtener(id);
-        if (inmueble == null)
-        {
-            _logger.LogWarning("Inmueble no encontrado con id : {Id}", id);
-            return NotFound();
-        }
-        return View(inmueble);
-    }
+    // public IActionResult Detalles(int id)
+    // {
+    //     if (id == 0)
+    //     {
+    //         _logger.LogWarning("No hay detalles para ese id");
+    //         return NotFound();
+    //     }
+    //     var inmueble = _repo.Obtener(id);
+    //     if (inmueble == null)
+    //     {
+    //         _logger.LogWarning("Inmueble no encontrado con id : {Id}", id);
+    //         return NotFound();
+    //     }
+    //     return View(inmueble);
+    // }
 
     public IActionResult Crear()
     {

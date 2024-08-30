@@ -1,8 +1,8 @@
 using ProyetoInmobiliaria.Models;
-public class RepositorioContrato2{
+public class RepositorioContrato{
     private readonly InmobiliariaContext context;
 
-    public RepositorioContrato2(){
+    public RepositorioContrato(){
         context = new InmobiliariaContext();
     }
 

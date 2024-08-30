@@ -32,21 +32,21 @@ public class ContratoController : Controller
         return View(contratos);
     }
 
-    public IActionResult Detalles(int id)
-    {
-        if (id == 0)
-        {
-            _logger.LogWarning("No hay detalles para ese id");
-            return NotFound();
-        }
-        var contrato = _repo.Obtener(id);
-        if (contrato == null)
-        {
-            _logger.LogWarning("Contrato no encontrado con id : {Id}", id);
-            return NotFound();
-        }
-        return View(contrato);
-    }
+    // public IActionResult Detalles(int id)
+    // {
+    //     if (id == 0)
+    //     {
+    //         _logger.LogWarning("No hay detalles para ese id");
+    //         return NotFound();
+    //     }
+    //     var contrato = _repo.Obtener(id);
+    //     if (contrato == null)
+    //     {
+    //         _logger.LogWarning("Contrato no encontrado con id : {Id}", id);
+    //         return NotFound();
+    //     }
+    //     return View(contrato);
+    // }
 
     public IActionResult Crear()
     {
