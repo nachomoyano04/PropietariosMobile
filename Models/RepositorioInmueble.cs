@@ -1,48 +1,41 @@
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
-using ProyetoInmobiliaria.Models;
+public class RepositorioInmueble2{
+    private readonly InmobiliariaContext context;
 
-public class RepositorioInmueble
-{
-    private readonly InmobiliariaContext _context;
-
-    public RepositorioInmueble(InmobiliariaContext context)
-    {
-        _context = context;
+    public RepositorioInmueble2(){
+        context = new InmobiliariaContext();
     }
 
-    public int Crear(Inmueble inmueble)
-    {
-        _context.Inmuebles.Add(inmueble);
-        _context.SaveChanges();
-        return inmueble.IdInmueble;
+    //Crear
+    public int Crear(Inmueble inmueble){
+        var entidadCreada = context.Add(inmueble);
+        context.SaveChanges();
+        return entidadCreada.Entity.IdInmueble;
+    }    
+
+    //Modificar
+    public int Modificar(Inmueble inmueble){
+        context.Update(inmueble);
+        int filasAfectadas = context.SaveChanges();
+        return filasAfectadas;
     }
 
-    public Inmueble Obtener(int id)
-    {
-        return _context.Inmuebles.Find(id);
+    //Listar
+    public List<Inmueble> Listar(){
+        return context.Inmueble.Where(i => i.Estado).ToList();
     }
 
-    public void Modificar(Inmueble inmueble)
-    {
-        _context.Inmuebles.Update(inmueble);
-        _context.SaveChanges();
+    //Obtener
+    public Inmueble Obtener(int IdInmueble){
+        return context.Inmueble.Find(IdInmueble);
     }
 
-    public void Eliminar(int id)
-    {
-        Inmueble inmueble = _context.Inmuebles.Find(id);
-        if (inmueble != null)
-        {
+    //Eliminar
+    public int Eliminar(int IdInmueble){
+        Inmueble inmueble = Obtener(IdInmueble);
+        if(inmueble != null){
             inmueble.Estado = false;
-            _context.Inmuebles.Update(inmueble);
-            _context.SaveChanges();
+            return Modificar(inmueble);
         }
-    }
-
-    public List<Inmueble> Listar()
-    {
-        return _context.Inmuebles.Where(i => i.Estado).ToList();
-    }
+        return -1;
+    }   
 }

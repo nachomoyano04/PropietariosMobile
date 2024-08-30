@@ -1,48 +1,43 @@
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
 using ProyetoInmobiliaria.Models;
+public class RepositorioContrato2{
+    private readonly InmobiliariaContext context;
 
-public class RepositorioContrato
-{
-    private readonly InmobiliariaContext _context;
-
-    public RepositorioContrato(InmobiliariaContext context)
-    {
-        _context = context;
+    public RepositorioContrato2(){
+        context = new InmobiliariaContext();
     }
 
-    public int Crear(Contrato contrato)
-    {
-        _context.Contratos.Add(contrato);
-        _context.SaveChanges();
-        return contrato.IdContrato;
+    //Crear
+    public int Crear(Contrato contrato){
+        var entidadCreada = context.Add(contrato);
+        context.SaveChanges();
+        return entidadCreada.Entity.IdContrato;
     }
 
-    public Contrato Obtener(int id)
-    {
-        return _context.Contratos.Find(id);
+    //Modificar
+    public int Modificar(Contrato contrato){
+        context.Update(contrato);
+        int filasAfectadas = context.SaveChanges();
+        return filasAfectadas;
     }
 
-    public void Modificar(Contrato contrato)
-    {
-        _context.Contratos.Update(contrato);
-        _context.SaveChanges();
+    //Listar
+    public List<Contrato> Listar(){
+        var contratos = context.Contrato.Where(e => e.Estado).ToList(); 
+        return contratos;
     }
 
-    public void Eliminar(int id)
-    {
-        Contrato contrato = _context.Contratos.Find(id);
-        if (contrato != null)
-        {
+    //Obtener
+    public Contrato Obtener(int IdContrato){
+        return context.Contrato.Find(IdContrato);
+    }
+
+    //Eliminar
+    public int Eliminar(int IdContrato){
+        Contrato contrato = Obtener(IdContrato);
+        if(contrato != null){
             contrato.Estado = false;
-            _context.Contratos.Update(contrato);
-            _context.SaveChanges();
+            return Modificar(contrato);
         }
-    }
-
-    public List<Contrato> Listar()
-    {
-        return _context.Contratos.Where(c => c.Estado).ToList();
+        return -1;
     }
 }
