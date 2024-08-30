@@ -12,6 +12,19 @@ public class ContratoController : Controller
         _repo = new RepositorioContrato();
     }
 
+  // para ver vista de detalles //creo que no se hace un detalleController, manejamos desde aqui
+    public IActionResult Detalles(int id)
+    {
+        var contrato = _repo.Obtener(id);
+        if (contrato == null)
+        {
+            _logger.LogWarning("No se encontro el contrato con el id: {Id}", id);
+            return NotFound(); //  me devuelve error si no hay contrato 
+        }
+
+        return View(contrato); // muestra a la vista
+    }
+
     public IActionResult Index()
     {
         _logger.LogInformation("Se invoca el index.");
@@ -62,7 +75,7 @@ public class ContratoController : Controller
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Ha ocurrido un error al tratar de guardar el contrato", contrato.IdContrato);
-                ModelState.AddModelError("",  "Oops ha ocurrido un error al intentar guardar el inmueble");
+                ModelState.AddModelError("",  "Oops ha ocurrido un error al intentar guardar el inmueble"); // muetsro model de aviso
             }
         }
         return View("Crear", contrato);

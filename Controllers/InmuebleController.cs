@@ -12,6 +12,19 @@ public class InmuebleController : Controller
         _repo = new RepositorioInmueble();
     }
 
+         // para ver vista detalles
+    public IActionResult Detalles(int id)
+    {
+        var inmueble = _repo.Obtener(id);
+        if (inmueble == null)
+        {
+            _logger.LogWarning("No se encontro el inmueble con el id: {Id} ", id);
+            return NotFound(); //  me devuelve error si no hay inmueble 
+        }
+
+        return View(inmueble); // muestra a la vista
+    }
+
     public IActionResult Index()
     {
         _logger.LogInformation("Se invoca el index.");
@@ -62,7 +75,7 @@ public class InmuebleController : Controller
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Ha ocurrido un error al guardar el inmueble", inmueble.IdInmueble);
-                ModelState.AddModelError("", "Oops ha ocurrido un error al intentar guardar el inmueble");
+                ModelState.AddModelError("", "Oops ha ocurrido un error al intentar guardar el inmueble"); // muetsro model de aviso
             }
         }
         return View("Crear", inmueble);
