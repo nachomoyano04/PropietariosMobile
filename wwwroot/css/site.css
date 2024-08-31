@@ -198,14 +198,14 @@ color: #354367;
 
 /*ESTILOS PARA LOS INMUEBLES*/
 .cardInmueble {
-  border: solid;
+  border:1px solid gray;
   border-radius: 15px;
   overflow: hidden;
   padding: 5px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  box-shadow: 3px 5px 8px;
+  box-shadow: 3px 5px 8px gray;
 }
 .containerInmueble {
   display: flex;
@@ -213,4 +213,11 @@ color: #354367;
   flex-wrap: wrap;
   width: inherit;
   height: fit-content;
+  margin-top: 50px;
+}
+.cardInmueble>img{
+  width: 250px;
+}
+.cardInmueble:hover{
+  box-shadow: 3px,5px,12px black;
 }
