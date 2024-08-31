@@ -1,7 +1,7 @@
 using MySql.Data.MySqlClient;
 
 public class RepositorioDireccion:RepositorioBase{
-    public RepositorioDireccion(IConfiguration configuration):base(configuration){
+    public RepositorioDireccion():base(){
     
     }
     

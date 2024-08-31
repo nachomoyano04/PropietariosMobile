@@ -1,7 +1,7 @@
 using MySql.Data.MySqlClient;
 using ProyetoInmobiliaria.Models;
 public class RepositorioPropietario:RepositorioBase{
-    public RepositorioPropietario(IConfiguration configuration):base(configuration){
+    public RepositorioPropietario():base(){
 
     }
     //CREAR
