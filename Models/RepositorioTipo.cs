@@ -1,43 +1,133 @@
-public class RepositorioTipo{
-    private readonly InmobiliariaContext context;
+using MySql.Data.MySqlClient;
 
-    public RepositorioTipo(){
-        context = new InmobiliariaContext();
+public class RepositorioTipo:RepositorioBase{
+    public RepositorioTipo(IConfiguration configuration):base(configuration){
+            
+    }
+    //CREAR
+    public int Crear(Tipo tipo){
+        int idCreado = -1;
+        using(MySqlConnection connection = new MySqlConnection(ConnectionString)){
+            connection.Open();
+            string query = "INSERT INTO Tipo (observacion)VALUES(@Observacion); SELECT LAST_INSERT_ID();";
+            using(MySqlCommand command = new MySqlCommand(query, connection)){
+                command.Parameters.AddWithValue("@Observacion", tipo.Observacion);
+                idCreado = Convert.ToInt32(command.ExecuteScalar());
+            }
+        }
+        return idCreado;
     }
 
-    //Crear
-    public int Crear(Tipo tipo){
-        var entidadCreada = context.Add(tipo);
-        context.SaveChanges();
-        return entidadCreada.Entity.IdTipo;
-    } 
-    
-    //Modificar
+    //MODIFICAR
     public int Modificar(Tipo tipo){
-        context.Update(tipo);
-        int filasAfectadas = context.SaveChanges();
+        int filasAfectadas = -1;
+        using(MySqlConnection connection = new MySqlConnection(ConnectionString)){
+            connection.Open();
+            string query = "UPDATE Tipo SET(observacion=@Observacion)WHERE idTipo = @IdTipo";
+            using(MySqlCommand command = new MySqlCommand(query, connection)){
+                command.Parameters.AddWithValue("@Observacion", tipo.Observacion);
+                filasAfectadas = command.ExecuteNonQuery();
+            }
+        }
         return filasAfectadas;
     }
 
-    //Listar
+    //LISTAR
     public List<Tipo> Listar(){
-        List<Tipo> tipos = context.Tipo.ToList();
-        return tipos;
+        List<Tipo> Tipos = new List<Tipo>();
+        using(MySqlConnection connection = new MySqlConnection(ConnectionString)){
+            connection.Open();
+            string query = "SELECT * FROM Tipo";
+            using(MySqlCommand command = new MySqlCommand(query, connection)){
+                using(MySqlDataReader reader = command.ExecuteReader()){
+                    while(reader.Read()){
+                        Tipo tipo = new Tipo{
+                            IdTipo = reader.GetInt32("IdTipo"),
+                            Observacion = reader.GetString("Observacion")
+                            };
+                        Tipos.Add(tipo);
+                    }
+                }
+            }
+        }
+        return Tipos;
     }
     
-    //Obtener
-    public Tipo Obtener(int IdTipo){
-        return context.Tipo.Find(IdTipo);
-    }
+    //OBTENER
+    public Tipo Obtener(int idTipo){
+        Tipo tipo = null;
+        using(MySqlConnection connection = new MySqlConnection(ConnectionString)){
+            connection.Open();
+            string query = "SELECT * FROM Tipo WHERE idTipo = @IdTipo";
+            using(MySqlCommand command = new MySqlCommand(query, connection)){
+                command.Parameters.AddWithValue("@IdTipo", idTipo);
+                using(MySqlDataReader reader = command.ExecuteReader()){
+                    if(reader.Read()){
+                        tipo = new Tipo{
+                            IdTipo = idTipo,
+                            Observacion = reader.GetString("observacion")
+                        };
+                    }
+                }
+            }
+        }
+        return tipo;
+    }    
 
-    //Eliminar
+    //ELIMINAR
     public int Eliminar(int IdTipo){
-        Tipo tipo = Obtener(IdTipo);
-        int filasAfectadas = 0;
-        if(tipo != null){
-            context.Remove(tipo);
-            filasAfectadas = context.SaveChanges();
+        int filasAfectadas = -1;
+        using(MySqlConnection connection = new MySqlConnection(ConnectionString)){
+            connection.Open();
+            string query = "DELETE FROM Tipo WHERE idTipo = @IdTipo";
+            using(MySqlCommand command = new MySqlCommand(query, connection)){
+                command.Parameters.AddWithValue("@IdTipo", IdTipo);
+                filasAfectadas = command.ExecuteNonQuery();
+            }
         }
         return filasAfectadas;
     }
 }
+// public class RepositorioTipo{
+//     private readonly InmobiliariaContext context;
+
+//     public RepositorioTipo(){
+//         context = new InmobiliariaContext();
+//     }
+
+//     //Crear
+//     public int Crear(Tipo tipo){
+//         var entidadCreada = context.Add(tipo);
+//         context.SaveChanges();
+//         return entidadCreada.Entity.IdTipo;
+//     } 
+    
+//     //Modificar
+//     public int Modificar(Tipo tipo){
+//         context.Update(tipo);
+//         int filasAfectadas = context.SaveChanges();
+//         return filasAfectadas;
+//     }
+
+//     //Listar
+//     public List<Tipo> Listar(){
+//         List<Tipo> tipos = context.Tipo.ToList();
+//         return tipos;
+//     }
+    
+//     //Obtener
+//     public Tipo Obtener(int IdTipo){
+//         return context.Tipo.Find(IdTipo);
+//     }
+
+//     //Eliminar
+//     public int Eliminar(int IdTipo){
+//         Tipo tipo = Obtener(IdTipo);
+//         int filasAfectadas = 0;
+//         if(tipo != null){
+//             context.Remove(tipo);
+//             filasAfectadas = context.SaveChanges();
+//         }
+//         return filasAfectadas;
+//     }
+// }
