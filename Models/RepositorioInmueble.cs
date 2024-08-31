@@ -2,11 +2,13 @@ using MySql.Data.MySqlClient;
 using ProyetoInmobiliaria.Models;
 
 public class RepositorioInmueble: RepositorioBase{
-    private readonly RepositorioPropietario repoPropie = new RepositorioPropietario();
-    private readonly RepositorioTipo repoTipo = new RepositorioTipo();
-    private readonly RepositorioDireccion repoDire = new RepositorioDireccion();
+    private readonly RepositorioPropietario repoPropie;
+    private readonly RepositorioTipo repoTipo;
+    private readonly RepositorioDireccion repoDire;
     public RepositorioInmueble(IConfiguration configuration) : base(configuration){
-
+        repoPropie = new RepositorioPropietario(configuration);
+        repoTipo = new RepositorioTipo(configuration);
+        repoDire = new RepositorioDireccion(configuration);
     }
     // Crear
     public int Crear(Inmueble inmueble){
@@ -129,7 +131,6 @@ public class RepositorioInmueble: RepositorioBase{
                 }
             }
         }
-
         return inmueble;
     }
     // Eliminar
