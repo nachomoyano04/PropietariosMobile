@@ -194,3 +194,23 @@ color: #354367;
   border-radius: 8px;
   background-color: #f9f9f9;
 }
+
+
+/*ESTILOS PARA LOS INMUEBLES*/
+.cardInmueble {
+  border: solid;
+  border-radius: 15px;
+  overflow: hidden;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  box-shadow: 3px 5px 8px;
+}
+.containerInmueble {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: inherit;
+  height: fit-content;
+}
