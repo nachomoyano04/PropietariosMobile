@@ -5,7 +5,7 @@ public class RepositorioInmueble: RepositorioBase{
     private readonly RepositorioPropietario repoPropie;
     private readonly RepositorioTipo repoTipo;
     private readonly RepositorioDireccion repoDire;
-    public RepositorioInmueble(IConfiguration configuration) : base(configuration){
+    public RepositorioInmueble() : base(){
         repoPropie = new RepositorioPropietario(configuration);
         repoTipo = new RepositorioTipo(configuration);
         repoDire = new RepositorioDireccion(configuration);

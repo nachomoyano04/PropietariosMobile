@@ -36,7 +36,7 @@
 </div>
 <div class="containerInmueble">
     @foreach(var item in Model){
-        <a href="@Url.Action("Detalle","Inmueble", new { id = item.idInmueble})">
+        <a href="@Url.Action("Detalle","Inmueble", new { id = item.IdInmueble})">
             <div class="carInmueble">
                 <img src="@item.Imagen" alt="">
                 <h2>@item.IdPropietario</h2>
