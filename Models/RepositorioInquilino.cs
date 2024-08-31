@@ -2,7 +2,7 @@ using MySql.Data.MySqlClient;
 using ProyetoInmobiliaria.Models;
 
 public class RepositorioInquilino: RepositorioBase{
-    public RepositorioInquilino(IConfiguration configuration):base(configuration){
+    public RepositorioInquilino():base(){
 
     }
 

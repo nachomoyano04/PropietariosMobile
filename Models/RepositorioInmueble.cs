@@ -2,14 +2,18 @@ using MySql.Data.MySqlClient;
 using ProyetoInmobiliaria.Models;
 
 public class RepositorioInmueble: RepositorioBase{
-    private readonly RepositorioPropietario repoPropie;
-    private readonly RepositorioTipo repoTipo;
-    private readonly RepositorioDireccion repoDire;
+repoDire = new RepositorioDireccion(configuration);
+
+
+    private readonly RepositorioPropietario repoPropie = new RepositorioPropietario();
+    private readonly RepositorioTipo repoTipo = new RepositorioTipo();
+    private readonly RepositorioDireccion repoDire = new RepositorioDireccion();
     public RepositorioInmueble() : base(){
-        repoPropie = new RepositorioPropietario(configuration);
-        repoTipo = new RepositorioTipo(configuration);
-        repoDire = new RepositorioDireccion(configuration);
+
+
+
     }
+    
     // Crear
     public int Crear(Inmueble inmueble){
         int idCreado = -1;
@@ -97,42 +101,54 @@ public class RepositorioInmueble: RepositorioBase{
                 }
             }
         }
-        return inmuebles;
+        return inmuebles ?? new List<Inmueble>();
     }
     // Obtener
-    public Inmueble Obtener(int idInmueble){
-        Inmueble inmueble = null;
-        using (MySqlConnection connection = new MySqlConnection(ConnectionString)){
-            connection.Open();
-            string query = "SELECT * FROM inmueble WHERE idInmueble = @IdInmueble AND estado = true";
-            using (MySqlCommand command = new MySqlCommand(query, connection)){
-                command.Parameters.AddWithValue("@Id", idInmueble);
-                using (MySqlDataReader reader = command.ExecuteReader()){
-                    if (reader.Read()){
-                        Propietario p = repoPropie.Obtener(reader.GetInt32("IdPropietario"));
-                        Direccion d = repoDire.Obtener(reader.GetInt32("IdDireccion"));
-                        Tipo t = repoTipo.Obtener(reader.GetInt32("IdTipo"));
-                        inmueble = new Inmueble{
-                            IdInmueble = reader.GetInt32("idInmueble"),
-                            IdPropietario = p,
-                            IdDireccion = d,
-                            IdTipo = t,
-                            Metros2 = reader.GetString("metros2"),
-                            CantidadAmbientes = reader.GetInt32("cantidadAmbientes"),
-                            Disponible = reader.GetBoolean("disponible"),
-                            Precio = reader.GetDecimal("precio"),
-                            Descripcion = reader.GetString("descripcion"),
-                            Cochera = reader.GetBoolean("cochera"),
-                            Piscina = reader.GetBoolean("piscina"),
-                            Mascotas = reader.GetBoolean("mascotas"),
-                            Estado = reader.GetBoolean("estado")
-                        };
-                    }
+    public Inmueble Obtener(int idInmueble)
+{
+    Inmueble inmueble = null;
+    using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+    {
+        connection.Open();
+        string query = "SELECT * FROM inmueble WHERE idInmueble = @IdInmueble AND estado = true";
+        using (MySqlCommand command = new MySqlCommand(query, connection))
+        {
+            command.Parameters.AddWithValue("@IdInmueble", idInmueble); // Corregido el nombre del parámetro
+            using (MySqlDataReader reader = command.ExecuteReader())
+            {
+                if (reader.Read())
+                {
+                    Propietario p = repoPropie.Obtener(reader.GetInt32("IdPropietario"));
+                    Direccion d = repoDire.Obtener(reader.GetInt32("IdDireccion"));
+                    Tipo t = repoTipo.Obtener(reader.GetInt32("IdTipo"));
+                    inmueble = new Inmueble
+                    {
+                        IdInmueble = reader.GetInt32("idInmueble"),
+                        IdPropietario = p,
+                        IdDireccion = d,
+                        IdTipo = t,
+                        Metros2 = reader.GetString("metros2"),
+                        CantidadAmbientes = reader.GetInt32("cantidadAmbientes"),
+                        Disponible = reader.GetBoolean("disponible"),
+                        Precio = reader.GetDecimal("precio"),
+                        Descripcion = reader.GetString("descripcion"),
+                        Cochera = reader.GetBoolean("cochera"),
+                        Piscina = reader.GetBoolean("piscina"),
+                        Mascotas = reader.GetBoolean("mascotas"),
+                        Estado = reader.GetBoolean("estado")
+                    };
                 }
             }
         }
-        return inmueble;
-    }
+
+        
+
+}
+return inmueble;
+}
+
+
+      
     // Eliminar
     public int Eliminar(int IdInmueble){
         int filasAfectadas = 0;

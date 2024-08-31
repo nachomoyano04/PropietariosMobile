@@ -4,7 +4,7 @@ using ProyetoInmobiliaria.Models;
 public class InmuebleController : Controller
 {
     private readonly ILogger<InmuebleController> _logger;
-    private readonly RepositorioInmueble _repo;
+    private readonly RepositorioInmueble _repo= new RepositorioInmueble();
 
     public InmuebleController(ILogger<InmuebleController> logger)
     {
@@ -28,7 +28,10 @@ public class InmuebleController : Controller
     public IActionResult Index()
     {
         _logger.LogInformation("Se invoca el index.");
-        var inmuebles = _repo.Listar();
+        List<Inmueble> inmuebles = _repo.Listar();
+        if(inmuebles==null){
+            inmuebles= new List<Inmueble>();
+        }
         return View(inmuebles);
     }
 

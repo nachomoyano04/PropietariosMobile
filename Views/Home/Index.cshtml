@@ -36,10 +36,12 @@
 </div>
 <div class="containerInmueble">
     @foreach(var item in Model){
-        <a href="@Url.Action("Detalle","Inmueble", new { id = item.IdInmueble})">
-            <div class="carInmueble">
-                <img src="@item.Imagen" alt="">
-                <h2>@item.IdPropietario</h2>
+
+        <a href="@Url.Action("Detalles","Inmueble", new { id = item.IdInmueble})">
+            <div class="cardInmueble">
+                <img src="https://www.shutterstock.com/image-vector/default-ui-image-placeholder-wireframes-600nw-1037719192.jpg" alt="">
+                <h2>@item.IdTipo.Observacion</h2>
+
                 <p>@item.Descripcion</p>
             </div>
         </a>

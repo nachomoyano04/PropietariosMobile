@@ -1,7 +1,7 @@
 using MySql.Data.MySqlClient;
 
 public class RepositorioTipo:RepositorioBase{
-    public RepositorioTipo(IConfiguration configuration):base(configuration){
+    public RepositorioTipo():base(){
             
     }
     //CREAR

@@ -4,9 +4,9 @@ using ProyetoInmobiliaria.Models;
 public class RepositorioContrato: RepositorioBase{
     private readonly RepositorioInquilino repoInquilino;
     private readonly RepositorioInmueble repoInmueble;
-    public RepositorioContrato(IConfiguration configuration):base(configuration){
-        repoInquilino = new RepositorioInquilino(configuration);
-        repoInmueble = new RepositorioInmueble(configuration);
+    public RepositorioContrato():base(){
+        repoInquilino = new RepositorioInquilino();
+        repoInmueble = new RepositorioInmueble();
     }
         //CREAR
     public int Crear(Contrato contrato){
