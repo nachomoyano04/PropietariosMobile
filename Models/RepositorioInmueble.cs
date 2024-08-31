@@ -2,12 +2,12 @@ using MySql.Data.MySqlClient;
 using ProyetoInmobiliaria.Models;
 
 public class RepositorioInmueble: RepositorioBase{
-repoDire = new RepositorioDireccion(configuration);
+ RepositorioDireccion repoDire = new RepositorioDireccion();
 
 
     private readonly RepositorioPropietario repoPropie = new RepositorioPropietario();
     private readonly RepositorioTipo repoTipo = new RepositorioTipo();
-    private readonly RepositorioDireccion repoDire = new RepositorioDireccion();
+    
     public RepositorioInmueble() : base(){
 
 
