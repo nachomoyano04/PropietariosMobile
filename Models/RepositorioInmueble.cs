@@ -2,21 +2,13 @@ using MySql.Data.MySqlClient;
 using ProyetoInmobiliaria.Models;
 
 public class RepositorioInmueble: RepositorioBase{
-<<<<<<< HEAD
+
     private readonly RepositorioPropietario repoPropie = new RepositorioPropietario();
     private readonly RepositorioTipo repoTipo = new RepositorioTipo();
     private readonly RepositorioDireccion repoDire = new RepositorioDireccion();
     public RepositorioInmueble() : base(){
 
-=======
-    private readonly RepositorioPropietario repoPropie;
-    private readonly RepositorioTipo repoTipo;
-    private readonly RepositorioDireccion repoDire;
-    public RepositorioInmueble(IConfiguration configuration) : base(configuration){
-        repoPropie = new RepositorioPropietario(configuration);
-        repoTipo = new RepositorioTipo(configuration);
-        repoDire = new RepositorioDireccion(configuration);
->>>>>>> ddc64e68ca84be479f968537abbf3f4a6b2dc3e0
+
     }
     
     // Crear
@@ -145,12 +137,9 @@ public class RepositorioInmueble: RepositorioBase{
                 }
             }
         }
-<<<<<<< HEAD
-=======
+
         return inmueble;
->>>>>>> ddc64e68ca84be479f968537abbf3f4a6b2dc3e0
-    }
-    return inmueble;
+
 }
 
 
