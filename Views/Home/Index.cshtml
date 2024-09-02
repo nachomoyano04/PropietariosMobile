@@ -38,7 +38,7 @@
     @foreach(var item in Model){
         <a href="@Url.Action("Detalles","Inmueble", new { id = item.IdInmueble})">
             <div class="cardInmueble">
-                <img src="https://www.shutterstock.com/image-vector/default-ui-image-placeholder-wireframes-600nw-1037719192.jpg" alt="">
+                <img src="@item.UrlImagen" alt="">
                 <h2>@item.IdTipo.Observacion</h2>
                 <p>@item.Descripcion</p>
             </div>
