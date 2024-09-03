@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using ProyetoInmobiliaria.Models;
+using Microsoft.Extensions.Logging; // me sirve para alertar LogWarning
 
 public class ContratoController : Controller
 {
