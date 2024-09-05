@@ -214,10 +214,29 @@ color: #354367;
   width: inherit;
   height: fit-content;
   margin-top: 50px;
+  gap: 20px;
 }
 .cardInmueble>img{
   width: 250px;
 }
 .cardInmueble:hover{
   box-shadow: 3px,5px,12px black;
+}
+
+/*ESTILOS DETALLES*/
+.containerDetalle{
+  display: flex;
+  flex-direction: row;
+
+}
+.visorImagen {
+  width: 500px;
+  overflow: hidden;
+}
+.visorImagen>img{
+  width: inherit;
+}
+.columna{
+  width: 50%;
+  overflow: hidden;
 }

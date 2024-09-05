@@ -15,6 +15,8 @@ public class Inmueble{
     public Boolean Piscina {get; set;}
     public Boolean Mascotas {get; set;}
     public Boolean Estado {get; set;}
+    public string UrlImagen {get; set;}
+    
 
     
 

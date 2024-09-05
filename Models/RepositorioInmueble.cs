@@ -20,9 +20,9 @@ public class RepositorioInmueble: RepositorioBase{
         using(MySqlConnection connection = new MySqlConnection(ConnectionString)){
             connection.Open();
             string query = "INSERT INTO inmueble (idPropietario, idDireccion, idTipo, metros2,"+
-            " cantidadAmbientes, disponible, precio, descripcion, cochera, piscina, mascotas, estado)"+
+            " cantidadAmbientes, disponible, precio, descripcion, cochera, piscina, mascotas, estado,UrlImagen)"+
             " VALUES (@IdPropietario, @IdDireccion, @IdTipo, @Metros2, @CantidadAmbientes, @Disponible,"+
-            " @Precio, @Descripcion, @Cochera, @Piscina, @Mascotas, true);  SELECT LAST_INSERT_ID();";
+            " @Precio, @Descripcion, @Cochera, @Piscina, @Mascotas, true,@UrlImagen);  SELECT LAST_INSERT_ID();";
             using(MySqlCommand command = new MySqlCommand(query, connection)){
                 command.Parameters.AddWithValue("@IdPropietario", inmueble.IdPropietario);
                 command.Parameters.AddWithValue("@IdDireccion", inmueble.IdDireccion);
@@ -35,6 +35,7 @@ public class RepositorioInmueble: RepositorioBase{
                 command.Parameters.AddWithValue("@Cochera", inmueble.Cochera);
                 command.Parameters.AddWithValue("@Piscina", inmueble.Piscina);
                 command.Parameters.AddWithValue("@Mascotas", inmueble.Mascotas);
+                command.Parameters.AddWithValue("@Mascotas", inmueble.UrlImagen);
                 idCreado = Convert.ToInt32(command.ExecuteScalar());
             }
         }
@@ -48,7 +49,7 @@ public class RepositorioInmueble: RepositorioBase{
             connection.Open();
             string query = "UPDATE inmueble SET (idPropietario = @IdPropietario, idDireccion = @IdDireccion,"+
             "idTipo = @IdTipo, metros2 = @Metros2, cantidadAmbientes = @CantidadAmbientes, disponible = @Disponible, "+
-            "precio = @Precio, descripcion = @Descripcion, cochera = @Cochera, piscina = @Piscina, mascotas = @Mascotas)"+
+            "precio = @Precio, descripcion = @Descripcion, cochera = @Cochera, piscina = @Piscina, mascotas = @Mascotas, UrlImagen=@UrlImagen)"+
             " WHERE idInmueble = @IdInmueble";
             using(MySqlCommand command = new MySqlCommand(query, connection)){
                 command.Parameters.AddWithValue("@IdPropietario", inmueble.IdPropietario);
@@ -63,6 +64,7 @@ public class RepositorioInmueble: RepositorioBase{
                 command.Parameters.AddWithValue("@Piscina", inmueble.Piscina);
                 command.Parameters.AddWithValue("@Mascotas", inmueble.Mascotas);
                 command.Parameters.AddWithValue("@IdInmueble", inmueble.IdInmueble);
+                command.Parameters.AddWithValue("@UrlImagen",inmueble.UrlImagen);
                 filasAfectadas = command.ExecuteNonQuery();
             }
         }
@@ -94,7 +96,8 @@ public class RepositorioInmueble: RepositorioBase{
                             Cochera = reader.GetBoolean("cochera"),
                             Piscina = reader.GetBoolean("piscina"),
                             Mascotas = reader.GetBoolean("mascotas"),
-                            Estado = reader.GetBoolean("estado")
+                            Estado = reader.GetBoolean("estado"),
+                            UrlImagen= reader.GetString("UrlImagen")
                             };
                         inmuebles.Add(inmueble);
                     }
@@ -135,7 +138,8 @@ public class RepositorioInmueble: RepositorioBase{
                         Cochera = reader.GetBoolean("cochera"),
                         Piscina = reader.GetBoolean("piscina"),
                         Mascotas = reader.GetBoolean("mascotas"),
-                        Estado = reader.GetBoolean("estado")
+                        Estado = reader.GetBoolean("estado"),
+                        UrlImagen= reader.GetString("UrlImagen")
                     };
                 }
             }
