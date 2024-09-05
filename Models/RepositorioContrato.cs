@@ -34,8 +34,8 @@ public class RepositorioContrato: RepositorioBase{
         int filasAfectadas = -1;
         using(MySqlConnection connection = new MySqlConnection(ConnectionString)){
             connection.Open();
-            string query = "UPDATE Contrato SET(idInquilino=@IdInquilino, idInmueble=@IdInmueble, monto=@Monto"+
-            ", fechaInicio=@FechaInicio, fechaFin=@FechaFin, fechaAnulacion=@FechaAnulacion)"+
+            string query = "UPDATE Contrato SET idInquilino=@IdInquilino, idInmueble=@IdInmueble, monto=@Monto"+
+            ", fechaInicio=@FechaInicio, fechaFin=@FechaFin, fechaAnulacion=@FechaAnulacion "+
             "WHERE idContrato = @IdContrato";
             using(MySqlCommand command = new MySqlCommand(query, connection)){
                 command.Parameters.AddWithValue("@IdInquilino", contrato.IdInquilino);

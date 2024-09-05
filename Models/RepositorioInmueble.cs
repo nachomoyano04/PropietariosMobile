@@ -47,9 +47,9 @@ public class RepositorioInmueble: RepositorioBase{
         int filasAfectadas = 0;
         using(MySqlConnection connection = new MySqlConnection(ConnectionString)){
             connection.Open();
-            string query = "UPDATE inmueble SET (idPropietario = @IdPropietario, idDireccion = @IdDireccion,"+
+            string query = "UPDATE inmueble SET idPropietario = @IdPropietario, idDireccion = @IdDireccion,"+
             "idTipo = @IdTipo, metros2 = @Metros2, cantidadAmbientes = @CantidadAmbientes, disponible = @Disponible, "+
-            "precio = @Precio, descripcion = @Descripcion, cochera = @Cochera, piscina = @Piscina, mascotas = @Mascotas, UrlImagen=@UrlImagen)"+
+            "precio = @Precio, descripcion = @Descripcion, cochera = @Cochera, piscina = @Piscina, mascotas = @Mascotas, UrlImagen=@UrlImagen "+
             " WHERE idInmueble = @IdInmueble";
             using(MySqlCommand command = new MySqlCommand(query, connection)){
                 command.Parameters.AddWithValue("@IdPropietario", inmueble.IdPropietario);
@@ -158,7 +158,7 @@ return inmueble;
         int filasAfectadas = 0;
         using(MySqlConnection connection = new MySqlConnection(ConnectionString)){
             connection.Open();
-            string query = "UPDATE inmueble SET (estado = false) WHERE idInmueble = @IdInmueble";
+            string query = "UPDATE inmueble SET estado = false WHERE idInmueble = @IdInmueble";
             using(MySqlCommand command = new MySqlCommand(query, connection)){
                 command.Parameters.AddWithValue("@IdInmueble", IdInmueble);
                 filasAfectadas = command.ExecuteNonQuery();
