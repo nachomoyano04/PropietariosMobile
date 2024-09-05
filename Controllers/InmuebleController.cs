@@ -37,12 +37,15 @@ public class InmuebleController : Controller
 
     public IActionResult Editar(int id){
         RepositorioPropietario _repoProp= new RepositorioPropietario();
+        RepositorioDireccion _repoDire= new RepositorioDireccion();
         List<Propietario> propietarios = _repoProp.Listar();
+        List<Direccion> direcciones= _repoDire.Listar();
         Inmueble inmueble = _repo.Obtener(id);
 
         InmuebleViewModel Ivm= new InmuebleViewModel {
             Propietarios = propietarios,
-            Inmueble = inmueble
+            Inmueble = inmueble,
+            Direcciones = direcciones
         };
         return View(Ivm);
     }

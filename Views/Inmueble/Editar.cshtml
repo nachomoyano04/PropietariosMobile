@@ -10,43 +10,84 @@
     <div class="colu1">
         <div class="containerV">
             <img src="@Model.Inmueble.UrlImagen" alt="" class="img-m">
-            <form action="">
+            <form asp-action="Guardar" method="post">
+                <input type="hidden" name="IdInmueble" id="IdInmueble">
                 <div class="form-group">
                     <label for="InputUrl">URL Imagen</label>
-                    <input type="text" name="InputUrl" class="form-control" value="@Model.Inmueble.UrlImagen">
+                    <input type="text" asp-for="Inmueble.UrlImagen" class="form-control" value="@Model.Inmueble.UrlImagen">
                 </div>
                 <div class="form-group">
                     <label for="InputTipo">Tipo</label>
-                    <input type="text" class="form-control" id="InputTipo" value="@Model.Inmueble.IdTipo.Observacion">
+                    <input type="text" class="form-control" asp-for="inputTipo" id="InputTipo" value="@Model.Inmueble.IdTipo.Observacion">
 
                 </div>
                 <div class="form-group">
                     <label for="InputCantiadAmbientes">Cantidad Ambientes</label>
-                    <input type="text" class="form-control" id="InputCantidadAmbientes" value="@Model.Inmueble.CantidadAmbientes">
+                    <input type="text" class="form-control" asp-for="inputCantidadAmbientes" id="InputCantidadAmbientes" value="@Model.Inmueble.CantidadAmbientes">
                 </div>
                 <div class="form-group">
                     <label for="InputPrecio">Precio</label>
-                    <input type="text" class="form-control" id="inputPrecio" value="@Model.Inmueble.Precio">
+                    <input type="text" class="form-control" asp-for="inputPrecio" id="inputPrecio" value="@Model.Inmueble.Precio">
                 </div>
                 <div class="form-group">
                     <label class="CheckCochera">
-                        <input class="form-check-input" name="CheckCochera" type="checkbox" @(Model.Inmueble.Cochera ? "checked" : "") > Cochera
+                        <input class="form-check-input" asp-for="CheckCochera" type="checkbox" @(Model.Inmueble.Cochera ? "checked" : "") > Cochera
                     </label>
                 </div>
                  <div class="form-group">
                     <label class="CheckPiscina">
-                        <input class="form-check-input" name="CheckPiscina" type="checkbox" @(Model.Inmueble.Piscina ? "checked" : "") > Piscina
+                        <input class="form-check-input" asp-for="CheckPiscina" type="checkbox" @(Model.Inmueble.Piscina ? "checked" : "") > Piscina
                     </label>
                 </div>
                  <div class="form-group">
                     <label class="CheckMascotas">
-                        <input class="form-check-input" name="CheckMascotas" type="checkbox" @(Model.Inmueble.Mascotas ? "checked" : "") > Mascotas
+                        <input class="form-check-input" asp-for="CheckMascotas" type="checkbox" @(Model.Inmueble.Mascotas ? "checked" : "") > Mascotas
                     </label>
+                    
+                </div>  
+                <div class="form-group">
+                    <label class="" for="SelectDireccion">Direccion</label>
+                    <select class="form-control" asp-for="direccion">
+                        @foreach(var item in Model.Direcciones){
+                            if(item.IdDireccion==@Model.Inmueble.IdDireccion.IdDireccion){
+                                <option value="@item.IdDireccion" selected>@item.Calle , @item.Altura , @item.Ciudad</option>
+                            }else{
+                                <option value="@item.IdDireccion" >@item.Calle , @item.Altura , @item.Ciudad</option>
+                            }
+                           
+                        }
+                    </select>
                 </div>
-                
-
-                
+                <div class="form-group">
+                    <label class="" for="selectPropietarios">Propietarios</label>
+                    <select class="form-control" asp-for="propietario">
+                        @foreach(var item in Model.Propietarios){
+                            if(item.IdPropietario==@Model.Inmueble.IdPropietario.IdPropietario){
+                                <option value="@item.IdPropietario" selected>@item.Nombre , @item.Apellido</option>
+                            }else{
+                                <option value="@item.IdPropietario">@item.Nombre , @item.Apellido</option>
+                            }
+                           
+                        }
+                    </select>
+                </div>
+                 <div class="form-group">
+                    <label class="CheckDisponible">
+                        <input class="form-check-input" asp-for="checkDisponible" type="checkbox" @(Model.Inmueble.Disponible ? "checked" : "") > Disponible
+                    </label>
+                    
+                </div>  
+                <div class="form-group">
+                    <label for="descripcionInmueble">Descripcion</label>
+                    <textarea asp-for="descripcionInmueble" class="form-control" placeholder="Escribe una descripcion">
+                        @Model.Inmueble.Descripcion
+                    </textarea>
+                </div>
+                <div class="form-group text-center">
+                    <input type="submit" value="Guardar" class="btn btn-primary" />
+                </div>
             </form>
+            
         </div>
     </div>
     <div class="colu2">
