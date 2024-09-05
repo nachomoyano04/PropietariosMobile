@@ -246,15 +246,26 @@ color: #354367;
   display:flex;
   flex-direction: column;
   gap:15px;
+  width: inherit;
 }
 .containerH{
   display:flex;
   flex-direction: row;
   justify-content: space-around;
+  width: inherit;
 }
 .colu1{
   width: 48%;
 }
 .colu2{
   width: inherit;
+}
+.img-s{
+  width: 200px;
+}
+.img-m{
+  width: 400px;
+}
+.img-l{
+  width: 600px;
 }

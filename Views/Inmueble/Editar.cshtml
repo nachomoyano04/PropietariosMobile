@@ -5,3 +5,51 @@
 }
 
 <h1>@Model.Inmueble.IdTipo.Observacion</h1>  
+
+<div class="containerH">
+    <div class="colu1">
+        <div class="containerV">
+            <img src="@Model.Inmueble.UrlImagen" alt="" class="img-m">
+            <form action="">
+                <div class="form-group">
+                    <label for="InputUrl">URL Imagen</label>
+                    <input type="text" name="InputUrl" class="form-control" value="@Model.Inmueble.UrlImagen">
+                </div>
+                <div class="form-group">
+                    <label for="InputTipo">Tipo</label>
+                    <input type="text" class="form-control" id="InputTipo" value="@Model.Inmueble.IdTipo.Observacion">
+
+                </div>
+                <div class="form-group">
+                    <label for="InputCantiadAmbientes">Cantidad Ambientes</label>
+                    <input type="text" class="form-control" id="InputCantidadAmbientes" value="@Model.Inmueble.CantidadAmbientes">
+                </div>
+                <div class="form-group">
+                    <label for="InputPrecio">Precio</label>
+                    <input type="text" class="form-control" id="inputPrecio" value="@Model.Inmueble.Precio">
+                </div>
+                <div class="form-group">
+                    <label class="CheckCochera">
+                        <input class="form-check-input" name="CheckCochera" type="checkbox" @(Model.Inmueble.Cochera ? "checked" : "") > Cochera
+                    </label>
+                </div>
+                 <div class="form-group">
+                    <label class="CheckPiscina">
+                        <input class="form-check-input" name="CheckPiscina" type="checkbox" @(Model.Inmueble.Piscina ? "checked" : "") > Piscina
+                    </label>
+                </div>
+                 <div class="form-group">
+                    <label class="CheckMascotas">
+                        <input class="form-check-input" name="CheckMascotas" type="checkbox" @(Model.Inmueble.Mascotas ? "checked" : "") > Mascotas
+                    </label>
+                </div>
+                
+
+                
+            </form>
+        </div>
+    </div>
+    <div class="colu2">
+        
+    </div>
+</div>
