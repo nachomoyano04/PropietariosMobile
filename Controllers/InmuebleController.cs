@@ -35,6 +35,18 @@ public class InmuebleController : Controller
         return View(inmuebles);
     }
 
+    public IActionResult Editar(int id){
+        RepositorioPropietario _repoProp= new RepositorioPropietario();
+        List<Propietario> propietarios = _repoProp.Listar();
+        Inmueble inmueble = _repo.Obtener(id);
+
+        InmuebleViewModel Ivm= new InmuebleViewModel {
+            Propietarios = propietarios,
+            Inmueble = inmueble
+        };
+        return View(Ivm);
+    }
+
     // public IActionResult Detalles(int id)
     // {
     //     if (id == 0)

@@ -240,3 +240,21 @@ color: #354367;
   width: 50%;
   overflow: hidden;
 }
+
+/*ESTILO EDITAR INMUEBLE*/
+.contaninerV{
+  display:flex;
+  flex-direction: column;
+  gap:15px;
+}
+.containerH{
+  display:flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.colu1{
+  width: 48%;
+}
+.colu2{
+  width: inherit;
+}
