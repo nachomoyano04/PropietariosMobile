@@ -52,9 +52,9 @@ public class RepositorioInmueble: RepositorioBase{
             "precio = @Precio, descripcion = @Descripcion, cochera = @Cochera, piscina = @Piscina, mascotas = @Mascotas, UrlImagen=@UrlImagen "+
             " WHERE idInmueble = @IdInmueble";
             using(MySqlCommand command = new MySqlCommand(query, connection)){
-                command.Parameters.AddWithValue("@IdPropietario", inmueble.IdPropietario);
-                command.Parameters.AddWithValue("@IdDireccion", inmueble.IdDireccion);
-                command.Parameters.AddWithValue("@IdTipo", inmueble.IdTipo);
+                command.Parameters.AddWithValue("@IdPropietario", inmueble.IdProp);
+                command.Parameters.AddWithValue("@IdDireccion", inmueble.IdDire);
+                command.Parameters.AddWithValue("@IdTipo", inmueble.IdTip);
                 command.Parameters.AddWithValue("@Metros2", inmueble.Metros2);
                 command.Parameters.AddWithValue("@CantidadAmbientes", inmueble.CantidadAmbientes);
                 command.Parameters.AddWithValue("@Disponible", inmueble.Disponible);
@@ -84,6 +84,9 @@ public class RepositorioInmueble: RepositorioBase{
                         Direccion d = repoDire.Obtener(reader.GetInt32("IdDireccion"));
                         Tipo t = repoTipo.Obtener(reader.GetInt32("IdTipo"));
                         Inmueble inmueble = new Inmueble{
+                            IdProp= p.IdPropietario,
+                            IdDire= d.IdDireccion,
+                            IdTip= t.IdTipo,
                             IdInmueble = reader.GetInt32("IdInmueble"),
                             IdPropietario = p,
                             IdDireccion = d,
@@ -126,6 +129,9 @@ public class RepositorioInmueble: RepositorioBase{
                     Tipo t = repoTipo.Obtener(reader.GetInt32("IdTipo"));
                     inmueble = new Inmueble
                     {
+                        IdProp= p.IdPropietario,
+                        IdDire= d.IdDireccion,
+                        IdTip= t.IdTipo,
                         IdInmueble = reader.GetInt32("idInmueble"),
                         IdPropietario = p,
                         IdDireccion = d,

@@ -3,6 +3,10 @@ using ProyetoInmobiliaria.Models;
 public class Inmueble{
     [Key]
     public int IdInmueble {get; set;}
+    public int IdProp {get; set;}
+    public int IdDire {get; set;}
+    public int IdTip {get; set;}
+
     public Propietario IdPropietario {get; set;}
     public Direccion IdDireccion {get; set;} 
     public Tipo IdTipo {get; set;}

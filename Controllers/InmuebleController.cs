@@ -29,6 +29,7 @@ public class InmuebleController : Controller
     {
         _logger.LogInformation("Se invoca el index.");
         List<Inmueble> inmuebles = _repo.Listar();
+        
         if(inmuebles==null){
             inmuebles= new List<Inmueble>();
         }
@@ -38,14 +39,17 @@ public class InmuebleController : Controller
     public IActionResult Editar(int id){
         RepositorioPropietario _repoProp= new RepositorioPropietario();
         RepositorioDireccion _repoDire= new RepositorioDireccion();
+        RepositorioTipo _repoTipo= new RepositorioTipo();
         List<Propietario> propietarios = _repoProp.Listar();
         List<Direccion> direcciones= _repoDire.Listar();
+        List<Tipo> tipos = _repoTipo.Listar();
         Inmueble inmueble = _repo.Obtener(id);
 
         InmuebleViewModel Ivm= new InmuebleViewModel {
             Propietarios = propietarios,
             Inmueble = inmueble,
-            Direcciones = direcciones
+            Direcciones = direcciones,
+            Tipos = tipos
         };
         return View(Ivm);
     }
@@ -74,19 +78,23 @@ public class InmuebleController : Controller
     [HttpPost]
     public IActionResult Guardar(Inmueble inmueble)
     {
-        if (ModelState.IsValid)
+        //_logger.LogInformation("Entro al Endpoint con el IdInmueble "+inmueble.IdInmueble+$" id propietario: {inmueble.IdProp},Id Direccion: {inmueble.IdDire},Id tipo: {inmueble.IdTip},Mtros 2: {inmueble.Metros2},Precio: {inmueble.Precio}, Descripcion: {inmueble.Descripcion} ");
+        _logger.LogInformation("EndPoint Guardar: "+inmueble.ToString());
+        /*if (ModelState.IsValid)
         {
-            try
+            
+        }*/
+        try
             {
                 if (inmueble.IdInmueble == 0)
                 {
-                    _repo.Crear(inmueble);
-                    _logger.LogInformation("Se ha creado un nuevo inmueble", inmueble.IdInmueble);
+                    int idCreado= _repo.Crear(inmueble);
+                    _logger.LogInformation($"Se ha creado un nuevo inmueble con id: {idCreado}", inmueble.IdInmueble);
                 }
                 else
                 {
                     _repo.Modificar(inmueble);
-                    _logger.LogInformation("Se ha modificado el inmueble con id: {Id}", inmueble.IdInmueble);
+                    _logger.LogInformation($"Se ha modificado el inmueble con id: {inmueble.IdInmueble}", inmueble.IdInmueble);
                 }
                 return RedirectToAction("Index");
             }
@@ -95,7 +103,6 @@ public class InmuebleController : Controller
                 _logger.LogError(ex, "Ha ocurrido un error al guardar el inmueble", inmueble.IdInmueble);
                 ModelState.AddModelError("", "Oops ha ocurrido un error al intentar guardar el inmueble"); // muetsro model de aviso
             }
-        }
         return View("Crear", inmueble);
     }
 
