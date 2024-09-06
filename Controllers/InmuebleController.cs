@@ -29,6 +29,7 @@ public class InmuebleController : Controller
     {
         _logger.LogInformation("Se invoca el index.");
         List<Inmueble> inmuebles = _repo.Listar();
+        
         if(inmuebles==null){
             inmuebles= new List<Inmueble>();
         }
@@ -38,14 +39,17 @@ public class InmuebleController : Controller
     public IActionResult Editar(int id){
         RepositorioPropietario _repoProp= new RepositorioPropietario();
         RepositorioDireccion _repoDire= new RepositorioDireccion();
+        RepositorioTipo _repoTipo= new RepositorioTipo();
         List<Propietario> propietarios = _repoProp.Listar();
         List<Direccion> direcciones= _repoDire.Listar();
+        List<Tipo> tipos = _repoTipo.Listar();
         Inmueble inmueble = _repo.Obtener(id);
 
         InmuebleViewModel Ivm= new InmuebleViewModel {
             Propietarios = propietarios,
             Inmueble = inmueble,
-            Direcciones = direcciones
+            Direcciones = direcciones,
+            Tipos = tipos
         };
         return View(Ivm);
     }
@@ -74,6 +78,8 @@ public class InmuebleController : Controller
     [HttpPost]
     public IActionResult Guardar(Inmueble inmueble)
     {
+        //_logger.LogInformation("Entro al Endpoint con el IdInmueble "+inmueble.IdInmueble+$" id propietario: {inmueble.IdProp},Id Direccion: {inmueble.IdDire},Id tipo: {inmueble.IdTip},Mtros 2: {inmueble.Metros2},Precio: {inmueble.Precio}, Descripcion: {inmueble.Descripcion} ");
+        _logger.LogInformation("EndPoint Guardar: "+inmueble.ToString());
         if (ModelState.IsValid)
         {
             try
