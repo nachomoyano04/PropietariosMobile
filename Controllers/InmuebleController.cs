@@ -72,9 +72,22 @@ public class InmuebleController : Controller
 
     public IActionResult Crear()
     {
-        return View();
-    }
+        RepositorioPropietario _repoProp= new RepositorioPropietario();
+        RepositorioDireccion _repoDire= new RepositorioDireccion();
+        RepositorioTipo _repoTipo= new RepositorioTipo();
+        List<Propietario> propietarios = _repoProp.Listar();
+        List<Direccion> direcciones= _repoDire.Listar();
+        List<Tipo> tipos = _repoTipo.Listar();
+       
 
+        InmuebleViewModel Ivm= new InmuebleViewModel {
+            Propietarios = propietarios,
+            Inmueble = new Inmueble(),
+            Direcciones = direcciones,
+            Tipos = tipos
+        };
+        return View(Ivm);
+    }
     [HttpPost]
     public IActionResult Guardar(Inmueble inmueble)
     {
