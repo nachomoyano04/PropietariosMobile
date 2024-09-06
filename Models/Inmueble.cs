@@ -3,13 +3,13 @@ using ProyetoInmobiliaria.Models;
 public class Inmueble{
     [Key]
     public int IdInmueble {get; set;}
-    public int IdProp {get; set;}
-    public int IdDire {get; set;}
-    public int IdTip {get; set;}
+    public int IdPropietario {get; set;}
+    public int IdDireccion {get; set;}
+    public int IdTipo {get; set;}
 
-    public Propietario IdPropietario {get; set;}
-    public Direccion IdDireccion {get; set;} 
-    public Tipo IdTipo {get; set;}
+    public Propietario? propietario {get; set;}
+    public Direccion? direccion {get; set;} 
+    public Tipo? tipo {get; set;}
     public string Metros2 {get; set;}
     public int CantidadAmbientes {get; set;}
     public Boolean Disponible {get; set;}
@@ -20,10 +20,4 @@ public class Inmueble{
     public Boolean Mascotas {get; set;}
     public Boolean Estado {get; set;}
     public string UrlImagen {get; set;}
-    
-
-    
-
-
-
 }
