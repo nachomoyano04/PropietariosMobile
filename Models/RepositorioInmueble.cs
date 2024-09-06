@@ -22,11 +22,11 @@ public class RepositorioInmueble: RepositorioBase{
             string query = "INSERT INTO inmueble (idPropietario, idDireccion, idTipo, metros2,"+
             " cantidadAmbientes, disponible, precio, descripcion, cochera, piscina, mascotas, estado,UrlImagen)"+
             " VALUES (@IdPropietario, @IdDireccion, @IdTipo, @Metros2, @CantidadAmbientes, @Disponible,"+
-            " @Precio, @Descripcion, @Cochera, @Piscina, @Mascotas, true,@UrlImagen);  SELECT LAST_INSERT_ID();";
+            " @Precio, @Descripcion, @Cochera, @Piscina, @Mascotas, true, @UrlImagen);  SELECT LAST_INSERT_ID();";
             using(MySqlCommand command = new MySqlCommand(query, connection)){
-                command.Parameters.AddWithValue("@IdPropietario", inmueble.IdPropietario);
-                command.Parameters.AddWithValue("@IdDireccion", inmueble.IdDireccion);
-                command.Parameters.AddWithValue("@IdTipo", inmueble.IdTipo);
+                command.Parameters.AddWithValue("@IdPropietario", inmueble.IdProp);
+                command.Parameters.AddWithValue("@IdDireccion", inmueble.IdDire);
+                command.Parameters.AddWithValue("@IdTipo", inmueble.IdTip);
                 command.Parameters.AddWithValue("@Metros2", inmueble.Metros2);
                 command.Parameters.AddWithValue("@CantidadAmbientes", inmueble.CantidadAmbientes);
                 command.Parameters.AddWithValue("@Disponible", inmueble.Disponible);
@@ -35,7 +35,7 @@ public class RepositorioInmueble: RepositorioBase{
                 command.Parameters.AddWithValue("@Cochera", inmueble.Cochera);
                 command.Parameters.AddWithValue("@Piscina", inmueble.Piscina);
                 command.Parameters.AddWithValue("@Mascotas", inmueble.Mascotas);
-                command.Parameters.AddWithValue("@Mascotas", inmueble.UrlImagen);
+                command.Parameters.AddWithValue("@UrlImagen", inmueble.UrlImagen);
                 idCreado = Convert.ToInt32(command.ExecuteScalar());
             }
         }
