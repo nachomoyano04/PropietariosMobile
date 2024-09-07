@@ -53,6 +53,10 @@ public class ContratoController : Controller
     {
         return View();
     }
+    public IActionResult Crear(int id_i){
+        ViewBag.IdIn = id_i;
+        return View();
+    }
 
     [HttpPost]
     public IActionResult Guardar(Contrato contrato)
