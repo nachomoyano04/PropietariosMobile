@@ -33,26 +33,11 @@ public class ContratoController : Controller
         return View(contratos);
     }
 
-    // public IActionResult Detalles(int id)
-    // {
-    //     if (id == 0)
-    //     {
-    //         _logger.LogWarning("No hay detalles para ese id");
-    //         return NotFound();
-    //     }
-    //     var contrato = _repo.Obtener(id);
-    //     if (contrato == null)
-    //     {
-    //         _logger.LogWarning("Contrato no encontrado con id : {Id}", id);
-    //         return NotFound();
-    //     }
-    //     return View(contrato);
-    // }
-
     public IActionResult Crear()
     {
         return View();
     }
+    [HttpGet]
     public IActionResult Crear(int id_i){
         
         RepositorioInmueble _repoInmueble= new RepositorioInmueble();
@@ -69,7 +54,6 @@ public class ContratoController : Controller
             Inmuebles = inmuebles,
             Inmueble = inmueble
         };
-
         return View(cvm);
     }
 

@@ -232,9 +232,11 @@ color: #354367;
 
 /*ESTILOS DETALLES*/
 
-.containerDetalle {
-  display: block;
-  width: 100%;
+.containerDetalle {/*DEJAR ESTO ASI PARA MANTENER EL DISEÑO DE DOBLE COLUMNA*/
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: inherit;
 }
 
 .visorImagen {
@@ -248,8 +250,8 @@ color: #354367;
   width: 100%;
 }
 
-.columna {
-  width: 60%;
+.columna {/*ESTA COLUMNA OCUPA MENOS DE LA MITAD DE LA PANTALLA DEJAR ASI*/
+  width: 48%;
   margin-bottom: 20px;
 }
 
