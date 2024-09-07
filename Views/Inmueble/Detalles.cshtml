@@ -33,6 +33,17 @@
     </div>
     <div class="columna">
         <h2>Propietario: <a href="@Url.Action("filtrar","Propietario", new {id = Model.Inmueble.propietario})">@Model.Inmueble.propietario.Nombre @Model.Inmueble.propietario.Apellido</a></h2>
-        @Html.Partial("PartialView/_ContratoInmueble", Model.Contrato)
+       
+        <h2>Contrato vigente</h2>
+        @if(Model.Contrato != null)
+        {
+            <p>Desde @Model.Contrato.FechaInicio Hasta  @Model.Contrato.FechaFin</p>
+        }
+        else
+        {
+            <p>No existen contratos para este inmueble</p>
+            <a href="@Url.Action("Crear","Contrato", new { idInmueble = Model.Inmueble.IdInmueble})" > Crear uno</a>
+        }
+        
     </div>
 </div>

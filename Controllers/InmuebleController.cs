@@ -27,6 +27,12 @@ public class InmuebleController : Controller
             Inmueble=inmueble,
             Contrato= contrato
         };
+        if(Cvm.Contrato != null){
+            _logger.LogInformation("Hay un contrato");
+        }
+        else{
+            _logger.LogWarning("No se encontro contrato");
+        }
         return View(Cvm); // muestra a la vista
     }
 
