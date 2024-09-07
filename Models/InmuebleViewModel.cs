@@ -7,5 +7,4 @@ public class InmuebleViewModel{
     public List<Tipo> Tipos {get; set;}
     
     
-
 }
