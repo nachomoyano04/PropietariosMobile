@@ -54,13 +54,27 @@ public class ContratoController : Controller
         return View();
     }
     public IActionResult Crear(int id_i){
-        ViewBag.IdIn = id_i;
-        return View();
+        
+        RepositorioInmueble _repoInmueble= new RepositorioInmueble();
+
+        Inmueble inmueble = _repoInmueble.Obtener(id_i);
+        return View(inmueble);
     }
 
     [HttpPost]
     public IActionResult Guardar(Contrato contrato)
     {
+        RepositorioContrato _repoContrato = new RepositorioContrato();
+
+        List<Contrato> contratos = _repoContrato.ObtenerPorInmueble2(contrato.IdInmueble);
+
+        foreach(var c in contratos){
+            if((c.FechaInicio>=contrato.FechaInicio && (c.FechaInicio<=contrato.FechaFin||c.FechaInicio<=contrato.FechaAnulacion))||(c.FechaFin>=contrato.FechaInicio && (c.FechaFin<=contrato.FechaFin||c.FechaFin<=contrato.FechaAnulacion))){
+                ModelState.AddModelError("", "Las fechas del nuevo contrato se solapan con un contrato existente.");
+                return View("Crear");
+            }
+        }
+
         if (ModelState.IsValid)
         {
             try
