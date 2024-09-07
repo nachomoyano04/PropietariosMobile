@@ -35,6 +35,20 @@ public class ContratoController : Controller
 
     public IActionResult Crear()
     {
+       /* RepositorioInmueble _repoInmueble= new RepositorioInmueble();
+        RepositorioInquilino _repoInquilino = new RepositorioInquilino();
+        Contrato contrato = new Contrato();
+
+        List<Inquilino> inquilinos = _repoInquilino.Listar();
+        List<Inmueble> inmuebles = _repoInmueble.Listar();
+        ContratoViewModel cvm = new ContratoViewModel {
+            Inquilinos = inquilinos,
+            Inmuebles = inmuebles,
+            Contrato = new Contrato(),
+            Inmueble = new  Inmueble(),
+            Inquilino = new Inquilino()
+        };
+        return View(cvm);*/
         return View();
     }
     [HttpGet]
@@ -44,15 +58,17 @@ public class ContratoController : Controller
         RepositorioInquilino _repoInquilino = new RepositorioInquilino();
         Contrato contrato = new Contrato();
 
-        List<Inquilino> inquilinos = _repoInquilino.Listar();
-        List<Inmueble> inmuebles = _repoInmueble.Listar();
+        List<Inquilino> inquilinos = _repoInquilino.Listar() ?? new List<Inquilino>();
+        List<Inmueble> inmuebles = _repoInmueble.Listar() ?? new List<Inmueble>();
 
         Inmueble inmueble = _repoInmueble.Obtener(id_i);
 
         ContratoViewModel cvm = new ContratoViewModel {
             Inquilinos = inquilinos,
             Inmuebles = inmuebles,
-            Inmueble = inmueble
+            Contrato = contrato,
+            Inmueble = inmueble,
+            Inquilino = new Inquilino()
         };
         return View(cvm);
     }
