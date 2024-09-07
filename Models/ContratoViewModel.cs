@@ -1,7 +1,8 @@
+using ProyetoInmobiliaria.Models;
 public class ContratoViewModel{
-    public Contrato contrato {get; set;}
-    public Inmueble inmueble {get; set;}
-    public Inquilino inquilino {get; set;}
-
+    public Contrato Contrato {get; set;}
+    public Inmueble Inmueble {get; set;}
+    public Inquilino Inquilino {get; set;}
+    
     
 }

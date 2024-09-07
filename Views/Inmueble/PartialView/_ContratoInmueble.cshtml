@@ -1,8 +1,19 @@
 @model Contrato
 
-@if(Model !=null){
+
+<h2>Contrato vigente</h2>
+
+
+@if(Model!=null){
     
+<h3> Desde @Model.FechaInicio hasta @Model.FechaFin</h3>
+
+
+}else{
     
+    <h5>No hay contrato vigente</h5>
 
 }
-<h2> </h2>
+
+<a href=""></a>
+
