@@ -56,9 +56,21 @@ public class ContratoController : Controller
     public IActionResult Crear(int id_i){
         
         RepositorioInmueble _repoInmueble= new RepositorioInmueble();
+        RepositorioInquilino _repoInquilino = new RepositorioInquilino();
+        Contrato contrato = new Contrato();
+
+        List<Inquilino> inquilinos = _repoInquilino.Listar();
+        List<Inmueble> inmuebles = _repoInmueble.Listar();
 
         Inmueble inmueble = _repoInmueble.Obtener(id_i);
-        return View(inmueble);
+
+        ContratoViewModel cvm = new ContratoViewModel {
+            Inquilinos = inquilinos,
+            Inmuebles = inmuebles,
+            Inmueble = inmueble
+        };
+
+        return View(cvm);
     }
 
     [HttpPost]

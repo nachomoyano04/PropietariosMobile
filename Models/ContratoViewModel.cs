@@ -4,7 +4,9 @@ public class ContratoViewModel{
     public Inmueble Inmueble {get; set;}
     public Inquilino Inquilino {get; set;}
 
-    public List<Inquilino> inquilinos {get; set;}
+    public List<Inquilino> Inquilinos {get; set;}
+    public List<Inmueble> Inmuebles {get; set;}
+
     
     
 }
