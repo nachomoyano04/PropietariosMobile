@@ -16,13 +16,24 @@ public class InmuebleController : Controller
     public IActionResult Detalles(int id)
     {
         var inmueble = _repo.Obtener(id);
+        RepositorioContrato _repoContrato= new RepositorioContrato();
         if (inmueble == null)
         {
             _logger.LogWarning("No se encontro el inmueble con el id: {Id} ", id);
             return NotFound(); //  me devuelve error si no hay inmueble 
         }
-
-        return View(inmueble); // muestra a la vista
+        Contrato contrato = _repoContrato.ObtenerPorInmueble(inmueble.IdInmueble);
+        ContratoViewModel Cvm = new ContratoViewModel{
+            Inmueble=inmueble,
+            Contrato= contrato
+        };
+        if(Cvm.Contrato != null){
+            _logger.LogInformation("Hay un contrato");
+        }
+        else{
+            _logger.LogWarning("No se encontro contrato");
+        }
+        return View(Cvm); // muestra a la vista
     }
 
     public IActionResult Index()

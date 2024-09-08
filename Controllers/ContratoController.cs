@@ -33,30 +33,60 @@ public class ContratoController : Controller
         return View(contratos);
     }
 
-    // public IActionResult Detalles(int id)
-    // {
-    //     if (id == 0)
-    //     {
-    //         _logger.LogWarning("No hay detalles para ese id");
-    //         return NotFound();
-    //     }
-    //     var contrato = _repo.Obtener(id);
-    //     if (contrato == null)
-    //     {
-    //         _logger.LogWarning("Contrato no encontrado con id : {Id}", id);
-    //         return NotFound();
-    //     }
-    //     return View(contrato);
-    // }
-
     public IActionResult Crear()
     {
+       /* RepositorioInmueble _repoInmueble= new RepositorioInmueble();
+        RepositorioInquilino _repoInquilino = new RepositorioInquilino();
+        Contrato contrato = new Contrato();
+
+        List<Inquilino> inquilinos = _repoInquilino.Listar();
+        List<Inmueble> inmuebles = _repoInmueble.Listar();
+        ContratoViewModel cvm = new ContratoViewModel {
+            Inquilinos = inquilinos,
+            Inmuebles = inmuebles,
+            Contrato = new Contrato(),
+            Inmueble = new  Inmueble(),
+            Inquilino = new Inquilino()
+        };
+        return View(cvm);*/
         return View();
+    }
+    [HttpGet]
+    public IActionResult Crear(int id_i){
+        
+        RepositorioInmueble _repoInmueble= new RepositorioInmueble();
+        RepositorioInquilino _repoInquilino = new RepositorioInquilino();
+        Contrato contrato = new Contrato();
+
+        List<Inquilino> inquilinos = _repoInquilino.Listar() ?? new List<Inquilino>();
+        List<Inmueble> inmuebles = _repoInmueble.Listar() ?? new List<Inmueble>();
+
+        Inmueble inmueble = _repoInmueble.Obtener(id_i);
+
+        ContratoViewModel cvm = new ContratoViewModel {
+            Inquilinos = inquilinos,
+            Inmuebles = inmuebles,
+            Contrato = contrato,
+            Inmueble = inmueble,
+            Inquilino = new Inquilino()
+        };
+        return View(cvm);
     }
 
     [HttpPost]
     public IActionResult Guardar(Contrato contrato)
     {
+        RepositorioContrato _repoContrato = new RepositorioContrato();
+
+        List<Contrato> contratos = _repoContrato.ObtenerPorInmueble2(contrato.IdInmueble);
+
+        foreach(var c in contratos){
+            if((c.FechaInicio>=contrato.FechaInicio && (c.FechaInicio<=contrato.FechaFin||c.FechaInicio<=contrato.FechaAnulacion))||(c.FechaFin>=contrato.FechaInicio && (c.FechaFin<=contrato.FechaFin||c.FechaFin<=contrato.FechaAnulacion))){
+                ModelState.AddModelError("", "Las fechas del nuevo contrato se solapan con un contrato existente.");
+                return View("Crear");
+            }
+        }
+
         if (ModelState.IsValid)
         {
             try
