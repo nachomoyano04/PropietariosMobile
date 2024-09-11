@@ -1,11 +1,11 @@
-<form class="w-50 bg-light p-4 mx-auto" style="border-radius:10px">
+<form class="w-50 bg-light p-4 mx-auto" asp-action="Autenticar" style="border-radius:10px">
     <div class="form-outline mb-4">
         <label for="emailLogin" class="form-label">Email</label>
-        <input type="email" id="emailLogin" class="form-control">
+        <input type="email" id="emailLogin" asp-for="email" class="form-control">
     </div>
     <div class="form-outline mb-4">
         <label for="passwordLogin" class="form-label">Password</label>
-        <input type="password" id="passwordLogin" class="form-control">
+        <input type="password" id="passwordLogin" asp-for="clave" class="form-control">
     </div>
     <button class="btn btn-primary btn-block mb-4">Login</button>
 </form>
