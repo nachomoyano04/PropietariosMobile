@@ -22,8 +22,5 @@ public class UsuarioController: Controller{
     public IActionResult Login(){
         return View();
     }
-    public IActionResult Autenticar(Usuario usuario)
-    {
-        
-    }
+    
 }

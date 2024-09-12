@@ -38,7 +38,7 @@ public class LoginController: Controller{
         if (ModelState.IsValid)
         {
             // Aquí deberías validar el usuario contra tu base de datos
-            RepositorioUsuario repositorio = new RepositorioUsuario();
+            RepositorioLogin repositorio = new RepositorioLogin();
             Usuario usuarioEncontrado = repositorio.Verificar(model);
             if (model.Email == usuarioEncontrado.Email && model.Password == usuarioEncontrado.Password)
             {
@@ -60,5 +60,11 @@ public class LoginController: Controller{
         }
 
         return View(model);
+    }
+    [HttpPost]
+    public async Task<IActionResult> Logout()
+    {
+        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        return RedirectToAction("Login", "Account");
     }
 }
