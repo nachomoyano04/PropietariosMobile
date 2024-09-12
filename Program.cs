@@ -6,10 +6,14 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     .AddCookie(options =>
     {
         options.LoginPath = "/Account/Login";
-        options.LogoutPath = "/Account/Logout";
-        options.AccessDeniedPath = "/Account/AccessDenied";
+        //options.LogoutPath = "/Account/Logout";
+        //options.AccessDeniedPath = "/Account/AccessDenied";
     });
-
+ services.AddAuthorization(options =>
+    {
+        options.AddPolicy("Administrador", policy => policy.RequireRole("Administrador"));
+    });
+services.AddControllersWithViews();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

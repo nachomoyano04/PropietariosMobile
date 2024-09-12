@@ -1,4 +1,4 @@
-public class LoginModel
+public class LoginViewModel
 {
     [Required]
     [Display(Name = "email")]
@@ -6,6 +6,6 @@ public class LoginModel
 
     [Required]
     [DataType(DataType.Password)]
-    [Display(Name = "clave")]
-    public string clave { get; set; }
+    [Display(Name = "password")]
+    public string password { get; set;}
 }
