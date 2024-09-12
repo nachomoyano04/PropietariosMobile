@@ -18,6 +18,7 @@ public class UsuarioController: Controller{
     public IActionResult Editar(int id){
         return View();
     }
+
     public IActionResult Login(){
         return View();
     }
@@ -35,8 +36,16 @@ public class UsuarioController: Controller{
             else
             {
                 RepositorioUsuario repositorio = new RepositorioUsuario();
-                Usuario usuarioEncontrado = repositorio.Verificar(usuario.Email, usuario.Clave);
-                return RedirectToAction("Index");
+                Usuario usuarioEncontrado = repositorio.Verificar(usuario);
+
+                if (usuarioEncontrado != null)
+                    {
+                        return RedirectToAction("Index");
+                    }
+                    else{
+                        return RedirectToAction("Login");
+                    }
+                    
             }
             
         }
