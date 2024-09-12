@@ -48,10 +48,10 @@ public class RepositorioLogin : RepositorioBase
         return usuarioEncontrado;
     }
 
-    private bool VerificarHashContraseña(string contraseñaProporcionada, string hashAlmacenado)
+    private bool VerificarHashPassword(string passwordProporcionada, string hashAlmacenado)
     {
         // Usar BCrypt para verificar la contraseña
-        return BCrypt.Net.BCrypt.Verify(contraseñaProporcionada, hashAlmacenado);
+        return BCrypt.Net.BCrypt.Verify(passwordProporcionada, hashAlmacenado);
     }
 
 }
