@@ -1,0 +1,23 @@
+@model PagoViewModel 
+@{
+    ViewData["Title"] = "Nuevo pago";
+}
+<h2>Nuevo pago</h2>
+<div class="container-formulario">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <form asp-action="Guardar" class="formulario-formulario" method="post">
+                <div class="form-group mb-3">
+                    <label asp-for="Pago.FechaPago" class="form-label">Fecha de pago</label>
+                    <input asp-for="Pago.FechaPago" class="form-control" />
+                    <span asp-validation-for="Pago.FechaPago" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Pago.IdContrato">Contratos</label>
+                    <select asp-for="Pago.IdContrato" asp-items="@(new SelectList(Model.Contratos, "IdDireccion", "Contratos"))" class="form-control">
+                    </select>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

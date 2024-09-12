@@ -25,6 +25,19 @@ public class HomeController : Controller
         return View();
     }
 
+/*----------------NUEVO-------------------*/
+    public IActionResult PagoDetalle(){
+        return View();
+    }
+
+    public IActionResult PagoIndex(){
+        return View();
+    }
+
+    public IActionResult PagoCrear(){
+        return View();
+    }
+/*-----------------------------------*/
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
