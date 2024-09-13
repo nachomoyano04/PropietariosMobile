@@ -54,7 +54,9 @@ public class RepositorioLogin : RepositorioBase
     private bool VerificarHashPassword(string passwordProporcionada, string hashAlmacenado)
     {
         // Usar BCrypt para verificar la contraseña
-        return BCrypt.Net.BCrypt.Verify(passwordProporcionada, hashAlmacenado);
+        bool verificar = BCrypt.Net.BCrypt.Verify(passwordProporcionada, hashAlmacenado);
+        // bool verificar = BCrypt.Net.BCrypt.Verify(passwordProporcionada, hashAlmacenado); 
+        return verificar;
     }
 
 }
