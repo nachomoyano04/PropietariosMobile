@@ -1,70 +1,44 @@
-
 using Microsoft.AspNetCore.Mvc;
-using ProyetoInmobiliaria.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
+namespace ProyetoInmobiliaria.Models;
 
-public class LoginController: Controller{
-    public IActionResult Index(){
-        return View();
-    }
-    public IActionResult Crear(){
-        return View();
-    }
-   /* public IActionResult Autenticar(Usuario usuario){
-        // TO DO: implementar logica de autenticacion
-        // Autenticación de usuario
-        if (ModelState.IsValid)
+    public class LoginController : Controller
+    {
+        [HttpGet]
+        public IActionResult Index()
         {
-            RepositorioUsuario repositorio = new RepositorioUsuario();
-            Usuario usuarioEncontrado = repositorio.Verificar(usuario);
-            if (usuarioEncontrado == null)
-            {
-                TempData["Error"] = "Email o contraseña incorrectos";
-                return RedirectToAction("Login");
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Autenticación(Usuario user)
+        {
+            RepositorioLogin _repoLogin = new RepositorioLogin();
+
+            Usuario u = _repoLogin.Validar(new LoginViewModel { Email = user.Email , Password = user.Password });
+            if (u != null){
+                ClaimsIdentity identidad = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
+                identidad.AddClaim(ClaimTypes.Name, u.Nombre);
+                identidad.AddClaim(ClaimTypes.Role, u.Rol);
+
+                await  HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identidad));
+
+                return RedirectToaction("Index","Home");
             }
             else
             {
-                return RedirectToAction("Index");                  
-                    
+                ModelState.AddModelError("", "Usuario o contraseña incorrectos");
+                return View("Index");
             }
-            
         }
-        return View("Index",usuario);
-      
-    }*/
-    [HttpPost]
-    public async Task<IActionResult> Autenticar(LoginViewModel model)
-    {
-        if (ModelState.IsValid)
+        [HttpPost]
+        public async Task<IActionResult> Logout()
         {
-            // Aquí deberías validar el usuario contra tu base de datos
-            RepositorioLogin repositorio = new RepositorioLogin();
-            Usuario usuarioEncontrado = repositorio.Verificar(model);
-            if (model.Email == usuarioEncontrado.Email && model.Password == usuarioEncontrado.Password)
-            {
-                var claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Name, usuarioEncontrado.Email),
-                    new Claim(ClaimTypes.Role, usuarioEncontrado.Rol)
-                    
-                };
-
-                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
-
-                return RedirectToAction("Index", "Home");
-            }
-
-            ModelState.AddModelError(string.Empty, "Datos invalidos");
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToaction("Index","Login");
         }
-
-        return View(model);
-    }
-    [HttpPost]
-    public async Task<IActionResult> Logout()
-    {
-        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-        return RedirectToAction("Login", "Account");
-    }
 }

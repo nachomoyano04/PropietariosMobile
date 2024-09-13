@@ -2,6 +2,8 @@
 
 using MySql.Data.MySqlClient;
 using ProyetoInmobiliaria.Models;
+using Microsoft.AspNetCore.Http;
+
 
 public class RepositorioLogin : RepositorioBase
 {
@@ -15,35 +17,36 @@ public class RepositorioLogin : RepositorioBase
 
         try
         {
-            _connection.Open(); // heredo conexion del repo base
+            using(MySqlConnection connection = new MySqlConnection(ConnectionString)){//ConnectionStrin es heredado del RepositorioBase
+                connection.Open(); 
 
-            string query = "SELECT * FROM usuarios WHERE email = @email";
-            MySqlCommand command = new MySqlCommand(query, _connection);
-            command.Parameters.AddWithValue("@email", model.Email);
-            MySqlDataReader reader = command.ExecuteReader();
-            if (reader.Read()) // busca datos, si encuentra devuelve true
-            {
-                string passwordHash = reader["password"].ToString(); // recupero passs
-                if (VerifyPasswordHash(model.Password, passwordHash))
+                string query = "SELECT * FROM usuarios WHERE email = @email";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@email", model.Email);
+                MySqlDataReader reader = command.ExecuteReader();
+                if (reader.Read()) // busca datos, si encuentra devuelve true
                 {
-                    usuarioEncontrado = new Usuario //  pass correcto creo objeto y lo paso
+                    string passwordHash = reader["password"].ToString(); // recupero passs
+                    if (VerificarHashPassword(model.Password, passwordHash))
                     {
-                        Email = reader["email"].ToString(),
-                        Rol = reader["rol"].ToString()
-                    };
+                        usuarioEncontrado = new Usuario //  pass correcto creo objeto y lo paso
+                        {
+                            Email = reader["email"].ToString(),
+                            Rol = reader["rol"].ToString()
+                        };
+                    }
                 }
-            }
 
-            reader.Close(); // cierro conex
+                reader.Close(); // cierro conex
+            }
         }
-        catch (Exception ex)
-        {
-            throw new Exception("Error al verificar usuario", ex); // MANEJO ERROR
-        }
-        finally
-        {
-            _connection.Close();
-        }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al verificar usuario", ex); // MANEJO ERROR
+            }
+            
+            
+           
 
         return usuarioEncontrado;
     }

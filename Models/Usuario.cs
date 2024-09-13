@@ -1,10 +1,10 @@
 public class Usuario {
-    public String nombre  {get; set;}
-    public String email   {get; set;}
+    public String Nombre  {get; set;}
+    public String Email   {get; set;}
 
     public String Password  {get; set;}
 
-    public String rol {get; set;}
+    public String Rol {get; set;}
     
 
 

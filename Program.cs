@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -9,11 +10,11 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         //options.LogoutPath = "/Account/Logout";
         //options.AccessDeniedPath = "/Account/AccessDenied";
     });
- services.AddAuthorization(options =>
+ builder.Services.AddAuthorization(options =>
     {
         options.AddPolicy("Administrador", policy => policy.RequireRole("Administrador"));
     });
-services.AddControllersWithViews();
+builder.Services.AddControllersWithViews();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -29,7 +30,9 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
+
 
 app.MapControllerRoute(
     name: "default",
