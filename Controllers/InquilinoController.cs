@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ProyetoInmobiliaria.Models;
 
+[Authorize]
 public class InquilinoController : Controller{
     private readonly ILogger<InquilinoController> _logger;
     private RepositorioInquilino repo;

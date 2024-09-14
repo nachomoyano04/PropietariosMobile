@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
+[Authorize]
 public class UsuarioController: Controller{  
         
 
@@ -7,8 +8,8 @@ public class UsuarioController: Controller{
     public IActionResult Index(){
         return View();
     }
-    public IActionResult Crear(){
-         
+    [AllowAnonymous]
+    public IActionResult Crear(){        
         
         return View();
     }

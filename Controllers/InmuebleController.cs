@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ProyetoInmobiliaria.Models;
 
+[Authorize]
 public class InmuebleController : Controller
 {
     private readonly ILogger<InmuebleController> _logger;
