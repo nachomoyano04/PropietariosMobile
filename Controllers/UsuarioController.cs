@@ -1,11 +1,17 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using ProyetoInmobiliaria.Models;
 
 [Authorize]
 public class UsuarioController: Controller{  
+       private readonly ILogger _logger;
+
+    public UsuarioController(ILogger<UsuarioController> logger)
+        {
+            _logger = logger;
+        }
         
-
-
     public IActionResult Index(){
         return View();
     }
@@ -26,11 +32,13 @@ public class UsuarioController: Controller{
     }
     [AllowAnonymous]
     public IActionResult Guardar(Usuario usuario){
-        //Guardar usuario en la base de datos
         
-        RepositorioUsuario repositorio = new RepositorioUsuario();
-        repositorio.Guardar(usuario);
-        return View();
+        _logger.LogInformation($"Entro al Guardar con los datos de usuadio : Nombre {usuario.Nombre}, Apellido: {usuario.Apellido}, Rol: {usuario.Rol}");
+        RepositorioUsuario _repoUsuario= new RepositorioUsuario();
+        int id =  _repoUsuario.Guardar(usuario);
+
+        return RedirectToAction("Index","Login");
+
     }
     
 }
