@@ -1,6 +1,7 @@
 
 using Microsoft.AspNetCore.Mvc;
 using ProyetoInmobiliaria.Models;
+using Microsoft.AspNetCore.Authorization;
 
 [Authorize]
 public class InquilinoController : Controller{
