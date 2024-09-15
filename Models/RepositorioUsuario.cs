@@ -4,16 +4,16 @@ using ProyetoInmobiliaria.Models;
 using BCrypt.Net;
 
 public class RepositorioUsuario:RepositorioBase{
-    public RepositorioUsuario repoUsuario;
-    public RepositorioUsuario():base(){
-        repoUsuario = new RepositorioUsuario();
+  public RepositorioUsuario(): base(){  
+
     }
 
     public int Guardar(Usuario usuario){
+
         int  idCreado=-1;
         using(MySqlConnection connection= new MySqlConnection(ConnectionString)){
             connection.Open();
-            string query="INSERT INTO usuarios (email,password,rol,avatar,nombre,apellido,estado)"+
+            string query="INSERT INTO usuario (email,password,rol,avatar,nombre,apellido,estado)"+
             "VALUES(@EmailUsuario,@PasswordUsuario,@RolUsuario,@AvatarUsuario,@NombreUsuario,@ApellidoUsuario,@EstadoUsuario)";
 
             using (MySqlCommand command=  new MySqlCommand(query,connection)){
@@ -23,7 +23,7 @@ public class RepositorioUsuario:RepositorioBase{
                 command.Parameters.AddWithValue("@AvatarUsuario",usuario.Avatar);
                 command.Parameters.AddWithValue("@NombreUsuario",usuario.Nombre);
                 command.Parameters.AddWithValue("@ApellidoUsuario",usuario.Apellido);
-                command.Parameters.AddWithValue("@EsadoUsuario",usuario.Estado);
+                command.Parameters.AddWithValue("@EstadoUsuario","1");
                 idCreado=  Convert.ToInt32(command.ExecuteScalar());
             };
             

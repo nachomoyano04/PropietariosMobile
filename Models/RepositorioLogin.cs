@@ -20,7 +20,7 @@ public class RepositorioLogin : RepositorioBase
             using(MySqlConnection connection = new MySqlConnection(ConnectionString)){//ConnectionStrin es heredado del RepositorioBase
                 connection.Open(); 
 
-                string query = "SELECT * FROM usuarios WHERE email = @email";
+                string query = "SELECT * FROM usuario WHERE email = @email";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@email", model.Email);
                 MySqlDataReader reader = command.ExecuteReader();
@@ -44,9 +44,7 @@ public class RepositorioLogin : RepositorioBase
             {
                 throw new Exception("Error al verificar usuario", ex); // MANEJO ERROR
             }
-            
-            
-           
+        
 
         return usuarioEncontrado;
     }

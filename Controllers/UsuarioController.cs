@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using ProyetoInmobiliaria.Models;
 using Microsoft.AspNetCore.Authorization;
 
 [Authorize]
@@ -30,7 +31,7 @@ public class UsuarioController: Controller{
         
         RepositorioUsuario repositorio = new RepositorioUsuario();
         repositorio.Guardar(usuario);
-        return View();
+        return RedirectToAction( "Index", "Login");
     }
     
 }
