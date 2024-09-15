@@ -21,6 +21,7 @@ namespace ProyetoInmobiliaria.Models;
             RepositorioLogin _repoLogin = new RepositorioLogin();
 
             Usuario u = _repoLogin.Verificar(new LoginViewModel { Email = user.Email , Password = user.Password });
+            
             if (u != null){
                 ClaimsIdentity identidad = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
                 identidad.AddClaim(new Claim(ClaimTypes.Name, u.Nombre));
