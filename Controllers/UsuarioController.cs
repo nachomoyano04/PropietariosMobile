@@ -20,8 +20,16 @@ public class UsuarioController: Controller{
     public IActionResult Editar(int id){
         return View();
     }
-
+    [AllowAnonymous]
     public IActionResult Login(){
+        return View();
+    }
+    [AllowAnonymous]
+    public IActionResult Guardar(Usuario usuario){
+        //Guardar usuario en la base de datos
+        
+        RepositorioUsuario repositorio = new RepositorioUsuario();
+        repositorio.Guardar(usuario);
         return View();
     }
     

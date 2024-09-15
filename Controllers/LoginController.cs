@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using ProyetoInmobiliaria.Models;
 
 namespace ProyetoInmobiliaria.Models;
 
@@ -15,7 +16,7 @@ namespace ProyetoInmobiliaria.Models;
         }
 
         [HttpPost]
-        public async Task<IActionResult> Autenticación(Usuario user)
+        public async Task<IActionResult> Autenticacion(LoginViewModel user)
         {
             RepositorioLogin _repoLogin = new RepositorioLogin();
 
