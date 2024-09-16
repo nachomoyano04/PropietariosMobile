@@ -17,6 +17,31 @@ public class InquilinoController : Controller{
         return View(inquilinos);
     }
 
+    // [HttpGet]
+    // public async Task<IActionResult> GetInquilinos(string dni){
+    //     _logger.LogInformation(dni);
+    //     if (string.IsNullOrEmpty(dni)){
+    //         return BadRequest("Debe ingresar un dni");
+    //     }
+    //     try{
+    //         // Assuming 'repo.ListarPorDni' is an asynchronous method returning a list of inquilinos
+    //         var inquilinos = await repo.ListarPorDni(dni);
+    //         return Json(inquilinos);
+    //     }catch (Exception ex){
+    //         return StatusCode(500, "Error interno en el servidor");
+    //     }
+    // }
+
+
+    [HttpGet]
+    public JsonResult GetInquilinos(string Dni){
+        var inquilinos = repo.ListarPorDni(Dni);
+        // if(!inquilinos.Any()){
+        //     inquilinos = repo.Listar();
+        // }
+        return Json(inquilinos);
+    }
+
     public IActionResult Detalle(int id){
         Inquilino inquilino = null;
         try{
