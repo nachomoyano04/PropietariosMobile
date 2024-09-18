@@ -16,12 +16,9 @@ namespace ProyetoInmobiliaria.Models;
         }
 
         [HttpPost]
-        public async Task<IActionResult> Autenticacion(LoginViewModel user)
-        {
+        public async Task<IActionResult> Autenticacion  ([FromBody]LoginViewModel user){
             RepositorioLogin _repoLogin = new RepositorioLogin();
-
             Usuario u = _repoLogin.Verificar(new LoginViewModel { Email = user.Email , Password = user.Password });
-            
             if (u != null){
                 ClaimsIdentity identidad = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
                 identidad.AddClaim(new Claim(ClaimTypes.Name, u.Nombre));
@@ -29,15 +26,11 @@ namespace ProyetoInmobiliaria.Models;
 
                 await  HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identidad));
 
-                return RedirectToAction("Index","Home");
+                return Json(new {ok=true});
             }
-            else
-            {
-                ModelState.AddModelError("", "Usuario o contraseña incorrectos");
-                return View("Index");
-            }
+            return Json(new {ok=false, mensaje="Usuario o contraseña incorrectos"});
         }
-        [HttpPost]
+        // [HttpPost]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
