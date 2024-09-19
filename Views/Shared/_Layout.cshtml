@@ -9,8 +9,12 @@
     <link rel="stylesheet" href="~/Inmobiliaria.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
+
 <body class="@ViewData["BodyClass"]">
+
     <header>
+        @if (!Context.Request.Path.Value.Contains("Login")) // agrego bloque if para envolver nav y no ver en login
+        {
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">InmoSams</a>
@@ -61,6 +65,7 @@
                 </div>
             </div>
         </nav>
+        }
     </header>
     <div class="container">
         <main role="main" class="pb-3">
