@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using ProyetoInmobiliaria.Models;
 using Microsoft.AspNetCore.Authorization;
+
+[Authorize]
+
 public class PropietarioController : Controller{
     private readonly ILogger<PropietarioController> _logger;
     private RepositorioPropietario repo;
@@ -73,4 +76,21 @@ public class PropietarioController : Controller{
         repo.Eliminar(Id);
         return RedirectToAction("Index");
     }    
+
+    public JsonResult GetPropietarios(){
+        var propietarios = repo.Listar();
+        return Json(propietarios);
+    }
+    public JsonResult GetPropietariosPorDni(String Dni){
+        var propietarios = repo.ListarPorDni(Dni);
+        return Json(propietarios);
+    }
+    public JsonResult GetPropietariosPorApellido(String Apellido){
+        var propietarios = repo.ListarPorApellido(Apellido);
+        return Json(propietarios);
+    }
+    public JsonResult GetPropietariosPorEmail(String Email){
+        var propietarios = repo.ListarPorEmail(Email);
+        return Json(propietarios);
+    }
 }
