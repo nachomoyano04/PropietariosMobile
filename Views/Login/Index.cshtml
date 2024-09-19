@@ -1,27 +1,5 @@
 @model LoginViewModel
 
-<<<<<<< HEAD
-@{
-    ViewData["title"]="Inicio de sesion";
-    }
- 
- <div class="containerV">
-    <form asp-action="Autenticacion" method="post">
-    <div class="frm-group">
-            <label asp-for="Email"></label>
-            <input class="frm-control" asp-for="Email"/>
-        </div>
-        <div class="frm-group">
-            <label asp-for="Password"></label>
-            <input class="frm-control" asp-for="Password" type="password"/>
-        </div>
-        <button type="submit" class="btn btn-primary">Iniciar</button>
-        <a href="@Url.Action("Crear","Usuario")">Crear un usuario</a>
-    </form>
- </div>
-
-    
-=======
 <div class="form-control w-50 mx-auto">
     <form action="/Login/Autenticacion" method="post">
         <p id="mensajeError"></p>
@@ -69,4 +47,3 @@
         .catch(err => console.log(err))
     })
 </script>
->>>>>>> d21b9494e32c758762f159831d793be1fbef09e0

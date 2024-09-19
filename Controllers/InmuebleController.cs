@@ -102,9 +102,35 @@ public class InmuebleController : Controller
         return View(Ivm);
     }
     [HttpPost]
-    public IActionResult Guardar(Inmueble inmueble)
+    public IActionResult Guardar(InmuebleDireccion modelo)
     {
-        _logger.LogInformation("EndPoint Guardar: "+inmueble.ToString());
+        _logger.LogInformation("EndPoint Guardar: "+modelo.ToString());
+    RepositorioDireccion _repoDireccion = new RepositorioDireccion();
+        Inmueble inmueble = new Inmueble {
+            IdPropietario = modelo.Inmueble.IdPropietario,
+            IdTipo= modelo.Inmueble.IdTipo,
+            IdDireccion = modelo.Inmueble.IdDireccion,
+            Metros2 = modelo.Inmueble.Metros2,
+            CantidadAmbientes=modelo.Inmueble.CantidadAmbientes,
+            Disponible= modelo.Inmueble.Disponible,
+            Precio = modelo.Inmueble.Precio,
+            Descripcion= modelo.Inmueble.Descripcion,
+            Cochera = modelo.Inmueble.Cochera,
+            Piscina = modelo.Inmueble.Piscina,
+            Mascota =  modelo.Inmueble.Mascota,
+            UrlImagen = modelo.Inmueble.UrlImagen
+        }
+        Direccion direccion = new Direccion{
+            Calle = modelo.Direccion.Calle,
+            Altura  = modelo.Direccion.Altura,
+            Cp = modelo.Direccion.Cp,
+            Ciudad = modelo.Direccion.Ciudad,
+            Coordenadas = modelo.Direccion.Coordenadas,
+        }
+
+        int keyDireccion = _repoDireccion.Crear(direccion);
+        inmueble.idDireccion=keyDireccion;
+
         try
             {
                 if (inmueble.IdInmueble == 0){
