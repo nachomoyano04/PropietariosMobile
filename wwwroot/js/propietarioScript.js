@@ -1,4 +1,3 @@
-
 //Filtrado por dni
 
 let tablaPropietarios = document.querySelector("#tablaPropietarios");
@@ -12,6 +11,7 @@ buscarPropietarioDNI.addEventListener("input", (e) => {
 buscarPropietarioDNI.addEventListener("focus",(e) => {
     if(e.target.value === ""){
         buscarPropietarioApellido.value = "";
+        switchBoton();
         buscarPropietarioEmail.value = "";
         rellenarTablaPropietarios();
     }
@@ -38,6 +38,7 @@ buscarPropietarioApellido.addEventListener("input", (e) => {
 buscarPropietarioApellido.addEventListener("focus", (e) => {
     if(e.target.value === ""){
         buscarPropietarioDNI.value = "";
+        switchBoton();
         buscarPropietarioEmail.value = "";
         rellenarTablaPropietarios();
     }
@@ -65,6 +66,7 @@ buscarPropietarioEmail.addEventListener("input", (e) => {
 buscarPropietarioEmail.addEventListener("focus",(e) => {
     if(e.target.value === ""){
         buscarPropietarioDNI.value = "";
+        switchBoton();
         buscarPropietarioApellido.value = "";
         rellenarTablaPropietarios();
     }
@@ -116,3 +118,48 @@ const llenarTabla = (tabla, elementos) => {
     }
     tabla.innerHTML = maqueta;
 }
+
+//Filtrar por dados de baja
+const switchBoton = () => {
+    if(botonDadosDeBaja.classList.contains("btn-success")){
+        botonDadosDeBaja.classList.remove("btn-success");
+        botonDadosDeBaja.classList.add("btn-danger");
+        botonDadosDeBaja.innerHTML = "Dados de baja";
+    }
+}
+
+
+let botonDadosDeBaja = document.querySelector("#propietariosDadosDeBaja");
+botonDadosDeBaja.addEventListener("click", () => {
+    if(botonDadosDeBaja.classList.contains("btn-danger")){
+        botonDadosDeBaja.classList.remove("btn-danger");
+        botonDadosDeBaja.classList.add("btn-success");
+        botonDadosDeBaja.innerHTML = "Dados de alta";
+        axios("http://localhost:5203/Propietario/DadosDeBaja")
+        .then(res => {
+            tablaPropietarios.innerHTML = "";
+            maqueta = "";
+            for(let i of res.data){
+                maqueta += `<tr>
+                    <td>${i.dni}</td>
+                    <td>${i.nombre}</td>
+                    <td>${i.apellido}</td>
+                    <td>${i.telefono}</td>
+                    <td>${i.correo}</td>
+                    <td>
+                        <form action="/Propietario/Alta/${i.idPropietario}" method="post">
+                        <button type="submit" class="btn mx-1" style="background-color: #343a40;" title="Dar de alta">
+                            <i class="fa-solid fa-arrow-up" style="color: #44ff00;"></i>
+                        </button>    
+                    </td>
+                </tr>`
+            }
+            tablaPropietarios.innerHTML = maqueta;
+        }).catch(err => console.log(err));
+    }else{
+        botonDadosDeBaja.classList.remove("btn-success");
+        botonDadosDeBaja.classList.add("btn-danger");
+        botonDadosDeBaja.innerHTML = "Dados de baja";
+        rellenarTablaPropietarios();
+    }
+})
