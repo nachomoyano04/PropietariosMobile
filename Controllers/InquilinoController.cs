@@ -32,15 +32,28 @@ public class InquilinoController : Controller{
     //     }
     // }
 
-
-    [HttpGet]
-    public JsonResult GetInquilinos(string Dni){
-        var inquilinos = repo.ListarPorDni(Dni);
-        // if(!inquilinos.Any()){
-        //     inquilinos = repo.Listar();
-        // }
+    public JsonResult GetInquilinos(){
+        var inquilinos = repo.Listar();
         return Json(inquilinos);
     }
+    [HttpGet]
+    public JsonResult GetInquilinosPorDni(string Dni){
+        var inquilinos = repo.ListarPorDni(Dni);
+        return Json(inquilinos);
+    }
+    
+    [HttpGet]
+    public JsonResult GetInquilinosPorApellido(string Apellido){
+        var inquilinos = repo.ListarPorApellido(Apellido);
+        return Json(inquilinos);
+    }
+
+    [HttpGet]
+    public JsonResult GetInquilinosPorEmail(string Email){
+        var inquilinos = repo.ListarPorEmail(Email);
+        return Json(inquilinos);
+    }
+
 
     public IActionResult Detalle(int id){
         Inquilino inquilino = null;

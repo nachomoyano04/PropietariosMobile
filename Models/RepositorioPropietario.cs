@@ -109,49 +109,83 @@ public class RepositorioPropietario:RepositorioBase{
         }
         return filasAfectadas;
     }
+
+    //LISTAR POR DNI
+    public List<Propietario> ListarPorDni(String Dni){
+        List<Propietario> Propietarios = new List<Propietario>();
+        using(MySqlConnection connection = new MySqlConnection(ConnectionString)){
+            connection.Open();
+            string query = "SELECT * FROM Propietario WHERE dni LIKE @Dni AND estado = true";
+            using(MySqlCommand command = new MySqlCommand(query, connection)){
+                command.Parameters.AddWithValue("@Dni", Dni+"%");
+                using(MySqlDataReader reader = command.ExecuteReader()){
+                    while(reader.Read()){
+                        Propietario Propietario = new Propietario{
+                            IdPropietario = reader.GetInt32("IdPropietario"),
+                            Dni = reader.GetString("dni"),
+                            Apellido = reader.GetString("apellido"),
+                            Nombre = reader.GetString("nombre"),
+                            Telefono = reader.GetString("telefono"),
+                            Correo = reader.GetString("correo"),
+                            Estado = reader.GetBoolean("estado")
+                            };
+                        Propietarios.Add(Propietario);
+                    }
+                }
+            }
+        }
+        return Propietarios;
+    }
+    //LISTAR POR APELLIDO
+    public List<Propietario> ListarPorApellido(String Apellido){
+        List<Propietario> Propietarios = new List<Propietario>();
+        using(MySqlConnection connection = new MySqlConnection(ConnectionString)){
+            connection.Open();
+            string query = "SELECT * FROM Propietario WHERE apellido LIKE @Apellido AND estado = true";
+            using(MySqlCommand command = new MySqlCommand(query, connection)){
+                command.Parameters.AddWithValue("@Apellido", Apellido+"%");
+                using(MySqlDataReader reader = command.ExecuteReader()){
+                    while(reader.Read()){
+                        Propietario Propietario = new Propietario{
+                            IdPropietario = reader.GetInt32("IdPropietario"),
+                            Dni = reader.GetString("dni"),
+                            Apellido = reader.GetString("apellido"),
+                            Nombre = reader.GetString("nombre"),
+                            Telefono = reader.GetString("telefono"),
+                            Correo = reader.GetString("correo"),
+                            Estado = reader.GetBoolean("estado")
+                            };
+                        Propietarios.Add(Propietario);
+                    }
+                }
+            }
+        }
+        return Propietarios;
+    }
+    //LISTAR POR EMAIL
+    public List<Propietario> ListarPorEmail(String Email){
+        List<Propietario> Propietarios = new List<Propietario>();
+        using(MySqlConnection connection = new MySqlConnection(ConnectionString)){
+            connection.Open();
+            string query = "SELECT * FROM Propietario WHERE correo LIKE @Email AND estado = true";
+            using(MySqlCommand command = new MySqlCommand(query, connection)){
+                command.Parameters.AddWithValue("@Email", Email+"%");
+                using(MySqlDataReader reader = command.ExecuteReader()){
+                    while(reader.Read()){
+                        Propietario Propietario = new Propietario{
+                            IdPropietario = reader.GetInt32("IdPropietario"),
+                            Dni = reader.GetString("dni"),
+                            Apellido = reader.GetString("apellido"),
+                            Nombre = reader.GetString("nombre"),
+                            Telefono = reader.GetString("telefono"),
+                            Correo = reader.GetString("correo"),
+                            Estado = reader.GetBoolean("estado")
+                            };
+                        Propietarios.Add(Propietario);
+                    }
+                }
+            }
+        }
+        return Propietarios;
+    }
 } 
-// //repositorioPropietario.cs
-// using Microsoft.EntityFrameworkCore;
-// using MySql.Data.MySqlClient;
-// namespace ProyetoInmobiliaria.Models;
-
-// public class RepositorioPropietario{
-    
-    
-//     private readonly InmobiliariaContext _context = new InmobiliariaContext();
-
-//     public List<Propietario> Listar(){
-        
-//         return _context.Propietario.Where(i => i.Estado == true).ToList();
-//     }
-//     public Propietario? Obtener(int Id){
-//         Propietario? propietario = _context.Propietario.Find(Id);
-//             return propietario;
-//         }
-
-    
-//     public int Crear(Propietario propietario){
-        
-//         _context.Propietario.Add(propietario);
-//         _context.SaveChanges();
-//         return propietario.IdPropietario;
-//     }
-
-//     public int Modificar(Propietario propietario){
-        
-        
-//         _context.Propietario.Update(propietario);
-//         _context.SaveChanges();
-//         return 1;
-
-//     }
-
-//     public void Eliminar(int Id){
-//         Propietario propietario = _context.Propietario.Find(Id); 
-//         if (propietario != null){
-//             propietario.Estado = false;
-//             _context.Propietario.Update(propietario); 
-//             _context.SaveChanges();
-//         }
-//     }
-// }

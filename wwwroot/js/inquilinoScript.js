@@ -1,29 +1,94 @@
+//Filtrado por dni
+
+let tablaInquilinos = document.querySelector("#tablaInquilinos");
 let filtrarPorDni = document.querySelector("#filtrarPorDni");
 let buscarInquilinoDNI = document.querySelector("#buscarInquilinoDNI");
 buscarInquilinoDNI.addEventListener("input", (e) => {
-    let dni = e.target.value;
     if(e.target.value === ""){
-        axios.get("http://localhost:5203/Inquilino/GetInquilinos", {params:{dni: dni}})
-        .then(res => {
-            let tablaInquilinos = document.querySelector("#tablaInquilinos");
-            let inquilinos = res.data;
-            llenarTabla(tablaInquilinos, inquilinos);
-        })
-        .catch(err => console.log(err));
+        rellenarTablaInquilinos();
+    }
+})
+buscarInquilinoDNI.addEventListener("focus",(e) => {
+    if(e.target.value === ""){
+        buscarInquilinoApellido.value = "";
+        buscarInquilinoEmail.value = "";
+        rellenarTablaInquilinos();
     }
 })
 filtrarPorDni.addEventListener("click", (e) => {
     let dni = buscarInquilinoDNI.value;
-    axios.get("http://localhost:5203/Inquilino/GetInquilinos", {
-        params:{dni: dni}
-    })
+    axios.get("http://localhost:5203/Inquilino/GetInquilinosPorDni", {params:{dni: dni}})
     .then(res => {
-        let tablaInquilinos = document.querySelector("#tablaInquilinos");
         let inquilinos = res.data;
         llenarTabla(tablaInquilinos, inquilinos);
     })
     .catch(err => console.log(err));
 })
+
+
+
+//Filtrado por apellido
+let buscarInquilinoApellido = document.querySelector("#buscarInquilinoApellido");
+buscarInquilinoApellido.addEventListener("input", (e) => {
+    if(e.target.value === ""){
+        rellenarTablaInquilinos();
+    }
+})
+buscarInquilinoApellido.addEventListener("focus", (e) => {
+    if(e.target.value === ""){
+        buscarInquilinoDNI.value = "";
+        buscarInquilinoEmail.value = "";
+        rellenarTablaInquilinos();
+    }
+})
+
+
+let filtrarPorApellido = document.querySelector("#filtrarPorApellido");
+filtrarPorApellido.addEventListener("click", () => {
+    let Apellido = buscarInquilinoApellido.value;
+    axios("http://localhost:5203/Inquilino/GetInquilinosPorApellido", {params: {Apellido: Apellido}})
+    .then(res => {
+        let tablaInquilinos = document.querySelector("#tablaInquilinos");
+        let elementos = res.data;
+        llenarTabla(tablaInquilinos, elementos);
+    })
+    .catch(err => console.log(err));
+}) 
+
+//Filtrado por email
+let buscarInquilinoEmail = document.querySelector("#buscarInquilinoEmail");
+buscarInquilinoEmail.addEventListener("input", (e) => {
+    if(e.target.value === ""){
+        rellenarTablaInquilinos();
+    }
+})
+buscarInquilinoEmail.addEventListener("focus",(e) => {
+    if(e.target.value === ""){
+        buscarInquilinoDNI.value = "";
+        buscarInquilinoApellido.value = "";
+        rellenarTablaInquilinos();
+    }
+})
+let filtrarPorEmail = document.querySelector("#filtrarPorEmail");
+filtrarPorEmail.addEventListener("click", () => {
+    let Email = buscarInquilinoEmail.value;
+    axios("http://localhost:5203/Inquilino/GetInquilinosPorEmail", {params: {Email: Email}})
+    .then(res => {
+        let tablaInquilinos = document.querySelector("#tablaInquilinos");
+        let elementos = res.data;
+        llenarTabla(tablaInquilinos, elementos);
+    })
+    .catch(err => console.log(err));
+}) 
+
+const rellenarTablaInquilinos = () => {
+    axios("http://localhost:5203/Inquilino/GetInquilinos")
+    .then(res => {
+        llenarTabla(tablaInquilinos, res.data);
+    })
+    .catch(err => console.log(err));
+}
+
 
 const llenarTabla = (tabla, elementos) => {
     tabla.innerHTML = "";
