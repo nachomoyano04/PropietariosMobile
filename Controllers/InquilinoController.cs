@@ -17,20 +17,10 @@ public class InquilinoController : Controller{
         return View(inquilinos);
     }
 
-    // [HttpGet]
-    // public async Task<IActionResult> GetInquilinos(string dni){
-    //     _logger.LogInformation(dni);
-    //     if (string.IsNullOrEmpty(dni)){
-    //         return BadRequest("Debe ingresar un dni");
-    //     }
-    //     try{
-    //         // Assuming 'repo.ListarPorDni' is an asynchronous method returning a list of inquilinos
-    //         var inquilinos = await repo.ListarPorDni(dni);
-    //         return Json(inquilinos);
-    //     }catch (Exception ex){
-    //         return StatusCode(500, "Error interno en el servidor");
-    //     }
-    // }
+    public JsonResult DadosDeBaja(){
+        var inquilinos = repo.DadosDeBaja();
+        return Json(inquilinos);
+    }
 
     public JsonResult GetInquilinos(){
         var inquilinos = repo.Listar();

@@ -1,6 +1,18 @@
 @model LoginViewModel
 
+<<<<<<< HEAD
 <div class="form-control w-50 mx-auto">
+=======
+
+<div class="video-background">
+    <video autoplay muted loop id="bgVideo">
+        <source src="~/img/SaMS.mp4" type="video/mp4">
+        Tu navegador no soporta la reproducción de videos.
+    </video>
+</div>
+
+<div class="form-control w-50 mx-auto login-container">
+>>>>>>> 5c2b1b030752519e69ca5bcdc58aa03e489bbc68
     <form action="/Login/Autenticacion" method="post">
         <p id="mensajeError"></p>
         <div class="mb-3">
@@ -14,17 +26,19 @@
         <div class="d-flex justify-content-around">
             <button type="button" id="botonIngresar" class="btn btn-success">Ingresar</button>
             <div class="d-flex">
-                <div class="form-text">No tienes cuenta?</div>
+                <div class="form-text">¿No tienes cuenta?</div>
                 <a href="/Usuario/Crear" class="btn btn-primary">Registrar</a>
             </div>
         </div>
     </form>
 </div>
+
 <script>
     let inputEmail = document.querySelector("#Email");
     inputEmail.addEventListener("focus", () => {
-        document.querySelector("#mensajeError").style.display="none";
-    })
+        document.querySelector("#mensajeError").style.display = "none";
+    });
+
     let botonIngresar = document.querySelector("#botonIngresar");
     botonIngresar.addEventListener("click", () => {
         let Email = document.querySelector("#Email");
@@ -33,17 +47,15 @@
             Email: Email.value, Password: Password.value
         })
         .then(res => {
-            //llevar al index
-            console.log(res.data)
-            if(res.data.ok){
+            if (res.data.ok) {
                 window.location.href = "/Home/Index";
-            }else{
+            } else {
                 let mensajeError = document.querySelector("#mensajeError");
                 mensajeError.style.display = "inline";
                 mensajeError.innerHTML = res.data.mensaje;
                 mensajeError.style.color = "red";
             }
         })
-        .catch(err => console.log(err))
-    })
+        .catch(err => console.log(err));
+    });
 </script>

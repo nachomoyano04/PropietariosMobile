@@ -110,6 +110,32 @@ public class RepositorioPropietario:RepositorioBase{
         return filasAfectadas;
     }
 
+    //DADOS DE BAJA
+    public List<Propietario> DadosDeBaja(){
+        List<Propietario> Propietarios = new List<Propietario>();
+        using(MySqlConnection connection = new MySqlConnection(ConnectionString)){
+            connection.Open();
+            string query = "SELECT * FROM Propietario WHERE estado = false";
+            using(MySqlCommand command = new MySqlCommand(query, connection)){
+                using(MySqlDataReader reader = command.ExecuteReader()){
+                    while(reader.Read()){
+                        Propietario Propietario = new Propietario{
+                            IdPropietario = reader.GetInt32("IdPropietario"),
+                            Dni = reader.GetString("dni"),
+                            Apellido = reader.GetString("apellido"),
+                            Nombre = reader.GetString("nombre"),
+                            Telefono = reader.GetString("telefono"),
+                            Correo = reader.GetString("correo"),
+                            Estado = reader.GetBoolean("estado")
+                            };
+                        Propietarios.Add(Propietario);
+                    }
+                }
+            }
+        }
+        return Propietarios;
+    }
+
     //LISTAR POR DNI
     public List<Propietario> ListarPorDni(String Dni){
         List<Propietario> Propietarios = new List<Propietario>();

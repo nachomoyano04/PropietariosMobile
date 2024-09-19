@@ -1,5 +1,4 @@
 //Filtrado por dni
-
 let tablaInquilinos = document.querySelector("#tablaInquilinos");
 let filtrarPorDni = document.querySelector("#filtrarPorDni");
 let buscarInquilinoDNI = document.querySelector("#buscarInquilinoDNI");
@@ -11,6 +10,7 @@ buscarInquilinoDNI.addEventListener("input", (e) => {
 buscarInquilinoDNI.addEventListener("focus",(e) => {
     if(e.target.value === ""){
         buscarInquilinoApellido.value = "";
+        switchBoton();
         buscarInquilinoEmail.value = "";
         rellenarTablaInquilinos();
     }
@@ -37,12 +37,11 @@ buscarInquilinoApellido.addEventListener("input", (e) => {
 buscarInquilinoApellido.addEventListener("focus", (e) => {
     if(e.target.value === ""){
         buscarInquilinoDNI.value = "";
+        switchBoton();
         buscarInquilinoEmail.value = "";
         rellenarTablaInquilinos();
     }
 })
-
-
 let filtrarPorApellido = document.querySelector("#filtrarPorApellido");
 filtrarPorApellido.addEventListener("click", () => {
     let Apellido = buscarInquilinoApellido.value;
@@ -65,6 +64,7 @@ buscarInquilinoEmail.addEventListener("input", (e) => {
 buscarInquilinoEmail.addEventListener("focus",(e) => {
     if(e.target.value === ""){
         buscarInquilinoDNI.value = "";
+        switchBoton();
         buscarInquilinoApellido.value = "";
         rellenarTablaInquilinos();
     }
@@ -81,6 +81,8 @@ filtrarPorEmail.addEventListener("click", () => {
     .catch(err => console.log(err));
 }) 
 
+
+//tablas
 const rellenarTablaInquilinos = () => {
     axios("http://localhost:5203/Inquilino/GetInquilinos")
     .then(res => {
@@ -118,3 +120,48 @@ const llenarTabla = (tabla, elementos) => {
     }
     tabla.innerHTML = maqueta;
 }
+
+//Filtrar por dados de baja
+const switchBoton = () => {
+    if(botonDadosDeBaja.classList.contains("btn-success")){
+        botonDadosDeBaja.classList.remove("btn-success");
+        botonDadosDeBaja.classList.add("btn-danger");
+        botonDadosDeBaja.innerHTML = "Dados de baja";
+    }
+}
+
+
+let botonDadosDeBaja = document.querySelector("#inquilinosDadosDeBaja");
+botonDadosDeBaja.addEventListener("click", () => {
+    if(botonDadosDeBaja.classList.contains("btn-danger")){
+        botonDadosDeBaja.classList.remove("btn-danger");
+        botonDadosDeBaja.classList.add("btn-success");
+        botonDadosDeBaja.innerHTML = "Dados de alta";
+        axios("http://localhost:5203/Inquilino/DadosDeBaja")
+        .then(res => {
+            tablaInquilinos.innerHTML = "";
+            maqueta = "";
+            for(let i of res.data){
+                maqueta += `<tr>
+                    <td>${i.dni}</td>
+                    <td>${i.nombre}</td>
+                    <td>${i.apellido}</td>
+                    <td>${i.telefono}</td>
+                    <td>${i.correo}</td>
+                    <td>
+                        <form action="/Inquilino/Alta/${i.idInquilino}" method="post">
+                        <button type="submit" class="btn mx-1" style="background-color: #343a40;" title="Dar de alta">
+                            <i class="fa-solid fa-arrow-up" style="color: #44ff00;"></i>
+                        </button>    
+                    </td>
+                </tr>`
+            }
+            tablaInquilinos.innerHTML = maqueta;
+        }).catch(err => console.log(err));
+    }else{
+        botonDadosDeBaja.classList.remove("btn-success");
+        botonDadosDeBaja.classList.add("btn-danger");
+        botonDadosDeBaja.innerHTML = "Dados de baja";
+        rellenarTablaInquilinos();
+    }
+})

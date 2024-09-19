@@ -77,6 +77,11 @@ public class PropietarioController : Controller{
         return RedirectToAction("Index");
     }    
 
+    public JsonResult DadosDeBaja(){
+        var propietarios = repo.DadosDeBaja();
+        return Json(propietarios);
+    }
+
     public JsonResult GetPropietarios(){
         var propietarios = repo.Listar();
         return Json(propietarios);
