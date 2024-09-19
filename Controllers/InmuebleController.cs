@@ -54,35 +54,18 @@ public class InmuebleController : Controller
         RepositorioDireccion _repoDire= new RepositorioDireccion();
         RepositorioTipo _repoTipo= new RepositorioTipo();
         List<Propietario> propietarios = _repoProp.Listar();
-        List<Direccion> direcciones= _repoDire.Listar();
         List<Tipo> tipos = _repoTipo.Listar();
         Inmueble inmueble = _repo.Obtener(id);
+        Direccion direccion = _repoDire.Obtener(inmueble.IdDireccion);
 
-        InmuebleViewModel Ivm= new InmuebleViewModel {
+        InmuebleDireccion inDi = new InmuebleDireccion{
             Propietarios = propietarios,
+            Tipos = tipos,
             Inmueble = inmueble,
-            Direcciones = direcciones,
-            Tipos = tipos
+            Direccion = direccion
         };
-        return View(Ivm);
+        return View(inDi);
     }
-
-    // public IActionResult Detalles(int id)
-    // {
-    //     if (id == 0)
-    //     {
-    //         _logger.LogWarning("No hay detalles para ese id");
-    //         return NotFound();
-    //     }
-    //     var inmueble = _repo.Obtener(id);
-    //     if (inmueble == null)
-    //     {
-    //         _logger.LogWarning("Inmueble no encontrado con id : {Id}", id);
-    //         return NotFound();
-    //     }
-    //     return View(inmueble);
-    // }
-
     public IActionResult Crear()
     {
         RepositorioPropietario _repoProp= new RepositorioPropietario();
@@ -92,21 +75,20 @@ public class InmuebleController : Controller
         List<Direccion> direcciones= _repoDire.Listar();
         List<Tipo> tipos = _repoTipo.Listar();
        
-
-        InmuebleViewModel Ivm= new InmuebleViewModel {
+        InmuebleDireccion inDi = new InmuebleDireccion{
             Propietarios = propietarios,
-            Inmueble = new Inmueble(),
-            Direcciones = direcciones,
             Tipos = tipos
         };
-        return View(Ivm);
+        return View(inDi);
     }
+
     [HttpPost]
     public IActionResult Guardar(InmuebleDireccion modelo)
     {
         _logger.LogInformation("EndPoint Guardar: "+modelo.ToString());
     RepositorioDireccion _repoDireccion = new RepositorioDireccion();
         Inmueble inmueble = new Inmueble {
+            IdInmueble = modelo.Inmueble.IdInmueble,
             IdPropietario = modelo.Inmueble.IdPropietario,
             IdTipo= modelo.Inmueble.IdTipo,
             IdDireccion = modelo.Inmueble.IdDireccion,
@@ -117,22 +99,23 @@ public class InmuebleController : Controller
             Descripcion= modelo.Inmueble.Descripcion,
             Cochera = modelo.Inmueble.Cochera,
             Piscina = modelo.Inmueble.Piscina,
-            Mascota =  modelo.Inmueble.Mascota,
+            Mascotas =  modelo.Inmueble.Mascotas,
             UrlImagen = modelo.Inmueble.UrlImagen
-        }
+        };
         Direccion direccion = new Direccion{
             Calle = modelo.Direccion.Calle,
             Altura  = modelo.Direccion.Altura,
             Cp = modelo.Direccion.Cp,
             Ciudad = modelo.Direccion.Ciudad,
             Coordenadas = modelo.Direccion.Coordenadas,
-        }
+        };
 
         int keyDireccion = _repoDireccion.Crear(direccion);
-        inmueble.idDireccion=keyDireccion;
+        inmueble.IdDireccion = keyDireccion;
 
         try
             {
+                _logger.LogInformation("Id inmueble: "+inmueble.IdInmueble);
                 if (inmueble.IdInmueble == 0){
                     int idCreado= _repo.Crear(inmueble);
                     _logger.LogInformation($"Se ha creado un nuevo inmueble con id: {idCreado}", inmueble.IdInmueble);
