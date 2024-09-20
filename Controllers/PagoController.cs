@@ -5,12 +5,12 @@ public class PagoController:Controller{
     private RepositorioPago repo = new RepositorioPago();
     private RepositorioContrato repoContrato = new RepositorioContrato();
     public IActionResult Index(int Id){
-        var pagos = repo.Listar();
+        var pagos = repo.ListarPorContrato(Id);
         var contratos = repoContrato.Listar();
         PagoContrato pc = new PagoContrato{
             Pagos = pagos,
             Contratos = contratos,
-            IdContrato = Id
+            IdContrato = Id,
         };
         return View(pc);
     }

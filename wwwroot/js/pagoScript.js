@@ -1,12 +1,11 @@
-let botonNuevoPago = document.querySelector("#botonNuevoPago");
 let contratoSelect = document.querySelector("#contratos");
+let botonNuevoPago = document.querySelector("#botonNuevoPago");
 botonNuevoPago.addEventListener("click", () => {
     let idContratoSeleccionado = contratoSelect.selectedOptions[0].id;
     window.location.href = `http://localhost:5203/Pago/Crear/${idContratoSeleccionado}`;
 })
 contratoSelect.addEventListener("change", () => {
     let idContrato = contratoSelect.selectedOptions[0].id;
-    console.log(idContrato);
     llenarTabla(idContrato);
 })
 let tablaPagos = document.querySelector("#tablaPagos");
@@ -15,6 +14,7 @@ const llenarTabla = (idContrato) => {
     .then(res => {  
         tablaPagos.innerHTML = "";
         let maqueta = "";
+        console.log(res.data);
         for(let p of res.data){
             let estado = "";
             let acciones = `
