@@ -9,7 +9,7 @@ html {
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #83b5eb;
 }
 
 html {
@@ -104,16 +104,16 @@ body {
   margin-top: 10px;
 }
 .btn-detallebt{
-  background-color: #0d6efd;
-  border-color: #0d6efd;
+  background-color: #9EABA2;
+  border-color: #9EABA2;
 }
 .btn-borrarbt{
-  background-color: #dc3545;
-  border-color: #dc3545;
+  background-color: #A36361;
+  border-color: #A36361;
 }
 .btn-editbt{
-  background-color: #e0a800;
-  border-color: #d39e00;
+  background-color: #F5BCBA;
+  border-color: #F5BCBA;
 }
 .btn-exitobt{
   background-color: #198754;
@@ -141,7 +141,7 @@ body {
 
 /* button Eliminar */
 .btn-eliminar {
-  background-color: #ff3c28d1;
+  background-color: #91453dd1;
   border-color: #978383d4;
   color: white;
   padding: 5px 15px;
@@ -156,7 +156,7 @@ body {
 
 .btn-eliminar:hover {
   /* background-color: #bbe9f0bb; */
-  border-color: #ff3c28d1;
+  border-color: #a08282de;
 }
 /* button guardar */
 
@@ -263,7 +263,7 @@ color: #354367;
 /*ESTILOS DETALLES*/
 
 .containerDetalle {/*DEJAR ESTO ASI PARA MANTENER EL DISEÑO DE DOBLE COLUMNA*/
-  display: flex;
+  display: flex;  
   flex-direction: row;
   justify-content: space-around;
   width: inherit;
@@ -343,50 +343,85 @@ a{
 
 .btn-primary {
   margin:0px 10px;
+  background-color: #7d988b;
+  border-color: #3b745a;
+
 }
 
 .crear-inmueble .formulario-formulario {
   max-width: 800px; 
   margin: 0 auto; 
 }
-/*FORMULARIO LOGIN*/
-.form-container {
-  width: 300px;
-  margin: 50px auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-.profile-picture {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  margin: 20px;
-}
 
-/* Estilos para el contenedor del video de fondo */
-.video-background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  z-index: -1; /* Mantener el video detrás del contenido */
-}
 
-/* Ajustar el tamaño del video */
+/*FORMULARIO LOGIN   NO CAMBIAR NADA DE ESTE FORMULARIO*/
+/* Estilo del video */
 #bgVideo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    max-width: 1400px; /* Max tamaño del video */
+    max-height: 600px; /* Max altura del video */
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    object-fit:inherit /*video entero dentro de las proporciones */
+    
+}
+
+/* Contenedor formu*/
+.login-container {
+  background: rgba(255, 255, 255, 0.8); 
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  margin-top: 100px;
+}
+
+/* formu-registro-login */
+.form-control {
+  background-color: rgba(255, 255, 255, 0.9); 
+  border: 1px solid #ccc;
+  padding: 10px;
+  font-size: 16px;
+}
+
+/* Button ingreso */
+.btn-success {
+  background-color: #739f7d;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+}
+
+/* stylo ancla */
+.logout-link {
+  font-size: 18px;
+  font-weight: bold;
+  background-color: #fff;
+  padding: 10px 15px;
+  border-radius: 5px;
+  text-decoration: none;
+  display: inline-block;
+  transition: background-color 0.3s ease;
+}
+
+.logout-link:hover {
+  background-color: #aaca5f;
+}
+
+/* def lugar ancla */
+.anchor-container {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 100%;
-  height: 100%;
-  min-width: 100%; /* Asegura que el video cubra toda la pantalla horizontalmente */
-  min-height: 100%; /* Asegura que el video cubra toda la pantalla verticalmente */
-  object-fit: cover; /* Asegura que el video cubra el área del contenedor sin distorsionarse */
-  transform: translate(-50%, -50%); /* Centra el video en el contenedor */
+  top: 20px;
+  right: 20px;
 }
 
 
@@ -455,7 +490,7 @@ a{
 }
 
 .crear-inmueble-bg {
-  background-image: url('/img/11.png');
+  background-image: url('/img/SaMS.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

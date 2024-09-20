@@ -7,7 +7,7 @@
     <select id="contratos" class="form-select">
         @foreach(var contrato in Model.Contratos){
             if(Model.IdContrato != 0 && contrato.IdContrato == Model.IdContrato){
-                <option selected id="@contrato.IdContrato">@contrato.inquilino.Apellido - @contrato.inmueble.propietario.Apellido</option>    
+                <option selected  id="@contrato.IdContrato">@contrato.inquilino.Apellido - @contrato.inmueble.propietario.Apellido</option>    
             }else{
                 <option id="@contrato.IdContrato">@contrato.inquilino.Apellido - @contrato.inmueble.propietario.Apellido</option>    
             }
