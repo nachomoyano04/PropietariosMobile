@@ -23,6 +23,7 @@ namespace ProyetoInmobiliaria.Models;
                 ClaimsIdentity identidad = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
                 identidad.AddClaim(new Claim(ClaimTypes.Name, u.Nombre));
                 identidad.AddClaim(new Claim(ClaimTypes.Role, u.Rol));
+                identidad.AddClaim(new Claim(CalaimType.Role, u.IdUsuario))
 
                 await  HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identidad));
 
