@@ -6,12 +6,12 @@
 <div class="container-formulario">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <form asp-action="Guardar" class="formulario-formulario" method="post">
+            <form asp-action="Editar" class="formulario-formulario" method="post">
                 <input asp-for="IdContrato" type="hidden">
-                <input asp-for="IdPago" value="0" type="hidden">
+                <input asp-for="IdPago" value="@Model.IdPago" type="hidden">
                 <div class="form-group mb-3">
                     <label asp-for="FechaPago" class="form-label">Fecha de pago</label>
-                    <input asp-for="FechaPago" type="date" value="" class="form-control" />
+                    <input asp-for="FechaPago" type="date" class="form-control" />
                 </div>
                 <div class="form-group mb-3">
                     <label asp-for="Importe" class="form-label">Importe</label>
@@ -25,7 +25,7 @@
                     <label asp-for="Detalle" class="form-label">Detalle</label>
                     <input asp-for="Detalle" class="form-control" />
                 </div>
-                <button type="submit" class="btn btn-primary">Crear</button>
+                <button type="submit" class="btn btn-primary">Editar</button>
             </form>
         </div>
     </div>

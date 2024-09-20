@@ -332,6 +332,10 @@ color: #354367;
   margin-bottom: 10px;
 }
 
+a{
+  text-decoration: none;
+}
+
 .form-control {
   width: 100%;
   max-width: 100%;
