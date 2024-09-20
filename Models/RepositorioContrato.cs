@@ -53,29 +53,33 @@ public class RepositorioContrato: RepositorioBase{
 
     //LISTAR
     public List<Contrato> Listar(){
-        List<Contrato> Contratoes = new List<Contrato>();
+        List<Contrato> Contratos = new List<Contrato>();
         using(MySqlConnection connection = new MySqlConnection(ConnectionString)){
             connection.Open();
             string query = "SELECT * FROM Contrato";
             using(MySqlCommand command = new MySqlCommand(query, connection)){
                 using(MySqlDataReader reader = command.ExecuteReader()){
                     while(reader.Read()){
-                        Inquilino inquilino = repoInquilino.Obtener(reader.GetInt32("IdInquilino"));
-                        Inmueble inmueble = repoInmueble.Obtener(reader.GetInt32("IdInmueble"));
+                        Inquilino inquilino = repoInquilino.Obtener(reader.GetInt32("idInquilino"));
+                        Inmueble inmueble = repoInmueble.Obtener(reader.GetInt32("idInmueble"));
                         Contrato Contrato = new Contrato{
                             IdContrato = reader.GetInt32("idContrato"),
+                            inquilino = inquilino,
+                            inmueble = inmueble,
+                            IdInquilino = inquilino.IdInquilino,
+                            IdInmueble = inmueble.IdInmueble,
                             Monto = reader.GetDouble("monto"),
                             FechaInicio = reader.GetDateTime("fechaInicio"),
                             FechaFin = reader.GetDateTime("fechaFin"),
                             FechaAnulacion = reader.GetDateTime("fechaAnulacion"),
                             Estado = reader.GetBoolean("estado")
                             };
-                        Contratoes.Add(Contrato);
+                        Contratos.Add(Contrato);
                     }
                 }
             }
         }
-        return Contratoes;
+        return Contratos;
     }
     
     //OBTENER
@@ -92,6 +96,10 @@ public class RepositorioContrato: RepositorioBase{
                         Inmueble inmueble = repoInmueble.Obtener(reader.GetInt32("IdInmueble"));
                         contrato = new Contrato{
                             IdContrato = reader.GetInt32("idContrato"),
+                            inquilino = inquilino,
+                            inmueble = inmueble,
+                            IdInmueble = inmueble.IdInmueble,
+                            IdInquilino = inquilino.IdInquilino,
                             Monto = reader.GetDouble("monto"),
                             FechaInicio = reader.GetDateTime("fechaInicio"),
                             FechaFin = reader.GetDateTime("fechaFin"),

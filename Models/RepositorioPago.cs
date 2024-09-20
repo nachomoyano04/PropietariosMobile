@@ -18,6 +18,7 @@ public class RepositorioPago:RepositorioBase{
                         var c = repoContrato.Obtener(reader.GetInt32("idContrato"));
                         pago = new Pago{
                             IdPago = reader.GetInt32("idPago"),
+                            contrato = c,
                             IdContrato = reader.GetInt32("idContrato"),
                             FechaPago = reader.GetDateTime("fechaPago"),
                             Importe = reader.GetDecimal("importe"),
@@ -32,7 +33,7 @@ public class RepositorioPago:RepositorioBase{
         return pago;
     }
     public List<Pago> Listar(){
-        List<Pago> pagos = null;
+        List<Pago> pagos = new List<Pago>();
         using(MySqlConnection connection = new MySqlConnection(ConnectionString)){
             connection.Open();
             string query = "SELECT * FROM pago";
@@ -58,7 +59,7 @@ public class RepositorioPago:RepositorioBase{
         return pagos;
     }
     public List<Pago> ListarPorContrato(int IdContrato){
-        List<Pago> pagos = null;
+        List<Pago> pagos = new List<Pago>();
         using(MySqlConnection connection = new MySqlConnection(ConnectionString)){
             connection.Open();
             string query = "SELECT * FROM pago WHERE idContrato = @IdContrato";
@@ -66,10 +67,10 @@ public class RepositorioPago:RepositorioBase{
                 command.Parameters.AddWithValue("@IdContrato", IdContrato);
                 using(MySqlDataReader reader = command.ExecuteReader()){
                     while(reader.Read()){
-                        var c = repoContrato.Obtener(reader.GetInt32(IdContrato));
+                        var c = repoContrato.Obtener(IdContrato);
                         Pago pago = new Pago{
                             IdPago = reader.GetInt32("idPago"),
-                            IdContrato = reader.GetInt32("idContrato"),
+                            IdContrato =IdContrato,
                             contrato = c,
                             FechaPago = reader.GetDateTime("fechaPago"),
                             Importe = reader.GetDecimal("importe"),
@@ -133,7 +134,4 @@ public class RepositorioPago:RepositorioBase{
         }
         return filasAfectadas;
     }
-
-    
-
 }
