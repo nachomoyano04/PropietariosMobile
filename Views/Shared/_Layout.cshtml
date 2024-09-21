@@ -1,5 +1,11 @@
 ﻿@using System.Threading;
 @using System.Security.Claims;
+
+@{
+    var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+    var UserId = userIdClaim?.Value;
+}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -68,7 +74,9 @@
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <li><a class="dropdown-item" href="/Usuario/Crear">Crear</a></li>
                                     <li><a class="dropdown-item" href="/Usuario/Index">Listar/Buscar</a></li>
-                                    <li><a class="dropdown-item"  href="@Url.Action("Editar", "Usuario", new {IdUsuario = ((ClaimsIdentity)User.Identity).FindFirst("UserId")})">Editar</a></li>
+                                    <li><a class="dropdown-item"  href="@Url.Action("Editar", "Usuario", new {IdUsuario = UserId})">Editar</a></li>
+                                    
+                                    
                                 </ul>
                             </li>
                             <li class="nav-item">

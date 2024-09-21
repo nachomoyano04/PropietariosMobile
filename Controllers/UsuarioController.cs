@@ -16,18 +16,7 @@ public class UsuarioController: Controller{
         
     public IActionResult Index(){
         List <Usuario> usuarios = new List<Usuario>();
-        for(int i=0; i < 10; i++){
-            usuarios.Add(new Usuario{
-                Apellido = "Moyano",
-                Nombre = "Ignacio", 
-                Email = "nachomoyag@as",
-                Avatar = "/img/Avatar/Marvel image.jpg",
-                Estado = true,
-                Password = "asdasd",
-                IdUsuario = i+1,
-                Rol = "Administrador"
-            });
-        }
+        usuarios = repo.Listar();
         return View(usuarios);
     }
     [AllowAnonymous]
@@ -53,16 +42,8 @@ public class UsuarioController: Controller{
 
     public IActionResult Editar(int id){
         // Usuario u = repo.Obtener(id);
-        Usuario u = new Usuario{
-            Apellido = "Moyano",
-            Nombre = "Ignacio", 
-            Email = "nachomoyag@as",
-            Avatar = "/img/Avatar/Marvel image.jpg",
-            Estado = true,
-            Password = "asdasd",
-            IdUsuario = 3,
-            Rol = "Administrador"
-        };
+       Usuario u = repo.ObtenerPorId(id);
+       _logger.LogInformation(u.Nombre);
         return View(u);
     }
     [AllowAnonymous]

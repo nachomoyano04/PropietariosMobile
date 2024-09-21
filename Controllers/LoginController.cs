@@ -21,13 +21,10 @@ namespace ProyetoInmobiliaria.Models;
             Usuario u = _repoLogin.Verificar(new LoginViewModel { Email = user.Email , Password = user.Password });
             if (u != null){
                 var claimList = new List<Claim>();
-                claimList.Add(new Claim(ClaimTypes.Name, u.Nombre));
-                claimList.Add(new Claim(ClaimTypes.Role, u.Rol));
-                claimList.Add(new Claim("UserId", u.IdUsuario.ToString()));
-                ClaimsIdentity identidad = new ClaimsIdentity(claimList ,CookieAuthenticationDefaults.AuthenticationScheme);
-                // identidad.AddClaim(new Claim(ClaimTypes.Name, u.Nombre));
-                // identidad.AddClaim(new Claim(ClaimTypes.Role, u.Rol));
-                // identidad.AddClaim(new Claim("UserId", u.IdUsuario.ToString()));
+            claimList.Add(new Claim(ClaimTypes.Name, u.Nombre));
+            claimList.Add(new Claim(ClaimTypes.Role, u.Rol));
+            claimList.Add(new Claim(ClaimTypes.NameIdentifier, u.IdUsuario.ToString()));
+            ClaimsIdentity identidad = new ClaimsIdentity(claimList, CookieAuthenticationDefaults.AuthenticationScheme);
 
                 await  HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identidad));
 

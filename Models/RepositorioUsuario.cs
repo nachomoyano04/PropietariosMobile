@@ -119,5 +119,37 @@ public RepositorioUsuario(): base(){
         }
         return filasAfectadas;
     }
+    public Usuario ObtenerPorId(int id)
+        {
+            Usuario usuario = null;
+            using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+            {
+                connection.Open();
+                string query = "SELECT * FROM usuario WHERE idUsuario = @IdUsuario AND estado = 1";
+                using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@IdUsuario", id);
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            Console.WriteLine(reader.GetString("nombre"));
+                            usuario = new Usuario
+                            {
+                                IdUsuario = reader.GetInt32("id"),
+                                Email = reader.GetString("email"),
+                                Password = reader.GetString("password"),
+                                Rol = reader.GetString("rol"),
+                                Avatar = reader.IsDBNull(reader.GetOrdinal("avatar")) ? null : reader.GetString("avatar"),
+                                Nombre = reader.GetString("nombre"),
+                                Apellido = reader.GetString("apellido"),
+                                Estado = reader.GetBoolean("estado")
+                            };
+                        }
+                    }
+                }
+            }
+            return usuario;
+        }
 
 }

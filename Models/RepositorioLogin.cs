@@ -31,6 +31,7 @@ public class RepositorioLogin : RepositorioBase
                     {
                         usuarioEncontrado = new Usuario //  pass correcto creo objeto y lo paso
                         {
+                            IdUsuario = reader.GetInt32("idUsuario"),
                             Nombre = reader["nombre"].ToString(),
                             Email = reader["email"].ToString(),
                             Rol = reader["rol"].ToString(),

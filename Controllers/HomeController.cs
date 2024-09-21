@@ -18,6 +18,8 @@ public class HomeController : Controller
     
     public IActionResult Index()
     {
+       
+
         var inmuebles= _repoInmuebles.Listar();
         return View(inmuebles);
     }
