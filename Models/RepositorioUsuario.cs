@@ -4,7 +4,7 @@ using ProyetoInmobiliaria.Models;
 using BCrypt.Net;
 
 public class RepositorioUsuario:RepositorioBase{
-  public RepositorioUsuario(): base(){  
+public RepositorioUsuario(): base(){  
 
     }
 
@@ -38,4 +38,86 @@ public class RepositorioUsuario:RepositorioBase{
         string hashedPassword=  BCrypt.Net.BCrypt.HashPassword(pass,salt);
         return hashedPassword;
     }
+
+
+
+    // listar todos los usuarios activos
+    public List<Usuario> Listar()
+    {
+        List<Usuario> usuarios = new List<Usuario>();
+        using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+        {
+            connection.Open();
+            string query = "SELECT * FROM usuario WHERE estado = 1"; 
+            using (MySqlCommand command = new MySqlCommand(query, connection))
+            {
+                using (MySqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Usuario usuario = new Usuario
+                        {
+                            Id = reader.GetInt32("id"),
+                            Email = reader.GetString("email"),
+                            Password = reader.GetString("password"),
+                            Rol = reader.GetString("rol"),
+                            Avatar = reader.IsDBNull(reader.GetOrdinal("avatar")) ? null : reader.GetString("avatar"),
+                            Nombre = reader.GetString("nombre"),
+                            Apellido = reader.GetString("apellido"),
+                            Estado = reader.GetBoolean("estado")
+                        };
+                        usuarios.Add(usuario);
+                    }
+                }
+            }
+        }
+        return usuarios;
+    }
+
+    //  actualizar un usuario 
+    public int Actualizar(Usuario usuario)
+    {
+        int filasAfectadas = 0;
+        using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+        {
+            connection.Open();
+            string query = @"UPDATE usuario 
+                            SET email = @EmailUsuario, password = @PasswordUsuario, rol = @RolUsuario, avatar = @AvatarUsuario, 
+                                nombre = @NombreUsuario, apellido = @ApellidoUsuario 
+                            WHERE id = @IdUsuario";
+
+            using (MySqlCommand command = new MySqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@EmailUsuario", usuario.Email);
+                command.Parameters.AddWithValue("@PasswordUsuario", Encriptar(usuario.Password));
+                command.Parameters.AddWithValue("@RolUsuario", usuario.Rol);
+                command.Parameters.AddWithValue("@AvatarUsuario", usuario.Avatar);
+                command.Parameters.AddWithValue("@NombreUsuario", usuario.Nombre);
+                command.Parameters.AddWithValue("@ApellidoUsuario", usuario.Apellido);
+                command.Parameters.AddWithValue("@IdUsuario", usuario.Id);
+
+                filasAfectadas = command.ExecuteNonQuery();
+            }
+        }
+        return filasAfectadas;
+    }
+
+    // eliminar un usuario
+    public int Eliminar(int id)
+    {
+        int filasAfectadas = 0;
+        using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+        {
+            connection.Open();
+            string query = "UPDATE usuario SET estado = 0 WHERE id = @IdUsuario"; 
+
+            using (MySqlCommand command = new MySqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@IdUsuario", id);
+                filasAfectadas = command.ExecuteNonQuery();
+            }
+        }
+        return filasAfectadas;
+    }
+
 }
