@@ -43,11 +43,12 @@ public class PagoController:Controller{
     [HttpPost]
     public IActionResult Guardar(Pago pago){
         if(pago.IdPago == 0){
-            repo.Crear(pago);
+            
+            int idCreado=repo.Crear(pago);
         }else{
             repo.Modificar(pago);
         }
-        return RedirectToAction("Index");
+        return RedirectToAction("Index", "Pago", new { id = idCreado });
     }
     [HttpPost]
     public IActionResult Borrar(int Id){
