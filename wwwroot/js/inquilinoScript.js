@@ -20,7 +20,7 @@ filtrarPorDni.addEventListener("click", (e) => {
     axios.get("http://localhost:5203/Inquilino/GetInquilinosPorDni", {params:{dni: dni}})
     .then(res => {
         let inquilinos = res.data;
-        llenarTabla(tablaInquilinos, inquilinos);
+        llenarTablaInquilinos(tablaInquilinos, inquilinos);
     })
     .catch(err => console.log(err));
 })
@@ -49,7 +49,7 @@ filtrarPorApellido.addEventListener("click", () => {
     .then(res => {
         let tablaInquilinos = document.querySelector("#tablaInquilinos");
         let elementos = res.data;
-        llenarTabla(tablaInquilinos, elementos);
+        llenarTablaInquilinos(tablaInquilinos, elementos);
     })
     .catch(err => console.log(err));
 }) 
@@ -76,7 +76,7 @@ filtrarPorEmail.addEventListener("click", () => {
     .then(res => {
         let tablaInquilinos = document.querySelector("#tablaInquilinos");
         let elementos = res.data;
-        llenarTabla(tablaInquilinos, elementos);
+        llenarTablaInquilinos(tablaInquilinos, elementos);
     })
     .catch(err => console.log(err));
 }) 
@@ -86,13 +86,13 @@ filtrarPorEmail.addEventListener("click", () => {
 const rellenarTablaInquilinos = () => {
     axios("http://localhost:5203/Inquilino/GetInquilinos")
     .then(res => {
-        llenarTabla(tablaInquilinos, res.data);
+        llenarTablaInquilinos(tablaInquilinos, res.data);
     })
     .catch(err => console.log(err));
 }
 
 
-const llenarTabla = (tabla, elementos) => {
+const llenarTablaInquilinos = (tabla, elementos) => {
     tabla.innerHTML = "";
     let maqueta = ""; 
     for(let i of elementos){

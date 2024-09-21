@@ -1,18 +1,27 @@
 using Microsoft.AspNetCore.Mvc;
 using ProyetoInmobiliaria.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 public class PagoController:Controller{
     private RepositorioPago repo = new RepositorioPago();
     private RepositorioContrato repoContrato = new RepositorioContrato();
     public IActionResult Index(int Id){
         var pagos = repo.ListarPorContrato(Id);
-        var contratos = repoContrato.Listar();
-        PagoContrato pc = new PagoContrato{
-            Pagos = pagos,
-            Contratos = contratos,
-            IdContrato = Id,
-        };
-        return View(pc);
+        if(pagos != null){
+            var contratos = repoContrato.Listar();
+            if(contratos != null){
+                PagoContrato pc = new PagoContrato{
+                    Pagos = pagos,
+                    Contratos = contratos,
+                    IdContrato = Id,
+                };
+                return View(pc);
+            }
+            Console.WriteLine("CONTRATOS ES NULL EN INDEX");
+        }else{ 
+            Console.WriteLine("PAGOS ES NULL EN INDEX");
+        }
+        return RedirectToAction("Index", "Home");
     }
     public IActionResult Detalle(int id){
         var pago = repo.Obtener(id);
@@ -43,7 +52,7 @@ public class PagoController:Controller{
     [HttpPost]
     public IActionResult Guardar(Pago pago){
         if(pago.IdPago == 0){
-            repo.Crear(pago, Int32.Parse(User.FindFirst("UserId").Value));
+            repo.Crear(pago, Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value));
         }else{
             repo.Modificar(pago);
         }

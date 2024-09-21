@@ -28,10 +28,13 @@ public class RepositorioContrato: RepositorioBase{
                 idCreado = Convert.ToInt32(command.ExecuteScalar());
             }
         }
+        Console.WriteLine("idCreado");
+        Console.WriteLine(idCreado);
         // Guardar auditoría
         if (idCreado > 0){
             var auditoria = new Auditoria{
                 IdUsuario = idUsuario,
+                IdAuditoria = 0, //porque larga exception si no
                 Accion = "Crear Contrato",
                 Observacion = $"Contrato creado para inquilino ID: {contrato.IdInquilino} en inmueble ID: {contrato.IdInmueble}.",
                 FechaYHora = DateTime.Now

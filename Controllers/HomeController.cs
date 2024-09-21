@@ -3,6 +3,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Inmobiliaria.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace Inmobiliaria.Controllers;
 
@@ -19,7 +20,6 @@ public class HomeController : Controller
     public IActionResult Index()
     {
        
-
         var inmuebles= _repoInmuebles.Listar();
         return View(inmuebles);
     }

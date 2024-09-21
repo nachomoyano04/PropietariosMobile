@@ -6,15 +6,15 @@ botonNuevoPago.addEventListener("click", () => {
 })
 contratoSelect.addEventListener("change", () => {
     let idContrato = contratoSelect.selectedOptions[0].id;
-    llenarTabla(idContrato);
+    llenarTablaPagos(idContrato);
 })
 let tablaPagos = document.querySelector("#tablaPagos");
-const llenarTabla = (idContrato) => {
+const llenarTablaPagos = (idContrato) => {
     axios(`http://localhost:5203/Pago/GetPorContrato/`, {params:{idContrato}})
     .then(res => {  
         tablaPagos.innerHTML = "";
         let maqueta = "";
-        console.log(res.data);
+        console.log("raw");
         for(let p of res.data){
             let estado = "";
             let acciones = `
@@ -30,7 +30,7 @@ const llenarTabla = (idContrato) => {
             if(p.estado){
                 estado = `<td>Pagado</td>${acciones}`;
             }else{
-                estado = `<td>Anulado</td>`;
+                estado = `<td>Anulado</td><td>---</td>`;
             }
             maqueta += `
             <tr>

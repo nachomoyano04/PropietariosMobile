@@ -21,7 +21,7 @@ filtrarPorDni.addEventListener("click", (e) => {
     axios.get("http://localhost:5203/Propietario/GetPropietariosPorDni", {params:{dni: dni}})
     .then(res => {
         let Propietarios = res.data;
-        llenarTabla(tablaPropietarios, Propietarios);
+        llenarTablaPropietarios(tablaPropietarios, Propietarios);
     })
     .catch(err => console.log(err));
 })
@@ -51,7 +51,7 @@ filtrarPorApellido.addEventListener("click", () => {
     axios("http://localhost:5203/Propietario/GetPropietariosPorApellido", {params: {Apellido: Apellido}})
     .then(res => {
         let elementos = res.data;
-        llenarTabla(tablaPropietarios, elementos);
+        llenarTablaPropietarios(tablaPropietarios, elementos);
     })
     .catch(err => console.log(err));
 }) 
@@ -77,7 +77,7 @@ filtrarPorEmail.addEventListener("click", () => {
     axios("http://localhost:5203/Propietario/GetPropietariosPorEmail", {params: {Email: Email}})
     .then(res => {
         let elementos = res.data;
-        llenarTabla(tablaPropietarios, elementos);
+        llenarTablaPropietarios(tablaPropietarios, elementos);
     })
     .catch(err => console.log(err));
 }) 
@@ -85,12 +85,12 @@ filtrarPorEmail.addEventListener("click", () => {
 const rellenarTablaPropietarios = () => {
     axios("http://localhost:5203/Propietario/GetPropietarios")
     .then(res => {
-        llenarTabla(tablaPropietarios, res.data);
+        llenarTablaPropietarios(tablaPropietarios, res.data);
     })
     .catch(err => console.log(err));
 }
 
-const llenarTabla = (tabla, elementos) => {
+const llenarTablaPropietarios = (tabla, elementos) => {
     tabla.innerHTML = "";
     let maqueta = "";
     for(let e of elementos){
