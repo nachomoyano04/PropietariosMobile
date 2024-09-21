@@ -6,10 +6,13 @@ using Microsoft.AspNetCore.Authorization;
 public class ContratoController : Controller{
     private readonly ILogger<ContratoController> _logger;
     private readonly RepositorioContrato _repo;
-
+    private readonly RepositorioInmueble _repoInmueble;
+    private readonly RepositorioInquilino _repoInquilino;
     public ContratoController(ILogger<ContratoController> logger){
         _logger = logger;
         _repo = new RepositorioContrato();
+        _repoInmueble = new RepositorioInmueble();
+        _repoInquilino = new RepositorioInquilino();
     }
 
   // para ver vista de detalles //creo que no se hace un detalleController, manejamos desde aqui
@@ -27,22 +30,14 @@ public class ContratoController : Controller{
         return View(contratos);
     }
 
-    public IActionResult Crear(int id_i){
-        RepositorioInmueble _repoInmueble= new RepositorioInmueble();
-        RepositorioInquilino _repoInquilino = new RepositorioInquilino();
-        Contrato contrato = new Contrato();
-
-        List<Inquilino> inquilinos = _repoInquilino.Listar() ?? new List<Inquilino>();
-        List<Inmueble> inmuebles = _repoInmueble.Listar() ?? new List<Inmueble>();
-
-        Inmueble inmueble = _repoInmueble.Obtener(id_i);
-
+    public IActionResult Crear(int id){
+        List<Inquilino> inquilinos = _repoInquilino.Listar();
+        List<Inmueble> inmuebles = _repoInmueble.Listar();
+        Inmueble inmueble = _repoInmueble.Obtener(id);
         ContratoViewModel cvm = new ContratoViewModel {
             Inquilinos = inquilinos,
             Inmuebles = inmuebles,
-            Contrato = contrato,
-            Inmueble = inmueble,
-            Inquilino = new Inquilino()
+            Inmueble = inmueble
         };
         return View(cvm);
     }
@@ -52,7 +47,9 @@ public class ContratoController : Controller{
     public IActionResult Guardar(ContratoViewModel cvm){
         try{
             if(cvm.Contrato.IdContrato == 0){
-                int idCreado = _repo.Crear(cvm.Contrato);
+                Console.WriteLine("creandooo");
+                Console.WriteLine(cvm.Inmueble.IdInmueble);
+                int idCreado = _repo.Crear(cvm.Contrato, Int32.Parse(User.FindFirst("UserId").Value));
                 if(idCreado > 0){
                     _logger.LogInformation("Se ha creado un nuevo contrato: ", cvm.Contrato.IdContrato);
                 }

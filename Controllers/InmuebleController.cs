@@ -7,6 +7,12 @@ public class InmuebleController : Controller
 {
     private readonly ILogger<InmuebleController> _logger;
     private readonly RepositorioInmueble _repo= new RepositorioInmueble();
+    private readonly RepositorioInquilino repoInquilino = new RepositorioInquilino();
+    private readonly RepositorioContrato _repoContrato= new RepositorioContrato();
+    private readonly RepositorioPropietario _repoProp= new RepositorioPropietario();
+    private readonly RepositorioTipo _repoTipo= new RepositorioTipo();
+    private readonly RepositorioDireccion _repoDire= new RepositorioDireccion();
+
 
     public InmuebleController(ILogger<InmuebleController> logger)
     {
@@ -15,26 +21,29 @@ public class InmuebleController : Controller
     }
 
          // para ver vista detalles
-    public IActionResult Detalles(int id)
-    {
+    public IActionResult Detalles(int id){
         var inmueble = _repo.Obtener(id);
-        RepositorioContrato _repoContrato= new RepositorioContrato();
-        if (inmueble == null)
-        {
-            _logger.LogWarning("No se encontro el inmueble con el id: {Id} ", id);
-            return NotFound(); //  me devuelve error si no hay inmueble 
+        // if(inmueble == null){
+        //     _logger.LogWarning("No se encontro el inmueble con el id: {Id} ", id);
+        //     return NotFound(); //  me devuelve error si no hay inmueble 
+        // }
+        Contrato contrato = _repoContrato.ObtenerPorInmueble(id);
+        Inquilino inquilino = null;
+        if(contrato != null){
+            inquilino = repoInquilino.Obtener(contrato.IdInquilino);
         }
-        Contrato contrato = _repoContrato.ObtenerPorInmueble(inmueble.IdInmueble);
         ContratoViewModel Cvm = new ContratoViewModel{
-            Inmueble=inmueble,
-            Contrato= contrato
+            Inmueble= inmueble,
+            Inmuebles = new List<Inmueble>(),
+            Inquilinos = new List<Inquilino>(),
+            Contrato= contrato,
+            Inquilino = inquilino
         };
-        if(Cvm.Contrato != null){
-            _logger.LogInformation("Hay un contrato");
-        }
-        else{
-            _logger.LogWarning("No se encontro contrato");
-        }
+        // if(Cvm.Contrato != null){
+        //     _logger.LogInformation("Hay un contrato");
+        // }else{
+        //     _logger.LogWarning("No se encontro contrato");
+        // }
         return View(Cvm); // muestra a la vista
     }
 
@@ -66,15 +75,10 @@ public class InmuebleController : Controller
         };
         return View(inDi);
     }
-    public IActionResult Crear()
-    {
-        RepositorioPropietario _repoProp= new RepositorioPropietario();
-        RepositorioDireccion _repoDire= new RepositorioDireccion();
-        RepositorioTipo _repoTipo= new RepositorioTipo();
-        List<Propietario> propietarios = _repoProp.Listar();
-        List<Direccion> direcciones= _repoDire.Listar();
-        List<Tipo> tipos = _repoTipo.Listar();
-       
+    public IActionResult Crear(){
+
+        List<Propietario> propietarios = _repoProp.Listar() ?? new List<Propietario>();
+        List<Tipo> tipos = _repoTipo.Listar() ?? new List<Tipo>();
         InmuebleDireccion inDi = new InmuebleDireccion{
             Propietarios = propietarios,
             Tipos = tipos

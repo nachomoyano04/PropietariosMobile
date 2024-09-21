@@ -42,15 +42,24 @@
         </div>
     </div>
     <div class="columna">
-        <h2>Propietario: <a href="@Url.Action("Detalle","Propietario", new {id = Model.Inmueble.propietario.IdPropietario})">@Model.Inmueble.propietario.Nombre @Model.Inmueble.propietario.Apellido</a></h2>
-       
-        <h2>Contrato vigente</h2>
+        <h3>Propietario: <a href="@Url.Action("Detalle","Propietario", new {id = Model.Inmueble.propietario.IdPropietario})">@Model.Inmueble.propietario.Nombre @Model.Inmueble.propietario.Apellido</a></h3>
+        <h4>Contrato vigente: </h4>
         @if(Model.Contrato != null){
-            <p>Desde @Model.Contrato.FechaInicio Hasta  @Model.Contrato.FechaFin</p>
-            <a href="/Pago/Index/@Model.Contrato.IdContrato">Pagos realizados</a>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">@Model.Contrato.inmueble.propietario.Apellido - @Model.Contrato.inquilino.Apellido</h5>
+                    <p class="card-text">Desde @Model.Contrato.FechaInicio.ToString("dd/MM/yyyy") Hasta  @Model.Contrato.FechaFin.ToString("dd/MM/yyyy")</p>
+                    <p class="card-text">$@Model.Contrato.Monto</p>
+                    <a class="btn btn-primary" href="/Pago/Index/@Model.Contrato.IdContrato">Pagos realizados</a>
+                </div>
+            </div>
         }else{
-            <p>No existen contratos para este inmueble</p>
-            <a href="@Url.Action("Crear","Contrato", new { id_i = Model.Inmueble.IdInmueble})" > Crear uno</a>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">No existen contratos para este inmueble</h5>
+                    <a class="btn btn-primary" href="/Contrato/Crear/@Model.Inmueble.IdInmueble">Crear uno</a>
+                </div>
+            </div>
         }
     </div>
 </div>

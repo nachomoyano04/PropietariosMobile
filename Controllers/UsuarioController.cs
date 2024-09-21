@@ -15,12 +15,7 @@ public class UsuarioController: Controller{
         }
         
     public IActionResult Index(){
-<<<<<<< HEAD
-        List <Usuario> usuarios = new List<Usuario>();
-        usuarios = repo.Listar();
-=======
         List<Usuario> usuarios = repo.Listar();
->>>>>>> 3e11d5dab6159658d22bb641ac042e888e46dc5d
         return View(usuarios);
     }
     [AllowAnonymous]
@@ -37,18 +32,11 @@ public class UsuarioController: Controller{
     }
 
     public IActionResult Editar(int id){
-<<<<<<< HEAD
-        // Usuario u = repo.Obtener(id);
-       Usuario u = repo.ObtenerPorId(id);
-       _logger.LogInformation(u.Nombre);
-        return View(u);
-=======
         Usuario u = repo.Obtener(id);
         if(u != null){
             return View(u);
         }
         return RedirectToAction("Index", "Home");
->>>>>>> 3e11d5dab6159658d22bb641ac042e888e46dc5d
     }
 
     [AllowAnonymous]

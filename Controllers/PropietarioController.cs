@@ -47,7 +47,6 @@ public class PropietarioController : Controller{
         Propietario p = null; 
         try{
             p = repo.Obtener(Id);
-            _logger.LogInformation("Propietario: "+p.NombreYApellido);            
             _logger.LogInformation("Estado: "+p.Estado);            
             p.Estado = true;
             _logger.LogInformation("Estado: "+p.Estado);            

@@ -43,7 +43,7 @@ public class PagoController:Controller{
     [HttpPost]
     public IActionResult Guardar(Pago pago){
         if(pago.IdPago == 0){
-            repo.Crear(pago);
+            repo.Crear(pago, Int32.Parse(User.FindFirst("UserId").Value));
         }else{
             repo.Modificar(pago);
         }

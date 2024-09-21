@@ -28,18 +28,16 @@ public class RepositorioContrato: RepositorioBase{
                 idCreado = Convert.ToInt32(command.ExecuteScalar());
             }
         }
-            // Guardar auditoría
-            if (idCreado > 0)
-            {
-                var auditoria = new Auditoria
-                {
-                    IdUsuario = idUsuario,
-                    Accion = "Crear Contrato",
-                    Observacion = $"Contrato creado para inquilino ID: {contrato.IdInquilino} en inmueble ID: {contrato.IdInmueble}.",
-                    FechaYHora = DateTime.Now
-                };
-                repoAuditoria.GuardarAuditoria(auditoria);
-            }
+        // Guardar auditoría
+        if (idCreado > 0){
+            var auditoria = new Auditoria{
+                IdUsuario = idUsuario,
+                Accion = "Crear Contrato",
+                Observacion = $"Contrato creado para inquilino ID: {contrato.IdInquilino} en inmueble ID: {contrato.IdInmueble}.",
+                FechaYHora = DateTime.Now
+            };
+            repoAuditoria.GuardarAuditoria(auditoria);
+        }
         return idCreado;
     }
 
@@ -76,19 +74,23 @@ public class RepositorioContrato: RepositorioBase{
                     while(reader.Read()){
                         Inquilino inquilino = repoInquilino.Obtener(reader.GetInt32("idInquilino"));
                         Inmueble inmueble = repoInmueble.Obtener(reader.GetInt32("idInmueble"));
-                        Contrato Contrato = new Contrato{
-                            IdContrato = reader.GetInt32("idContrato"),
-                            inquilino = inquilino,
-                            inmueble = inmueble,
-                            IdInquilino = inquilino.IdInquilino,
-                            IdInmueble = inmueble.IdInmueble,
-                            Monto = reader.GetDouble("monto"),
-                            FechaInicio = reader.GetDateTime("fechaInicio"),
-                            FechaFin = reader.GetDateTime("fechaFin"),
-                            FechaAnulacion = reader.GetDateTime("fechaAnulacion"),
-                            Estado = reader.GetBoolean("estado")
+                        if(inquilino != null && inmueble != null){
+                            Contrato contrato = new Contrato{
+                                IdContrato = reader.GetInt32("idContrato"),
+                                inquilino = inquilino,
+                                inmueble = inmueble,
+                                IdInquilino = reader.GetInt32("idInquilino"),
+                                IdInmueble = reader.GetInt32("idInmueble"),
+                                Monto = reader.GetDouble("monto"),
+                                FechaInicio = reader.GetDateTime("fechaInicio"),
+                                FechaFin = reader.GetDateTime("fechaFin"),
+                                FechaAnulacion = reader.GetDateTime("fechaAnulacion"),
+                                Estado = reader.GetBoolean("estado")
                             };
-                        Contratos.Add(Contrato);
+                            Contratos.Add(contrato);
+                        }else{
+                            Console.WriteLine("Son nulllllllll");
+                        }
                     }
                 }
             }
@@ -141,33 +143,6 @@ public class RepositorioContrato: RepositorioBase{
         return filasAfectadas;
     }    
 
-    public List<Contrato> ObtenerPorInmueble2(int id){
-        Contrato contrato = null;
-        List<Contrato> contratos = new List<Contrato>();
-        using(MySqlConnection connection = new MySqlConnection(ConnectionString)){
-            connection.Open();
-            string query = "SELECT * FROM Contrato WHERE idInmueble = @IdInmueble";
-            using(MySqlCommand command = new MySqlCommand(query, connection)){
-                command.Parameters.AddWithValue("@IdInmueble", id);
-                using(MySqlDataReader reader = command.ExecuteReader()){
-                    if(reader.Read()){
-                        Inquilino inquilino = repoInquilino.Obtener(reader.GetInt32("IdInquilino"));
-                        Inmueble inmueble = repoInmueble.Obtener(reader.GetInt32("IdInmueble"));
-                        contrato = new Contrato{
-                            IdContrato = reader.GetInt32("idContrato"),
-                            Monto = reader.GetDouble("monto"),
-                            FechaInicio = reader.GetDateTime("fechaInicio"),
-                            FechaFin = reader.GetDateTime("fechaFin"),
-                            FechaAnulacion = reader.GetDateTime("fechaAnulacion"),
-                            Estado = reader.GetBoolean("estado")
-                            };
-                            contratos.Add(contrato);
-                    }
-                }
-            }
-        }
-        return contratos;
-    }
     public Contrato ObtenerPorInmueble(int id){
         Contrato contrato = null;
         
@@ -178,21 +153,25 @@ public class RepositorioContrato: RepositorioBase{
                 command.Parameters.AddWithValue("@IdInmueble", id);
                 using(MySqlDataReader reader = command.ExecuteReader()){
                     if(reader.Read()){
-                        Inquilino inquilino = repoInquilino.Obtener(reader.GetInt32("IdInquilino"));
-                        Inmueble inmueble = repoInmueble.Obtener(reader.GetInt32("IdInmueble"));
+                        Inquilino inquilino = repoInquilino.Obtener(reader.GetInt32("idInquilino"));
+                        Inmueble inmueble = repoInmueble.Obtener(reader.GetInt32("idInmueble"));
                         contrato = new Contrato{
                             IdContrato = reader.GetInt32("idContrato"),
                             Monto = reader.GetDouble("monto"),
                             FechaInicio = reader.GetDateTime("fechaInicio"),
                             FechaFin = reader.GetDateTime("fechaFin"),
+                            IdInmueble = reader.GetInt32("idInmueble"),
+                            IdInquilino = reader.GetInt32("idInquilino"),
+                            inmueble = inmueble, 
+                            inquilino = inquilino,
                             FechaAnulacion = reader.GetDateTime("fechaAnulacion"),
                             Estado = reader.GetBoolean("estado")
                             };
                     }
                 }
             }
+        }
         return contrato;
     }
-}
 }
 

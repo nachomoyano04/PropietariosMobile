@@ -107,55 +107,46 @@ RepositorioDireccion repoDire = new RepositorioDireccion();
                 }
             }
         }
-        return inmuebles ?? new List<Inmueble>();
+        return inmuebles;
     }
     // Obtener
-    public Inmueble Obtener(int idInmueble)
-{
-    Inmueble inmueble = null;
-    using (MySqlConnection connection = new MySqlConnection(ConnectionString))
-    {
-        connection.Open();
-        string query = "SELECT * FROM inmueble WHERE idInmueble = @IdInmueble AND estado = true";
-        using (MySqlCommand command = new MySqlCommand(query, connection))
-        {
-            command.Parameters.AddWithValue("@IdInmueble", idInmueble); // Corregido el nombre del parámetro
-            using (MySqlDataReader reader = command.ExecuteReader())
-            {
-                if (reader.Read())
-                {
-                    Propietario p = repoPropie.Obtener(reader.GetInt32("IdPropietario"));
-                    Direccion d = repoDire.Obtener(reader.GetInt32("IdDireccion"));
-                    Tipo t = repoTipo.Obtener(reader.GetInt32("IdTipo"));
-                    inmueble = new Inmueble
-                    {
-                        IdPropietario= p.IdPropietario,
-                        IdDireccion = d.IdDireccion,
-                        IdTipo = t.IdTipo,
-                        IdInmueble = reader.GetInt32("idInmueble"),
-                        propietario = p,
-                        direccion = d,
-                        tipo = t,
-                        Metros2 = reader.GetString("metros2"),
-                        CantidadAmbientes = reader.GetInt32("cantidadAmbientes"),
-                        Disponible = reader.GetBoolean("disponible"),
-                        Precio = reader.GetDecimal("precio"),
-                        Descripcion = reader.GetString("descripcion"),
-                        Cochera = reader.GetBoolean("cochera"),
-                        Piscina = reader.GetBoolean("piscina"),
-                        Mascotas = reader.GetBoolean("mascotas"),
-                        Estado = reader.GetBoolean("estado"),
-                        UrlImagen= reader.GetString("UrlImagen")
-                    };
+    public Inmueble Obtener(int idInmueble){
+        Inmueble inmueble = null;
+        using (MySqlConnection connection = new MySqlConnection(ConnectionString)){
+            connection.Open();
+            string query = "SELECT * FROM inmueble WHERE idInmueble = @IdInmueble AND estado = true";
+            using (MySqlCommand command = new MySqlCommand(query, connection)){
+                command.Parameters.AddWithValue("@IdInmueble", idInmueble); // Corregido el nombre del parámetro
+                using (MySqlDataReader reader = command.ExecuteReader()){
+                    if (reader.Read()){
+                        Propietario p = repoPropie.Obtener(reader.GetInt32("idPropietario"));
+                        Direccion d = repoDire.Obtener(reader.GetInt32("idDireccion"));
+                        Tipo t = repoTipo.Obtener(reader.GetInt32("idTipo"));
+                        inmueble = new Inmueble{
+                            IdPropietario= reader.GetInt32("idPropietario"),
+                            IdDireccion = reader.GetInt32("idDireccion"),
+                            IdTipo = reader.GetInt32("idTipo"),
+                            IdInmueble = reader.GetInt32("idInmueble"),
+                            propietario = p,
+                            direccion = d,
+                            tipo = t,
+                            Metros2 = reader.GetString("metros2"),
+                            CantidadAmbientes = reader.GetInt32("cantidadAmbientes"),
+                            Disponible = reader.GetBoolean("disponible"),
+                            Precio = reader.GetDecimal("precio"),
+                            Descripcion = reader.GetString("descripcion"),
+                            Cochera = reader.GetBoolean("cochera"),
+                            Piscina = reader.GetBoolean("piscina"),
+                            Mascotas = reader.GetBoolean("mascotas"),
+                            Estado = reader.GetBoolean("estado"),
+                            UrlImagen= reader.GetString("urlImagen")
+                        };
+                    }
                 }
             }
         }
-
-        
-
-}
-return inmueble;
-}
+        return inmueble;
+    }
 
 
       

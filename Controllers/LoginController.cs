@@ -20,12 +20,12 @@ namespace ProyetoInmobiliaria.Models;
             RepositorioLogin _repoLogin = new RepositorioLogin();
             Usuario u = _repoLogin.Verificar(new LoginViewModel { Email = user.Email , Password = user.Password });
             if (u != null){
-                var claimList = new List<Claim>();
-            claimList.Add(new Claim(ClaimTypes.Name, u.Nombre));
-            claimList.Add(new Claim(ClaimTypes.Role, u.Rol));
-            claimList.Add(new Claim(ClaimTypes.NameIdentifier, u.IdUsuario.ToString()));
+                var claimList = new List<Claim>{
+                    new Claim(ClaimTypes.Name, u.Nombre),
+                    new Claim(ClaimTypes.Role, u.Rol),
+                    new Claim(ClaimTypes.NameIdentifier, u.IdUsuario.ToString())
+                };
             ClaimsIdentity identidad = new ClaimsIdentity(claimList, CookieAuthenticationDefaults.AuthenticationScheme);
-
                 await  HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identidad));
 
                 return Json(new {ok=true});

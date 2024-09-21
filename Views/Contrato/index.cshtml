@@ -16,7 +16,7 @@
     <tbody>
         @foreach(var c in Model){
             <tr>
-                <td><a href="/Inquilino/Detalle/@c.IdInquilino">@c.inquilino.NombreYApellido</a></td>
+                <td><a href="/Inquilino/Detalle/@c.IdInquilino">@c.inquilino.Nombre @c.inquilino.Apellido</a></td>
                 <td><a href="/Inmueble/Detalles/@c.IdInmueble">@c.inmueble.Descripcion</a></td>
                 <td>$@c.Monto</td>
                 <td>@c.FechaInicio.ToString("dd/MM/yyyy")</td>
