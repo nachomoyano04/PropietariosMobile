@@ -15,56 +15,30 @@ public class UsuarioController: Controller{
         }
         
     public IActionResult Index(){
-        List <Usuario> usuarios = new List<Usuario>();
-        for(int i=0; i < 10; i++){
-            usuarios.Add(new Usuario{
-                Apellido = "Moyano",
-                Nombre = "Ignacio", 
-                Email = "nachomoyag@as",
-                Avatar = "/img/Avatar/Marvel image.jpg",
-                Estado = true,
-                Password = "asdasd",
-                IdUsuario = i+1,
-                Rol = "Administrador"
-            });
-        }
+        List<Usuario> usuarios = repo.Listar();
         return View(usuarios);
     }
     [AllowAnonymous]
     public IActionResult Crear(){        
-        
         return View();
     }
     [Authorize(Roles = "Administrador")]
     public IActionResult Detalle(int id){
-        // Usuario u = repo.Obtener(id);
-        Usuario u = new Usuario{
-            Apellido = "Moyano",
-            Nombre = "Ignacio", 
-            Email = "nachomoyag@as",
-            Avatar = "/img/Avatar/Marvel image.jpg",
-            Estado = true,
-            Password = "asdasd",
-            IdUsuario = 3,
-            Rol = "Administrador"
-        };
-        return View(u);
+        Usuario u = repo.Obtener(id);
+        if(u != null){
+            return View(u);
+        }
+        return RedirectToAction("Index", "Home");
     }
 
     public IActionResult Editar(int id){
-        // Usuario u = repo.Obtener(id);
-        Usuario u = new Usuario{
-            Apellido = "Moyano",
-            Nombre = "Ignacio", 
-            Email = "nachomoyag@as",
-            Avatar = "/img/Avatar/Marvel image.jpg",
-            Estado = true,
-            Password = "asdasd",
-            IdUsuario = 3,
-            Rol = "Administrador"
-        };
-        return View(u);
+        Usuario u = repo.Obtener(id);
+        if(u != null){
+            return View(u);
+        }
+        return RedirectToAction("Index", "Home");
     }
+
     [AllowAnonymous]
     public IActionResult Login(){
         return View();
@@ -88,7 +62,5 @@ public class UsuarioController: Controller{
         RepositorioUsuario repositorio = new RepositorioUsuario();
         repositorio.Guardar(usuario);
         return RedirectToAction( "Index", "Login");
-    }
-    
-    
+    }   
 }
