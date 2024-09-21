@@ -2,8 +2,10 @@ using MySql.Data.MySqlClient;
 using ProyetoInmobiliaria.Models;
 public class RepositorioPago:RepositorioBase{
     public RepositorioContrato repoContrato;
+    private readonly RepositorioAuditoria repoAuditoria;// se añidio
     public RepositorioPago():base(){
         repoContrato = new RepositorioContrato();
+        repoAuditoria = new RepositorioAuditoria(); // se añidio
     }
 
     public Pago Obtener(int IdPago){
@@ -87,7 +89,7 @@ public class RepositorioPago:RepositorioBase{
         return pagos;
     }
 
-    public int Crear(Pago pago){
+    public int Crear(Pago pago, int idUsuario){ // agrego isuario
         int idCreado = 0;
         using(MySqlConnection connection = new MySqlConnection(ConnectionString)){
             connection.Open();
@@ -100,7 +102,21 @@ public class RepositorioPago:RepositorioBase{
                 command.Parameters.AddWithValue("@NumeroPago", pago.NumeroPago);
                 command.Parameters.AddWithValue("@Detalle", pago.Detalle);
                 idCreado = Convert.ToInt32(command.ExecuteScalar());
-            }
+
+
+                 // Guardar auditoría
+                if (idCreado > 0)
+                {
+                    var auditoria = new Auditoria
+                    {
+                        IdUsuario = idUsuario,
+                        Accion = "Crear Pago",
+                        Observacion = $"Pago creado para contrato ID: {pago.IdContrato}. Importe: {pago.Importe}.",
+                        FechaYHora = DateTime.Now
+                    };
+                    repoAuditoria.GuardarAuditoria(auditoria);
+                }
+            }    
         }
         return idCreado;
     }

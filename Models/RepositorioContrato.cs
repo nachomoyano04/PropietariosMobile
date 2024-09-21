@@ -4,12 +4,14 @@ using ProyetoInmobiliaria.Models;
 public class RepositorioContrato: RepositorioBase{
     private readonly RepositorioInquilino repoInquilino;
     private readonly RepositorioInmueble repoInmueble;
+    private readonly RepositorioAuditoria repoAuditoria; // se añadio
     public RepositorioContrato():base(){
         repoInquilino = new RepositorioInquilino();
         repoInmueble = new RepositorioInmueble();
+        repoAuditoria = new RepositorioAuditoria();// se añadio
     }
         //CREAR
-    public int Crear(Contrato contrato){
+    public int Crear(Contrato contrato , int idUsuario){
         int idCreado = -1;
         using(MySqlConnection connection = new MySqlConnection(ConnectionString)){
             connection.Open();
@@ -26,6 +28,18 @@ public class RepositorioContrato: RepositorioBase{
                 idCreado = Convert.ToInt32(command.ExecuteScalar());
             }
         }
+            // Guardar auditoría
+            if (idCreado > 0)
+            {
+                var auditoria = new Auditoria
+                {
+                    IdUsuario = idUsuario,
+                    Accion = "Crear Contrato",
+                    Observacion = $"Contrato creado para inquilino ID: {contrato.IdInquilino} en inmueble ID: {contrato.IdInmueble}.",
+                    FechaYHora = DateTime.Now
+                };
+                repoAuditoria.GuardarAuditoria(auditoria);
+            }
         return idCreado;
     }
 
@@ -105,7 +119,7 @@ public class RepositorioContrato: RepositorioBase{
                             FechaFin = reader.GetDateTime("fechaFin"),
                             FechaAnulacion = reader.GetDateTime("fechaAnulacion"),
                             Estado = reader.GetBoolean("estado")
-                            };
+                        };
                     }
                 }
             }
@@ -174,54 +188,11 @@ public class RepositorioContrato: RepositorioBase{
                             FechaAnulacion = reader.GetDateTime("fechaAnulacion"),
                             Estado = reader.GetBoolean("estado")
                             };
-                           
                     }
                 }
             }
-        }
         return contrato;
     }
 }
-// using ProyetoInmobiliaria.Models;
-// public class RepositorioContrato{
-//     private readonly InmobiliariaContext context;
+}
 
-//     public RepositorioContrato(){
-//         context = new InmobiliariaContext();
-//     }
-
-//     //Crear
-//     public int Crear(Contrato contrato){
-//         var entidadCreada = context.Add(contrato);
-//         context.SaveChanges();
-//         return entidadCreada.Entity.IdContrato;
-//     }
-
-//     //Modificar
-//     public int Modificar(Contrato contrato){
-//         context.Update(contrato);
-//         int filasAfectadas = context.SaveChanges();
-//         return filasAfectadas;
-//     }
-
-//     //Listar
-//     public List<Contrato> Listar(){
-//         var contratos = context.Contrato.Where(e => e.Estado).ToList(); 
-//         return contratos;
-//     }
-
-//     //Obtener
-//     public Contrato Obtener(int IdContrato){
-//         return context.Contrato.Find(IdContrato);
-//     }
-
-//     //Eliminar
-//     public int Eliminar(int IdContrato){
-//         Contrato contrato = Obtener(IdContrato);
-//         if(contrato != null){
-//             contrato.Estado = false;
-//             return Modificar(contrato);
-//         }
-//         return -1;
-//     }
-// }
