@@ -22,10 +22,17 @@ public class UsuarioController: Controller{
         return View();
     }
     [Authorize(Roles = "Administrador")]
+        public IActionResult Borrar(int id){
+            RepositorioUsuario repositorio = new RepositorioUsuario();
+            repositorio.Borrar(id);
+            return RedirectToAction("Index", "Login");
+    }
+    
+    [Authorize(Roles = "Administrador")]
     public IActionResult Detalles(int id){
         return View();
     }
-    
+
     public IActionResult Editar(int id){
         return View();
     }
