@@ -6,15 +6,29 @@ using ProyetoInmobiliaria.Models;
 
 [Authorize]
 public class UsuarioController: Controller{  
-       private readonly ILogger _logger;
-
+    private readonly ILogger _logger;
+    private readonly RepositorioUsuario repo = new RepositorioUsuario();
+    
     public UsuarioController(ILogger<UsuarioController> logger)
         {
             _logger = logger;
         }
         
     public IActionResult Index(){
-        return View();
+        List <Usuario> usuarios = new List<Usuario>();
+        for(int i=0; i < 10; i++){
+            usuarios.Add(new Usuario{
+                Apellido = "Moyano",
+                Nombre = "Ignacio", 
+                Email = "nachomoyag@as",
+                Avatar = "/img/Avatar/Marvel image.jpg",
+                Estado = true,
+                Password = "asdasd",
+                IdUsuario = i+1,
+                Rol = "Administrador"
+            });
+        }
+        return View(usuarios);
     }
     [AllowAnonymous]
     public IActionResult Crear(){        
@@ -22,19 +36,34 @@ public class UsuarioController: Controller{
         return View();
     }
     [Authorize(Roles = "Administrador")]
-        public IActionResult Borrar(int id){
-            RepositorioUsuario repositorio = new RepositorioUsuario();
-            repositorio.Borrar(id);
-            return RedirectToAction("Index", "Login");
-    }
-    
-    [Authorize(Roles = "Administrador")]
-    public IActionResult Detalles(int id){
-        return View();
+    public IActionResult Detalle(int id){
+        // Usuario u = repo.Obtener(id);
+        Usuario u = new Usuario{
+            Apellido = "Moyano",
+            Nombre = "Ignacio", 
+            Email = "nachomoyag@as",
+            Avatar = "/img/Avatar/Marvel image.jpg",
+            Estado = true,
+            Password = "asdasd",
+            IdUsuario = 3,
+            Rol = "Administrador"
+        };
+        return View(u);
     }
 
     public IActionResult Editar(int id){
-        return View();
+        // Usuario u = repo.Obtener(id);
+        Usuario u = new Usuario{
+            Apellido = "Moyano",
+            Nombre = "Ignacio", 
+            Email = "nachomoyag@as",
+            Avatar = "/img/Avatar/Marvel image.jpg",
+            Estado = true,
+            Password = "asdasd",
+            IdUsuario = 3,
+            Rol = "Administrador"
+        };
+        return View(u);
     }
     [AllowAnonymous]
     public IActionResult Login(){

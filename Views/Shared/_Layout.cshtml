@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using System.Threading;
+@using System.Security.Claims;
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -13,8 +15,7 @@
 <body class="@ViewData["BodyClass"]">
 
     <header>
-        @if (!Context.Request.Path.Value.Contains("Login")) // agrego bloque if para envolver nav y no ver en login
-        {
+        @if (!Context.Request.Path.Value.Contains("Login")){ // agrego bloque if para envolver nav y no ver en login
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">InmoSams</a>
@@ -58,9 +59,23 @@
                                 asp-action="Index">Tipos</a>
                         </li>
                         </div>
-                        <li class="nav-item">
-                            <a href="/Login/Logout" class="nav-link text-dark"><i class="fa-solid fa-right-from-bracket"></i>Logout</a>
-                        </li>
+                        <div class="d-flex">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Usuario
+                                    <i class="fa-solid fa-gear"></i>
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href="/Usuario/Crear">Crear</a></li>
+                                    <li><a class="dropdown-item" href="/Usuario/Index">Listar/Buscar</a></li>
+                                    <li><a class="dropdown-item"  href="@Url.Action("Editar", "Usuario", new {IdUsuario = ((ClaimsIdentity)User.Identity).FindFirst("UserId")})">Editar</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/Login/Logout" class="nav-link text-dark"><i class="fa-solid fa-right-from-bracket"></i>Logout</a>
+                            </li>
+                        </div>
+                        
                     </ul>
                 </div>
             </div>

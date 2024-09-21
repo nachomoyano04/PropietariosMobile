@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using ProyetoInmobiliaria.Models;
 public class Usuario {
     [Key]
     public int IdUsuario  { get; set; }
@@ -14,10 +13,4 @@ public class Usuario {
     public String Rol {get; set;}
     public String Avatar {get; set;}
     public bool  Estado {get; set;}
-    
-    
-    
-
-
-    
 }

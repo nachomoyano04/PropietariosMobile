@@ -57,7 +57,7 @@ public RepositorioUsuario(): base(){
                     {
                         Usuario usuario = new Usuario
                         {
-                            Id = reader.GetInt32("id"),
+                            IdUsuario = reader.GetInt32("id"),
                             Email = reader.GetString("email"),
                             Password = reader.GetString("password"),
                             Rol = reader.GetString("rol"),
@@ -89,12 +89,12 @@ public RepositorioUsuario(): base(){
             using (MySqlCommand command = new MySqlCommand(query, connection))
             {
                 command.Parameters.AddWithValue("@EmailUsuario", usuario.Email);
-                command.Parameters.AddWithValue("@PasswordUsuario", Encriptar(usuario.Password));
+                command.Parameters.AddWithValue("@PasswordUsuario", encriptar(usuario.Password));
                 command.Parameters.AddWithValue("@RolUsuario", usuario.Rol);
                 command.Parameters.AddWithValue("@AvatarUsuario", usuario.Avatar);
                 command.Parameters.AddWithValue("@NombreUsuario", usuario.Nombre);
                 command.Parameters.AddWithValue("@ApellidoUsuario", usuario.Apellido);
-                command.Parameters.AddWithValue("@IdUsuario", usuario.Id);
+                command.Parameters.AddWithValue("@IdUsuario", usuario.IdUsuario);
 
                 filasAfectadas = command.ExecuteNonQuery();
             }
