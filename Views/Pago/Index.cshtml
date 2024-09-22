@@ -42,6 +42,7 @@
                     <td class="d-flex align-items-center w-auto">
                         <form action="/Pago/Borrar" class="mx-1" method="post">
                             <input type="hidden" name="Id" value="@item.IdPago">
+                            <input type="hidden" name="IdContrato" value="@item.IdContrato">
                             <button type="submit" class="btn btn-borrarbt">Anular</button>
                         </form>
                         <a href="/Pago/Editar/@item.IdPago" class="btn btn-editbt mx-1">

@@ -14,8 +14,8 @@
             <div class="form-group mb-3">
                 @if(@Model.Inmueble != null && Model.Inmueble.IdInmueble != 0){
                         <label class="form-label" asp-for="Contrato.IdInmueble">Inmueble</label>
-                        <input type="hidden" asp-for="@Model.Inmueble.IdInmueble">
-                        @* <input type="text" disabled class="form-control" value="@Model.Inmueble.direccion.Calle @Model.Inmueble.direccion.Altura @Model.Inmueble.direccion.Ciudad. Tipo @Model.Inmueble.tipo.Observacion"> *@
+                        <input type="hidden" asp-for="@Model.Contrato.IdInmueble" value="@Model.Inmueble.IdInmueble">
+                        <input type="text" disabled class="form-control" value="@Model.Inmueble.direccion.Calle @Model.Inmueble.direccion.Altura @Model.Inmueble.direccion.Ciudad. Tipo @Model.Inmueble.tipo.Observacion">
                 }else{
                     <label class="form-label" asp-for="Contrato.IdInmueble">Inmueble</label>
                     <select class="form-control" asp-for="Contrato.IdInmueble">
@@ -48,6 +48,8 @@
                 <input type="date" asp-for="Contrato.FechaFin" class="form-control" value="">
                 <span asp-validation-for="Contrato.FechaFin" class="text-danger"></span>
             </div>
+            
+            <input type="hidden" asp-for="@Model.Contrato.FechaAnulacion" value="0001-01-01">
 
             <div class="form-group mb-3">
                 <label asp-for="Contrato.Monto" class="form-label">Precio</label>

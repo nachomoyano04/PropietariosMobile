@@ -6,7 +6,7 @@
 <div class="container-formulario">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <form asp-action="Editar" class="formulario-formulario" method="post">
+            <form action="/Pago/Guardar" class="formulario-formulario" method="post">
                 <input asp-for="IdContrato" type="hidden">
                 <input asp-for="IdPago" value="@Model.IdPago" type="hidden">
                 <div class="form-group mb-3">

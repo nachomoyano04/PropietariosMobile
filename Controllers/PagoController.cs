@@ -59,11 +59,10 @@ public class PagoController:Controller{
         return RedirectToAction("Index", "Pago", new { id = pago.IdContrato });
     }
     [HttpPost]
-    public IActionResult Borrar(int Id){
-        Console.WriteLine(Id);
+    public IActionResult Borrar(int Id, int IdContrato){
         int filasAfectadas = repo.Eliminar(Id);
         if(filasAfectadas == 1){
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Pago", new {id = IdContrato});
         }
         return RedirectToAction("Index", "Home");
     }

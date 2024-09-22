@@ -49,21 +49,17 @@ public class ContratoController : Controller{
     public IActionResult Guardar(ContratoViewModel cvm){
         try{
             if(cvm.Contrato.IdContrato == 0){
-                Console.WriteLine("Id usuario: ");
-                Console.WriteLine(Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value));
-                
-                int idCreado = _repo.Crear(cvm.Contrato, Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value));
-                if(idCreado > 0){
-                    _logger.LogInformation("Se ha creado un nuevo contrato: ", cvm.Contrato.IdContrato);
+                int IdUsuario = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                int IdCreado = _repo.Crear(cvm.Contrato, IdUsuario);
+                if(IdCreado > 0){
+                    _logger.LogInformation("Se ha creado un nuevo contrato: {IdCreado}", IdCreado);
+                    return RedirectToAction("Detalles", "Inmueble", new {id = cvm.Contrato.IdInmueble});
                 }
-                return RedirectToAction("Detalles", "Inmueble", new {id = cvm.Inmueble.IdInmueble});
             }else{
                 _repo.Modificar(cvm.Contrato);
-                _logger.LogInformation("Se ha modificado el contrato con id: {Id}", cvm.Contrato.IdContrato);
             }
         }catch (Exception ex){
             _logger.LogError(ex, "Ha ocurrido un error al tratar de guardar el contrato", cvm.Contrato.IdContrato);
-            ModelState.AddModelError("",  "Oops ha ocurrido un error al intentar guardar el inmueble"); // muetsro model de aviso
         }
         return RedirectToAction("Index", "Home");
     }

@@ -11,7 +11,9 @@ public class RepositorioContrato: RepositorioBase{
         repoAuditoria = new RepositorioAuditoria();// se añadio
     }
         //CREAR
-    public int Crear(Contrato contrato , int idUsuario){
+    public int Crear(Contrato contrato , int IdUsuario){
+        Console.WriteLine("Id Usuario desde el repo contrato: ");
+        Console.WriteLine(IdUsuario);
         int idCreado = -1;
         using(MySqlConnection connection = new MySqlConnection(ConnectionString)){
             connection.Open();
@@ -32,8 +34,9 @@ public class RepositorioContrato: RepositorioBase{
         Console.WriteLine(idCreado);
         // Guardar auditoría
         if (idCreado > 0){
-            var auditoria = new Auditoria{
-                IdUsuario = idUsuario,
+            Console.WriteLine(idCreado);
+            Auditoria auditoria = new Auditoria{
+                IdUsuario = IdUsuario,
                 IdAuditoria = 0, //porque larga exception si no
                 Accion = "Crear Contrato",
                 Observacion = $"Contrato creado para inquilino ID: {contrato.IdInquilino} en inmueble ID: {contrato.IdInmueble}.",
