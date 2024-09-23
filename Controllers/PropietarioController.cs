@@ -54,7 +54,7 @@ public class PropietarioController : Controller{
         }catch (System.Exception){
             _logger.LogInformation("Propietario/Alta/ error al dar de alta al propietario");            
         }
-        return RedirectToAction("Detalle", "Propietario", new {Id = p.IdPropietario});
+        return RedirectToAction("Index", "Propietario");
     }
 
     [HttpPost]

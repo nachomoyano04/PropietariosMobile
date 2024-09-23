@@ -48,6 +48,7 @@ body {
 }
 .displayDeFiltros{
   display: flex;
+  align-items: center;
 }
 
 /*  tabla gral */

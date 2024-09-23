@@ -6,20 +6,23 @@ public class PagoController:Controller{
     private RepositorioPago repo = new RepositorioPago();
     private RepositorioContrato repoContrato = new RepositorioContrato();
     public IActionResult Index(int Id){
-        var pagos = repo.ListarPorContrato(Id);
-        if(pagos != null){
-            var contratos = repoContrato.Listar();
-            if(contratos != null){
-                PagoContrato pc = new PagoContrato{
-                    Pagos = pagos,
-                    Contratos = contratos,
-                    IdContrato = Id,
-                };
-                return View(pc);
+        if(Id != 0){
+            var contrato = repoContrato.Obtener(Id);
+            var pagos = repo.ListarPorContrato(Id);
+            if(pagos != null && contrato != null){
+                var contratos = repoContrato.Listar();
+                if(contratos != null){
+                    PagoContrato pc = new PagoContrato{
+                        Pagos = pagos,
+                        Contratos = contratos,
+                        IdContrato = Id,
+                    };
+                    return View(pc);
+                }
+                Console.WriteLine("CONTRATOS ES NULL EN INDEX");
+            }else{ 
+                Console.WriteLine("PAGOS ES NULL EN INDEX");
             }
-            Console.WriteLine("CONTRATOS ES NULL EN INDEX");
-        }else{ 
-            Console.WriteLine("PAGOS ES NULL EN INDEX");
         }
         return RedirectToAction("Index", "Home");
     }

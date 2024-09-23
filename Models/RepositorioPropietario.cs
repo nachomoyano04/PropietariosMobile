@@ -69,6 +69,32 @@ public class RepositorioPropietario:RepositorioBase{
         }
         return Propietarios;
     }
+
+    //LISTAR PROPIETARIOS QUE CONTIENEN AL MENOS UN INMUEBLE
+    public List<Propietario> ListarPropietariosConInmuebles(){
+        List<Propietario> Propietarios = new List<Propietario>();
+        using(MySqlConnection connection = new MySqlConnection(ConnectionString)){
+            connection.Open();
+            string query = "SELECT DISTINCT p.* FROM propietario AS p JOIN inmueble AS i ON p.idPropietario = i.idPropietario WHERE i.estado = true;";
+            using(MySqlCommand command = new MySqlCommand(query, connection)){
+                using(MySqlDataReader reader = command.ExecuteReader()){
+                    while(reader.Read()){
+                        Propietario Propietario = new Propietario{
+                            IdPropietario = reader.GetInt32("IdPropietario"),
+                            Dni = reader.GetString("dni"),
+                            Apellido = reader.GetString("apellido"),
+                            Nombre = reader.GetString("nombre"),
+                            Telefono = reader.GetString("telefono"),
+                            Correo = reader.GetString("correo"),
+                            Estado = reader.GetBoolean("estado")
+                            };
+                        Propietarios.Add(Propietario);
+                    }
+                }
+            }
+        }
+        return Propietarios;
+    }
     
     //OBTENER
     public Propietario Obtener(int idPropietario){

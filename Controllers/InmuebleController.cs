@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ProyetoInmobiliaria.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Globalization;
 
 [Authorize]
 public class InmuebleController : Controller
@@ -47,15 +48,33 @@ public class InmuebleController : Controller
         return View(Cvm); // muestra a la vista
     }
 
-    public IActionResult Index()
-    {
-        _logger.LogInformation("Se invoca el index.");
+    public IActionResult Index(){
         List<Inmueble> inmuebles = _repo.Listar();
-        
-        if(inmuebles==null){
-            inmuebles= new List<Inmueble>();
-        }
-        return View(inmuebles);
+        List<Propietario> propietarios = _repoProp.ListarPropietariosConInmuebles();
+        InmuebleViewModel ivm = new InmuebleViewModel{
+            Inmuebles = inmuebles,
+            Propietarios = propietarios
+        };
+        return View(ivm);
+    }
+
+    //Filtros
+    public JsonResult GetNoDisponibles(){
+        List<Inmueble> inmuebles = _repo.ListarNoDisponibles();
+        return Json(inmuebles);
+    }
+    public JsonResult GetDisponibles(){
+        List<Inmueble> inmuebles = _repo.Listar();
+        return Json(inmuebles);
+    }
+    public JsonResult GetPorPropietario(int idPropietario){
+        List<Inmueble> inmuebles = _repo.ListarPorPropietario(idPropietario);
+        return Json(inmuebles);
+    }
+
+    public JsonResult GetPorFechasDisponibles(DateTime fechaInicio, DateTime fechaFin){
+        List<Inmueble> inmuebles = _repo.ListarPorFechas(fechaInicio, fechaFin);
+        return Json(inmuebles);
     }
 
     public IActionResult Editar(int id){
@@ -135,6 +154,21 @@ public class InmuebleController : Controller
                 ModelState.AddModelError("", "Oops ha ocurrido un error al intentar guardar el inmueble"); // muetsro model de aviso
             }
         return View("Crear", inmueble);
+    }
+
+    [HttpPost]
+    public IActionResult Alta(int id){
+        try{
+            _logger.LogInformation("Id inmueble a dara de alta: {id}", id);
+            Inmueble inmueble = _repo.Obtener(id);
+            _logger.LogInformation("Cantidad de ambientes a dar de alta: {inmueble.CantidadAmbientes}", inmueble.CantidadAmbientes);
+            inmueble.Estado = true;
+            _repo.Modificar(inmueble);
+        }catch (System.Exception ex){    
+            _logger.LogInformation("Exception al dar de alta: {ex}", ex);    
+            return RedirectToAction("Index", "Home");
+        }
+        return RedirectToAction("Index");
     }
 
     [HttpPost]
