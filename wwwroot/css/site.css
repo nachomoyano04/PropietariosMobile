@@ -41,6 +41,10 @@ body {
 
 /* INQUILINO - PROPIETARIO  */
 
+.barraDeFiltros{
+  display: flex;
+  margin: 10px;
+}
 .barraDeBusqueda{
   display: flex;
   width: 30%;

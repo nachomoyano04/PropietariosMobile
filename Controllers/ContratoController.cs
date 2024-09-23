@@ -29,8 +29,27 @@ public class ContratoController : Controller{
 
     public IActionResult Index(){
         List<Contrato> contratos = _repo.Listar();
-        return View(contratos);
+        List<Inmueble> inmuebles = _repoInmueble.Listar();
+        InmuebleContrato ic = new InmuebleContrato{
+            Contratos = contratos,
+            Inmuebles = inmuebles
+        };
+        return View(ic);
     }
+
+    //filtros 
+    public JsonResult GetPorInmueble(int IdInmueble){
+        List<Contrato>contratos = _repo.ListarPorInmueble(IdInmueble);
+        return Json(contratos);
+    }
+    
+    //filtros 
+    public JsonResult GetVigentesPorFechas(DateTime fechaInicio, DateTime fechaFin){
+        List<Contrato>contratos = _repo.ListarPorFechas(fechaInicio, fechaFin);
+        return Json(contratos);
+    }
+
+    
 
     public IActionResult Crear(int id){
         List<Inquilino> inquilinos = _repoInquilino.Listar();

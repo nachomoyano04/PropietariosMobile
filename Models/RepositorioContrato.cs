@@ -150,8 +150,7 @@ public class RepositorioContrato: RepositorioBase{
     }    
 
     public Contrato ObtenerPorInmueble(int id){
-        Contrato contrato = null;
-        
+        Contrato contrato = null; 
         using(MySqlConnection connection = new MySqlConnection(ConnectionString)){
             connection.Open();
             string query = "SELECT * FROM Contrato WHERE idInmueble = @IdInmueble";
@@ -179,5 +178,69 @@ public class RepositorioContrato: RepositorioBase{
         }
         return contrato;
     }
+
+    public List<Contrato> ListarPorInmueble(int id){
+        List<Contrato> contratos = new List<Contrato>(); 
+        using(MySqlConnection connection = new MySqlConnection(ConnectionString)){
+            connection.Open();
+            string query = "SELECT * FROM Contrato WHERE idInmueble = @IdInmueble";
+            using(MySqlCommand command = new MySqlCommand(query, connection)){
+                command.Parameters.AddWithValue("@IdInmueble", id);
+                using(MySqlDataReader reader = command.ExecuteReader()){
+                    while(reader.Read()){
+                        Inquilino inquilino = repoInquilino.Obtener(reader.GetInt32("idInquilino"));
+                        Inmueble inmueble = repoInmueble.Obtener(reader.GetInt32("idInmueble"));
+                        Contrato contrato = new Contrato{
+                            IdContrato = reader.GetInt32("idContrato"),
+                            Monto = reader.GetDouble("monto"),
+                            FechaInicio = reader.GetDateTime("fechaInicio"),
+                            FechaFin = reader.GetDateTime("fechaFin"),
+                            IdInmueble = reader.GetInt32("idInmueble"),
+                            IdInquilino = reader.GetInt32("idInquilino"),
+                            inmueble = inmueble, 
+                            inquilino = inquilino,
+                            FechaAnulacion = reader.GetDateTime("fechaAnulacion"),
+                            Estado = reader.GetBoolean("estado")
+                        };
+                        contratos.Add(contrato);
+                    }
+                }
+            }
+        }
+        return contratos;
+    }
+    public List<Contrato> ListarPorFechas(DateTime inicio, DateTime fin){
+        Console.WriteLine($"Fecha de Inicio: {inicio}, Fecha de Fin: {fin}");
+        List<Contrato> contratos = new List<Contrato>(); 
+        using(MySqlConnection connection = new MySqlConnection(ConnectionString)){
+            connection.Open();
+            string query = "SELECT * FROM contrato c WHERE c.fechaInicio >= @FechaInicio AND c.fechaFin <= @FechaFin;";
+            using(MySqlCommand command = new MySqlCommand(query, connection)){
+                command.Parameters.AddWithValue("@FechaInicio", inicio);
+                command.Parameters.AddWithValue("@FechaFin", fin);
+                using(MySqlDataReader reader = command.ExecuteReader()){
+                    while(reader.Read()){
+                        Inquilino inquilino = repoInquilino.Obtener(reader.GetInt32("idInquilino"));
+                        Inmueble inmueble = repoInmueble.Obtener(reader.GetInt32("idInmueble"));
+                        Contrato contrato = new Contrato{
+                            IdContrato = reader.GetInt32("idContrato"),
+                            Monto = reader.GetDouble("monto"),
+                            FechaInicio = reader.GetDateTime("fechaInicio"),
+                            FechaFin = reader.GetDateTime("fechaFin"),
+                            IdInmueble = reader.GetInt32("idInmueble"),
+                            IdInquilino = reader.GetInt32("idInquilino"),
+                            inmueble = inmueble, 
+                            inquilino = inquilino,
+                            FechaAnulacion = reader.GetDateTime("fechaAnulacion"),
+                            Estado = reader.GetBoolean("estado")
+                        };
+                        contratos.Add(contrato);
+                    }
+                }
+            }
+        }
+        return contratos;
+    }
+
 }
 
