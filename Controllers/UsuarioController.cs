@@ -59,4 +59,12 @@ public class UsuarioController: Controller{
         repositorio.Guardar(usuario);
         return RedirectToAction( "Index", "Login");
     }   
+
+    [Authorize(Roles = "Administrador")]
+    [HttpPost]
+    public IActionResult Borrar (int IdUsuario){
+        repo.Eliminar(IdUsuario);
+        return RedirectToAction("Index","Usuario");
+    }
+
 }

@@ -131,16 +131,12 @@ public RepositorioUsuario(): base(){
     }
 
     // eliminar un usuario
-    public int Eliminar(int id)
-    {
+    public int Eliminar(int id){
         int filasAfectadas = 0;
-        using (MySqlConnection connection = new MySqlConnection(ConnectionString))
-        {
+        using (MySqlConnection connection = new MySqlConnection(ConnectionString)){
             connection.Open();
-            string query = "UPDATE usuario SET estado = 0 WHERE id = @IdUsuario"; 
-
-            using (MySqlCommand command = new MySqlCommand(query, connection))
-            {
+            string query = "UPDATE usuario SET estado = false WHERE idUsuario = @IdUsuario"; 
+            using (MySqlCommand command = new MySqlCommand(query, connection)){
                 command.Parameters.AddWithValue("@IdUsuario", id);
                 filasAfectadas = command.ExecuteNonQuery();
             }
