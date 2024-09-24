@@ -4,7 +4,7 @@
 @{
     var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
     var userNameClaim= User.FindFirst(ClaimTypes.Name);
-    var userRolClaim= User.FindFirst(ClaimTypes.Rol);
+    var userRolClaim= User.FindFirst(ClaimTypes.Role);
     var UserId = userIdClaim?.Value;
     var UserName= userNameClaim?.Value;
     var UserRol= userRolClaim?.Value;
