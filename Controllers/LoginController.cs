@@ -23,7 +23,8 @@ namespace ProyetoInmobiliaria.Models;
                 var claimList = new List<Claim>{
                     new Claim(ClaimTypes.Name, u.Nombre),
                     new Claim(ClaimTypes.Role, u.Rol),
-                    new Claim(ClaimTypes.NameIdentifier, u.IdUsuario.ToString())
+                    new Claim(ClaimTypes.NameIdentifier, u.IdUsuario.ToString()),
+                    new Claim("AvatarUrl", u.Avatar)
                 };
             ClaimsIdentity identidad = new ClaimsIdentity(claimList, CookieAuthenticationDefaults.AuthenticationScheme);
                 await  HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identidad));

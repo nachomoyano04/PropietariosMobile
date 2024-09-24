@@ -5,9 +5,11 @@
     var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
     var userNameClaim= User.FindFirst(ClaimTypes.Name);
     var userRolClaim= User.FindFirst(ClaimTypes.Role);
+    var avatarClaim= User.FindFirst("AvatarUrl");
     var UserId = userIdClaim?.Value;
     var UserName= userNameClaim?.Value;
     var UserRol= userRolClaim?.Value;
+    var UserAvatar= avatarClaim?.Value;
     
 }
 
@@ -76,7 +78,11 @@
                         <div class="d-flex">
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-dark" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    @UserName
+                                    <div class="nombreUsuario">
+                                        <img src="@UserAvatar" alt="" class="fotoMiniatura">
+                                        <p><strong>@UserName</strong></p>
+                                    </div>
+                                    
                                     <i class="fa-solid fa-gear"></i>
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
