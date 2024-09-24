@@ -112,6 +112,7 @@ public class ContratoController : Controller{
             return RedirectToAction("Index", "Home");
     }
 
+    [Authorize(Roles = "Administrador")]
     [HttpPost]
     public IActionResult Borrar(int id){
         try{

@@ -33,7 +33,6 @@ namespace ProyetoInmobiliaria.Models;
             }
             return Json(new {ok=false, mensaje="Usuario o contraseña incorrectos"});
         }
-        // [HttpPost]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);

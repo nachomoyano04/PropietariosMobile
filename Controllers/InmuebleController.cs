@@ -124,6 +124,7 @@ public class InmuebleController : Controller
         }
     }
 
+    [Authorize(Roles = "Administrador")]
     [HttpPost]
     public IActionResult Alta(int id){
         try{
@@ -136,6 +137,7 @@ public class InmuebleController : Controller
         return RedirectToAction("Index");
     }
 
+    [Authorize(Roles = "Administrador")]
     [HttpPost]
     public IActionResult Borrar(int id){
         try{

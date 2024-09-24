@@ -14,6 +14,7 @@ public class UsuarioController: Controller{
             _logger = logger;
         }
         
+    [Authorize(Roles = "Administrador")]
     public IActionResult Index(){
         List<Usuario> usuarios = repo.Listar();
         return View(usuarios);

@@ -17,6 +17,12 @@ public class HomeController : Controller
     {
         _logger = logger;
     }
+
+    [HttpGet]
+    public JsonResult EsAdministrador(){
+        bool isAdmin = User.IsInRole("Administrador");
+        return Json(isAdmin);
+    }
     
     public JsonResult GetInmueblesPorTipoYFechas(int idTipo, DateTime fechaDesde, DateTime fechaHasta){
         var inmuebles = _repoInmuebles.ListarPorTipoYFechas(idTipo, fechaDesde, fechaHasta);
