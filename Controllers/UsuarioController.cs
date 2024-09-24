@@ -43,7 +43,7 @@ public class UsuarioController: Controller{
     public IActionResult Login(){
         return View();
     }
-    [Authorize(Roles = "Administrador")]
+    [AllowAnonymous]
     public IActionResult Guardar(Usuario usuario, IFormFile archivo){
         usuario.Avatar= "/img/Avatar/default.jpg";
         if(archivo!=null){
