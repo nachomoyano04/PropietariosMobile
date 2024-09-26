@@ -13,11 +13,10 @@ public class Usuario {
     [EmailAddress(ErrorMessage = "Formato de correo no válido.")]
     public string Email   {get; set;}
 
-    [Required(ErrorMessage = "El campo password es obligatorio")]
-    public string Password  {get; set;}
+    // [Required(ErrorMessage = "El campo password es obligatorio")]
+    public string? Password  {get; set;}
     public string Rol {get; set;}
-    
-    [Required(ErrorMessage = "El campo password es obligatorio")]
-    public string Avatar {get; set;}
+    public string? Avatar {get; set;}
+     public IFormFile? AvatarFile { get; set; }
     public bool  Estado {get; set;}
 }

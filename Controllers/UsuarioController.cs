@@ -35,7 +35,15 @@ public class UsuarioController: Controller{
     public IActionResult Editar(int id){
         Usuario u = repo.Obtener(id);
         if(u != null){
-            return View(u);
+            var UsuarioEditar = new UsuarioEditar{
+                Apellido = u.Apellido,
+                Avatar = u.Avatar,
+                Email = u.Email,
+                IdUsuario = u.IdUsuario,
+                Nombre = u.Nombre,
+                Rol = u.Rol,
+            };
+            return View(UsuarioEditar);
         }
         return RedirectToAction("Index", "Home");
     }
@@ -44,23 +52,74 @@ public class UsuarioController: Controller{
     public IActionResult Login(){
         return View();
     }
+
+    [HttpPost]
     [AllowAnonymous]
-    public IActionResult Guardar(Usuario usuario, IFormFile Avatar){
+    public IActionResult GuardarEditar(UsuarioEditar usuario){
+        if (ModelState.IsValid){
+            Usuario u = repo.Obtener(usuario.IdUsuario);
+            var avatarPath = u.Avatar;
+            if (usuario.AvatarFile != null && usuario.AvatarFile.Length > 0){
+                var fileName = Path.GetFileName(usuario.AvatarFile.FileName);
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", "Avatar", fileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create)){
+                    usuario.AvatarFile.CopyTo(fileStream);
+                }
+                avatarPath = $"/img/Avatar/{fileName}";
+            }else if(usuario.BorrarAvatar){
+                avatarPath = "/img/Avatar/default.jpg";
+            }
+
+            var usuarioEntidad = new Usuario{
+                IdUsuario = usuario.IdUsuario,
+                Nombre = usuario.Nombre,
+                Apellido = usuario.Apellido,
+                Email = usuario.Email,
+                Rol = usuario.Rol,
+                Avatar = avatarPath
+            };
+            if (!string.IsNullOrWhiteSpace(usuario.NewPassword)){
+                usuarioEntidad.Password = usuario.NewPassword;
+                repo.Actualizar(usuarioEntidad, usuario.NewPassword);
+            }else{
+                usuarioEntidad.Password = u.Password;
+                repo.Actualizar(usuarioEntidad);
+            }
+            return RedirectToAction("Index", "Home");
+        }
+        return View("Editar", usuario);
+    }
+
+
+    [AllowAnonymous]
+    public IActionResult Guardar(Usuario usuario){
         if(ModelState.IsValid){
             usuario.Avatar= "/img/Avatar/default.jpg";
-            if(Avatar != null && Avatar.Length > 0){
-                var fileName= Path.GetFileName(Avatar.FileName);
+            if(usuario.AvatarFile != null && usuario.AvatarFile.Length > 0){
+                var fileName= Path.GetFileName(usuario.AvatarFile.FileName);
                 var filePath = Path.Combine(Directory.GetCurrentDirectory(),"wwwroot/img/Avatar",fileName);
-                using (var fileStream = new FileStream(filePath,FileMode.Create)){
-                    Avatar.CopyTo(fileStream);
+                using (var fileStream = new FileStream(filePath, FileMode.Create)){
+                    usuario.AvatarFile.CopyTo(fileStream);
                 }
                 usuario.Avatar = "/img/Avatar/"+fileName;
             }
-            RepositorioUsuario repositorio = new RepositorioUsuario();
-            repositorio.Guardar(usuario);
+            // if(usuario.IdUsuario == 0){
+                repo.Guardar(usuario);
+            // }else{
+                // repo.Actualizar(usuario);
+            // }
             return RedirectToAction( "Index", "Home");
         }
-        return View("Crear", usuario);
+        var errores = ModelState.Values.SelectMany(v => v.Errors);
+        foreach (var error in errores)
+        {
+            Console.WriteLine(error.ErrorMessage);
+        }
+        // if(usuario.IdUsuario == 0){
+            return View("Crear", usuario);
+        // }else{
+            // return View("Editar", usuario);
+        // }
     }   
 
     [Authorize(Roles = "Administrador")]

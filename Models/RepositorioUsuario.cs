@@ -103,20 +103,22 @@ public RepositorioUsuario(): base(){
     }
 
     //  actualizar un usuario 
-    public int Actualizar(Usuario usuario)
-    {
+    public int Actualizar(Usuario usuario, string? nuevaPassword = null){
         int filasAfectadas = 0;
-        using (MySqlConnection connection = new MySqlConnection(ConnectionString))
-        {
+        using (MySqlConnection connection = new MySqlConnection(ConnectionString)){
             connection.Open();
             string query = @"UPDATE usuario 
-                            SET email = @EmailUsuario, password = @PasswordUsuario, rol = @RolUsuario, avatar = @AvatarUsuario, 
-                                nombre = @NombreUsuario, apellido = @ApellidoUsuario 
-                            WHERE id = @IdUsuario";
-
-            using (MySqlCommand command = new MySqlCommand(query, connection))
-            {
+                      SET email = @EmailUsuario, rol = @RolUsuario, avatar = @AvatarUsuario, 
+                          nombre = @NombreUsuario, apellido = @ApellidoUsuario ";
+            if (!string.IsNullOrWhiteSpace(nuevaPassword)){
+                query += ", password = @PasswordUsuario ";
+            }
+            query += "WHERE idUsuario = @IdUsuario";
+            using (MySqlCommand command = new MySqlCommand(query, connection)){
                 command.Parameters.AddWithValue("@EmailUsuario", usuario.Email);
+                if (!string.IsNullOrWhiteSpace(nuevaPassword)){
+                    command.Parameters.AddWithValue("@PasswordUsuario", encriptar(nuevaPassword));
+                }
                 command.Parameters.AddWithValue("@PasswordUsuario", encriptar(usuario.Password));
                 command.Parameters.AddWithValue("@RolUsuario", usuario.Rol);
                 command.Parameters.AddWithValue("@AvatarUsuario", usuario.Avatar);

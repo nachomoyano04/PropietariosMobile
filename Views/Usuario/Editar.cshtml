@@ -1,20 +1,19 @@
-@model Usuario
+@model UsuarioEditar
 @{
     ViewData["Title"] = "Editar Usuario";
 }
 <div class="container-formulario">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <form class="formulario-formulario" action="/Usuario/Guardar" method="post" enctype="multipart/form-data">
+            <form class="formulario-formulario" asp-action="GuardarEditar" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
                 <input type="hidden" name="IdUsuario" value="@Model.IdUsuario">
-                <input type="hidden" name="Password" value="@Model.Password">
                 <div class="form-group mb-3">
                     <label asp-for="Nombre" class="form-label"></label>
                     @if(User.IsInRole("Administrador")){
                         <input asp-for="Nombre" class="form-control" />
                     }else{
-                        <input asp-for="Nombre" disabled class="form-control" />
+                        <input asp-for="Nombre" readonly class="form-control" />
                     }
                     <span asp-validation-for="Nombre" class="text-danger"></span>
                 </div>
@@ -23,7 +22,7 @@
                     @if(User.IsInRole("Administrador")){
                         <input asp-for="Apellido" class="form-control" />
                     }else{
-                        <input asp-for="Apellido" disabled class="form-control" />
+                        <input asp-for="Apellido" readonly class="form-control" />
                     }
                     <span asp-validation-for="Apellido" class="text-danger"></span>
                 </div>
@@ -32,7 +31,7 @@
                     @if(User.IsInRole("Administrador")){
                         <input asp-for="Email" class="form-control" />
                     }else{
-                        <input asp-for="Email" disabled class="form-control" />
+                        <input asp-for="Email" readonly class="form-control" />
                     }
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
@@ -44,17 +43,18 @@
                             <option value="Empleado">Empleado</option>
                         </select>
                     }else{
-                        <input class="form-control" disabled value="@Model.Rol">
+                        <input class="form-control" asp-for="Rol" readonly value="@Model.Rol">
                     }
                 </div>
-                    <div class="form-group mb-3">
+                <div class="form-group mb-3">
                     <label for="archivo" class="form-label">Avatar</label>
-                    <img src="@Model.Avatar" alt="Avatar" class="img-fluid">
-                    <input type="file" class="btn btn-editbt" name="archivo" id="inputFile" style="display: none;">
+                    
+                    <img src="@Model.Avatar" alt="Avatar" class="img-fluid" id="imagenAvatar">
+                    
+                    <input type="file" class="btn btn-editbt" asp-for="AvatarFile" id="archivo" style="display: none;">
                     <button type="button" class="btn btn-editbt" id="editarAvatar">Editar Avatar</button>
-                    @if(User.IsInRole("Administrador")){
-                        <button type="button" class="btn btn-borrarbt" id="borrarAvatar">Borrar Avatar</button>
-                    }
+                    <input type="hidden" asp-for="BorrarAvatar" id="borrarAvatarInput" value="false" />
+                    <button type="button" class="btn btn-borrarbt" id="borrarAvatar">Borrar Avatar</button>
                 </div>
                 <button type="submit" class="btn btn-primary">Guardar</button>                
             </form>
