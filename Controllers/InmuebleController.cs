@@ -27,7 +27,7 @@ public class InmuebleController : Controller
     public IActionResult Detalles(int id){
         var inmueble = _repo.Obtener(id);
         if(inmueble != null){
-            Contrato contrato = _repoContrato.ObtenerPorInmueble(id);
+            Contrato contrato = _repoContrato.ObtenerVigentePorInmueble(id);
             Inquilino inquilino = null;
             if(contrato != null){
                 inquilino = repoInquilino.Obtener(contrato.IdInquilino);

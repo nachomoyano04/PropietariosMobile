@@ -149,6 +149,37 @@ public class RepositorioContrato: RepositorioBase{
         return filasAfectadas;
     }    
 
+    public Contrato ObtenerVigentePorInmueble(int id){
+        Contrato contrato = null; 
+        using(MySqlConnection connection = new MySqlConnection(ConnectionString)){
+            connection.Open();
+            string query = "SELECT * FROM contrato c WHERE c.fechaFin >= @FechaActual AND c.fechaInicio <= @FechaActual AND c.idInmueble = @IdInmueble";
+            using(MySqlCommand command = new MySqlCommand(query, connection)){
+                command.Parameters.AddWithValue("@IdInmueble", id);
+                command.Parameters.AddWithValue("@FechaActual", DateTime.Now);
+                using(MySqlDataReader reader = command.ExecuteReader()){
+                    if(reader.Read()){
+                        Inquilino inquilino = repoInquilino.Obtener(reader.GetInt32("idInquilino"));
+                        Inmueble inmueble = repoInmueble.Obtener(reader.GetInt32("idInmueble"));
+                        contrato = new Contrato{
+                            IdContrato = reader.GetInt32("idContrato"),
+                            Monto = reader.GetDouble("monto"),
+                            FechaInicio = reader.GetDateTime("fechaInicio"),
+                            FechaFin = reader.GetDateTime("fechaFin"),
+                            IdInmueble = reader.GetInt32("idInmueble"),
+                            IdInquilino = reader.GetInt32("idInquilino"),
+                            inmueble = inmueble, 
+                            inquilino = inquilino,
+                            FechaAnulacion = reader.GetDateTime("fechaAnulacion"),
+                            Estado = reader.GetBoolean("estado")
+                            };
+                    }
+                }
+            }
+        }
+        return contrato;
+    }
+
     public Contrato ObtenerPorInmueble(int id){
         Contrato contrato = null; 
         using(MySqlConnection connection = new MySqlConnection(ConnectionString)){
