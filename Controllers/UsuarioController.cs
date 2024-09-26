@@ -51,17 +51,21 @@ public class UsuarioController: Controller{
     }
 
     public IActionResult Editar(int id){
-        Usuario u = repo.Obtener(id);
-        if(u != null){
-            var UsuarioEditar = new UsuarioEditar{
-                Apellido = u.Apellido,
-                Avatar = u.Avatar,
-                Email = u.Email,
-                IdUsuario = u.IdUsuario,
-                Nombre = u.Nombre,
-                Rol = u.Rol,
-            };
-            return View(UsuarioEditar);
+        int IdUsuario = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+        var rol = User.FindFirst(ClaimTypes.Role).Value;
+        if(id == IdUsuario || rol == "Administrador"){
+            Usuario u = repo.Obtener(id);
+            if(u != null){
+                var UsuarioEditar = new UsuarioEditar{
+                    Apellido = u.Apellido,
+                    Avatar = u.Avatar,
+                    Email = u.Email,
+                    IdUsuario = u.IdUsuario,
+                    Nombre = u.Nombre,
+                    Rol = u.Rol,
+                };
+                return View(UsuarioEditar);
+            }
         }
         return RedirectToAction("Index", "Home");
     }
@@ -97,7 +101,9 @@ public class UsuarioController: Controller{
             };
             usuarioEntidad.Password = u.Password;
             int filasAfectadas = repo.Actualizar(usuarioEntidad);
-            if(filasAfectadas > 0){
+            int IdUsuario = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            // var rol = User.FindFirst(ClaimTypes.Role).Value;
+            if(filasAfectadas > 0 && usuarioEntidad.IdUsuario == IdUsuario){
                 var claimsIdentity = (ClaimsIdentity)User.Identity;
                 var userNameClaim = claimsIdentity.FindFirst(ClaimTypes.Name);
                 var avatarClaim= User.FindFirst("AvatarUrl");
