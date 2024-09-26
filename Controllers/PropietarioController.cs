@@ -54,16 +54,17 @@ public class PropietarioController : Controller{
     }
 
     [HttpPost]
-    public IActionResult Guardar(int Id, Propietario propietario){
-        Id = propietario.IdPropietario;
-        propietario.Estado= true;
-        if(Id == 0){
-            propietario.Estado = true; // Asigna estado solo al crear
-            repo.Crear(propietario);
-        }else{
-            repo.Modificar(propietario);
+    public IActionResult Guardar(Propietario propietario){
+        if(ModelState.IsValid){
+            propietario.Estado = true;
+            if(propietario.IdPropietario == 0){
+                repo.Crear(propietario);
+            }else{
+                repo.Modificar(propietario);
+            }
+            return RedirectToAction("Index");
         }
-        return RedirectToAction("Index");
+        return View("Crear", propietario);
     }
 
 

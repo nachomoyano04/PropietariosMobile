@@ -15,18 +15,22 @@
                 <div class="form-group mb-3">
                     <label asp-for="Inmueble.UrlImagen "class="form-label">URL Imagen</label>
                     <input type="text" asp-for="Inmueble.UrlImagen" class="form-control">
+                    <span asp-validation-for="Inmueble.UrlImagen" class="text-danger"></span>
                 </div>
                 <div class="form-group mb-3">
                     <label asp-for="Inmueble.CantidadAmbientes" class="form-label">Cantidad Ambientes</label>
-                    <input type="text" asp-for="Inmueble.CantidadAmbientes" class="form-control">
+                    <input type="number" asp-for="Inmueble.CantidadAmbientes" class="form-control">
+                    <span asp-validation-for="Inmueble.CantidadAmbientes" class="text-danger"></span>
                 </div>
                 <div class="form-group mb-3">
                     <label asp-for="Inmueble.Metros2" class="form-label">M2</label>
                     <input type="text" asp-for="Inmueble.Metros2" class="form-control">
+                    <span asp-validation-for="Inmueble.Metros2" class="text-danger"></span>
                 </div>
                 <div class="form-group mb-3">
                     <label asp-for="Inmueble.Precio" class="form-label">Precio</label>
                     <input type="text" asp-for="Inmueble.Precio" class="form-control">
+                    <span asp-validation-for="Inmueble.Precio" class="text-danger"></span>
                 </div>
                 <div class="form-group mb-3">
                     <label class="CheckCochera">
@@ -47,26 +51,32 @@
                     <label asp-for="Inmueble.IdTipo" class="form-label">Tipo</label>
                     <select asp-for="Inmueble.IdTipo" asp-items="@(new SelectList(Model.Tipos, "IdTipo", "Observacion"))" class="form-control">
                     </select>
+                    <span asp-validation-for="Inmueble.IdTipo" class="text-danger"></span>
                 </div>
                 <div class="form-group mb-3">
                     <label asp-for="Direccion.Calle" class="form-label">Calle</label>
                     <input type="text" asp-for="Direccion.Calle" class="form-control">
+                    <span asp-validation-for="Direccion.Calle" class="text-danger"></span>
                 </div>
                 <div class="form-group mb-3">
                     <label for="Direccion.Altura" class="form-label">Altura</label>
-                    <input type="text" asp-for="Direccion.Altura" class="form-control">
+                    <input type="number" asp-for="Direccion.Altura" class="form-control">
+                    <span asp-validation-for="Direccion.Altura" class="text-danger"></span>
                 </div>
                 <div class="form-group mb-3">
                     <label for="Direccion.Cp" class="form-label">Codigo Postal</label>
                     <input type="text" asp-for="Direccion.Cp" class="form-control">
+                    <span asp-validation-for="Direccion.Cp" class="text-danger"></span>
                 </div>
                 <div class="form-group mb-3">
                     <label for="Direccion.Ciudad" class="form-label">Ciudad</label>
                     <input type="text" asp-for="Direccion.Ciudad" class="form-control">
+                    <span asp-validation-for="Direccion.Ciudad" class="text-danger"></span>
                 </div>
                 <div class="form-group mb-3">
                     <label for="Direccion.Coordenadas" class="form-label">Coordenadas</label>
                     <input type="text" asp-for="Direccion.Coordenadas" class="form-control">
+                    <span asp-validation-for="Direccion.Coordenadas" class="text-danger"></span>
                 </div>
                 
                 <div class="form-group mb-3">
@@ -76,6 +86,7 @@
                             <option value="@p.IdPropietario">@p.Apellido @p.Nombre</option>
                         }
                     </select>
+                    <span asp-validation-for="Inmueble.IdPropietario" class="text-danger"></span>
                 </div>
                 
                 <div class="form-group mb-3">
@@ -85,6 +96,7 @@
                 </div>
                 <div class="form-group mb-3">
                     <textarea asp-for="Inmueble.Descripcion" class="form-control" placeholder="Ingrese una descripcion...">@Model.Inmueble.Descripcion</textarea>
+                    <span asp-validation-for="Inmueble.Descripcion" class="text-danger"></span>
                 </div>
                 <div class="form-group text-center">
                     <input type="submit" value="Guardar" class="btn btn-primary" />

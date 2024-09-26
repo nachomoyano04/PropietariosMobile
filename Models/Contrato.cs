@@ -9,20 +9,33 @@ public class Contrato{
     
     [Required(ErrorMessage = "El campo Inmueble es obligatorio.")]
     public int IdInmueble {get; set;}
-    public Inquilino inquilino {get; set;}
-    public Inmueble inmueble {get; set;}
+    public Inquilino? inquilino {get; set;}
+    public Inmueble? inmueble {get; set;}
 
     [Required(ErrorMessage = "El Monto es obligatorio.")]
     [Range(0.01, double.MaxValue, ErrorMessage = "El Monto debe ser mayor a 0.")]
     public Double Monto {get; set;}
 
     [Required(ErrorMessage = "La Fecha de Inicio es obligatoria.")]
-    [DataType(DataType.Date)]
     public DateTime FechaInicio {get; set;}
 
-    [Required(ErrorMessage = "La Fecha de Inicio es obligatoria.")]
-    [DataType(DataType.Date)]
+    [Required(ErrorMessage = "La Fecha de fin es obligatoria.")]
+    [DateRange(ErrorMessage = "La fecha de fin debe ser mayor que la fecha de inicio.")]
     public DateTime FechaFin {get; set;}
     public DateTime FechaAnulacion {get; set;}
     public Boolean Estado {get; set;}
+}
+public class DateRangeAttribute : ValidationAttribute
+{
+    protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+    {
+        var contrato = (Contrato)validationContext.ObjectInstance;
+
+        if (contrato.FechaFin <= contrato.FechaInicio)
+        {
+            return new ValidationResult(ErrorMessage ?? "La fecha de fin debe ser mayor que la fecha de inicio.");
+        }
+
+        return ValidationResult.Success;
+    }
 }

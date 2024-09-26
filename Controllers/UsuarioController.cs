@@ -45,19 +45,22 @@ public class UsuarioController: Controller{
         return View();
     }
     [AllowAnonymous]
-    public IActionResult Guardar(Usuario usuario, IFormFile archivo){
-        usuario.Avatar= "/img/Avatar/default.jpg";
-        if(archivo!=null){
-            var fileName= Path.GetFileName(archivo.FileName);
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(),"wwwroot/img/Avatar",fileName);
-            using (var fileStream = new FileStream(filePath,FileMode.Create)){
-                archivo.CopyTo(fileStream);
+    public IActionResult Guardar(Usuario usuario, IFormFile Avatar){
+        if(ModelState.IsValid){
+            usuario.Avatar= "/img/Avatar/default.jpg";
+            if(Avatar != null && Avatar.Length > 0){
+                var fileName= Path.GetFileName(Avatar.FileName);
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(),"wwwroot/img/Avatar",fileName);
+                using (var fileStream = new FileStream(filePath,FileMode.Create)){
+                    Avatar.CopyTo(fileStream);
+                }
+                usuario.Avatar = "/img/Avatar/"+fileName;
             }
-            usuario.Avatar = "/img/Avatar/"+fileName;
+            RepositorioUsuario repositorio = new RepositorioUsuario();
+            repositorio.Guardar(usuario);
+            return RedirectToAction( "Index", "Home");
         }
-        RepositorioUsuario repositorio = new RepositorioUsuario();
-        repositorio.Guardar(usuario);
-        return RedirectToAction( "Index", "Login");
+        return View("Crear", usuario);
     }   
 
     [Authorize(Roles = "Administrador")]

@@ -103,25 +103,30 @@ public class InmuebleController : Controller
 
     [HttpPost]
     public IActionResult Guardar(InmuebleDireccion modelo){
-        Direccion direccion = new Direccion{
-            Calle = modelo.Direccion.Calle,
-            Altura  = modelo.Direccion.Altura,
-            Cp = modelo.Direccion.Cp,
-            Ciudad = modelo.Direccion.Ciudad,
-            Coordenadas = modelo.Direccion.Coordenadas,
-        };
-        int keyDireccion = _repoDire.Crear(direccion);
-        modelo.Inmueble.IdDireccion = keyDireccion;
-        try{
-            if (modelo.Inmueble.IdInmueble == 0){
-                int idCreado= _repo.Crear(modelo.Inmueble);
-            }else{
-                _repo.Modificar(modelo.Inmueble);
+        if(ModelState.IsValid){
+            Direccion direccion = new Direccion{
+                Calle = modelo.Direccion.Calle,
+                Altura  = modelo.Direccion.Altura,
+                Cp = modelo.Direccion.Cp,
+                Ciudad = modelo.Direccion.Ciudad,
+                Coordenadas = modelo.Direccion.Coordenadas,
+            };
+            int keyDireccion = _repoDire.Crear(direccion);
+            modelo.Inmueble.IdDireccion = keyDireccion;
+            try{
+                if (modelo.Inmueble.IdInmueble == 0){
+                    int idCreado= _repo.Crear(modelo.Inmueble);
+                }else{
+                    _repo.Modificar(modelo.Inmueble);
+                }
+                return RedirectToAction("Index");
+            }catch (Exception ex){
+                return View("Crear", modelo.Inmueble);
             }
-            return RedirectToAction("Index");
-        }catch (Exception ex){
-            return View("Crear", modelo.Inmueble);
         }
+        modelo.Propietarios = _repoProp.Listar();
+        modelo.Tipos = _repoTipo.Listar();
+        return View("Crear", modelo);
     }
 
     [Authorize(Roles = "Administrador")]

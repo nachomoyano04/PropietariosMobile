@@ -93,32 +93,37 @@ const rellenarTablaInquilinos = () => {
 
 
 const llenarTablaInquilinos = (tabla, elementos) => {
-    tabla.innerHTML = "";
-    let maqueta = ""; 
-    for(let i of elementos){
-        maqueta += `<tr>
-            <td>${i.dni}</td>
-            <td>${i.apellido}</td>
-            <td>${i.nombre}</td>
-            <td>${i.telefono}</td>
-            <td>${i.correo}</td>
-            <td class="d-flex align-items-center w-auto">
-                <a href="/Inquilino/Editar/${i.idInquilino}" class="btn btn-editbt mx-1">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                </a>
-                <form asp-action="Borrar" class="mx-1" method="post" style="display:inline;">
-                    <input type="hidden" name="id" value="${i.idInquilino}" />
-                    <button type="submit" class="btn btn-borrarbt" title="Borrar">
-                        <i class="fa-solid fa-trash"></i>
-                    </button>
-                </form>
-                <a class="btn btn-detallebt mx-1" href="/Inquilino/Detalle/${i.idInquilino}">
-                    <i class="fa-solid fa-list"></i>
-                </a>
-            </td>
-        </tr>`
-    }
-    tabla.innerHTML = maqueta;
+    axios("http://localhost:5203/Home/EsAdministrador")
+    .then(res => {
+        let esAdmin = res.data;
+        tabla.innerHTML = "";
+        let maqueta = ""; 
+        for(let i of elementos){
+            maqueta += `<tr>
+                <td>${i.dni}</td>
+                <td>${i.apellido}</td>
+                <td>${i.nombre}</td>
+                <td>${i.telefono}</td>
+                <td>${i.correo}</td>
+                <td class="d-flex align-items-center w-auto">
+                    <a href="/Inquilino/Editar/${i.idInquilino}" class="btn btn-editbt mx-1">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </a>
+                    ${esAdmin?`
+                    <form asp-action="Borrar" class="mx-1" method="post" style="display:inline;">
+                        <input type="hidden" name="id" value="${i.idInquilino}" />
+                        <button type="submit" class="btn btn-borrarbt" title="Borrar">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </form>`:''}
+                    <a class="btn btn-detallebt mx-1" href="/Inquilino/Detalle/${i.idInquilino}">
+                        <i class="fa-solid fa-list"></i>
+                    </a>
+                </td>
+            </tr>`
+        }
+        tabla.innerHTML = maqueta;
+    }).catch(err => console.log(err));
 }
 
 //Filtrar por dados de baja

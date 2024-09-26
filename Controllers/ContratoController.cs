@@ -37,23 +37,6 @@ public class ContratoController : Controller{
         return View(ic);
     }
 
-    //filtros 
-    public JsonResult GetPorInmueble(int IdInmueble){
-        List<Contrato>contratos = _repo.ListarPorInmueble(IdInmueble);
-        return Json(contratos);
-    }
-    
-    //filtros 
-    public JsonResult GetVigentesPorFechas(DateTime fechaInicio, DateTime fechaFin){
-        List<Contrato>contratos = _repo.ListarPorFechas(fechaInicio, fechaFin);
-        return Json(contratos);
-    }
-    
-    //filtros 
-    public JsonResult GetVigentesDentroDe(DateTime hoy, DateTime tantosDias){
-        List<Contrato>contratos = _repo.ListarPorVigencia(hoy, tantosDias);
-        return Json(contratos);
-    }
 
     [HttpPost]
     public JsonResult AnularContrato([FromBody] AnularContratoRequest request){
@@ -95,21 +78,26 @@ public class ContratoController : Controller{
 
     [HttpPost]
     public IActionResult Guardar(ContratoViewModel cvm){
+        if(ModelState.IsValid){
             if(cvm.Contrato.FechaInicio >= cvm.Contrato.FechaFin){
-                return RedirectToAction("Crear", "Contrato");
+                return View("Crear", cvm);
             }else{
                 if(cvm.Contrato.IdContrato == 0){
                     int IdUsuario = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
                     int IdCreado = _repo.Crear(cvm.Contrato, IdUsuario);
                     if(IdCreado > 0){
-                        _logger.LogInformation("Se ha creado un nuevo contrato: {IdCreado}", IdCreado);
                         return RedirectToAction("Detalles", "Inmueble", new {id = cvm.Contrato.IdInmueble});
                     }
                 }else{
                     _repo.Modificar(cvm.Contrato);
+                    return RedirectToAction("Detalles", "Inmueble", new { id = cvm.Contrato.IdInmueble });
                 }
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Home","Index");
+        }
+        cvm.Inquilinos = _repoInquilino.Listar();
+        cvm.Inmuebles = _repoInmueble.Listar();
+        return View("Crear", cvm);
     }
 
     [Authorize(Roles = "Administrador")]
@@ -117,11 +105,26 @@ public class ContratoController : Controller{
     public IActionResult Borrar(int id){
         try{
             _repo.Eliminar(id);
-            _logger.LogInformation("Se ha eliminado el contrato con id: {Id}", id);
             return RedirectToAction("Index");
         }catch (Exception ex){
-            _logger.LogError(ex, "Error al eliminar el inmueble", id);
             return RedirectToAction("Index");
         }
+    }
+    //filtros 
+    public JsonResult GetPorInmueble(int IdInmueble){
+        List<Contrato>contratos = _repo.ListarPorInmueble(IdInmueble);
+        return Json(contratos);
+    }
+    
+    //filtros 
+    public JsonResult GetVigentesPorFechas(DateTime fechaInicio, DateTime fechaFin){
+        List<Contrato>contratos = _repo.ListarPorFechas(fechaInicio, fechaFin);
+        return Json(contratos);
+    }
+    
+    //filtros 
+    public JsonResult GetVigentesDentroDe(DateTime hoy, DateTime tantosDias){
+        List<Contrato>contratos = _repo.ListarPorVigencia(hoy, tantosDias);
+        return Json(contratos);
     }
 }

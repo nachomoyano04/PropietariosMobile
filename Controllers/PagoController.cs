@@ -34,6 +34,7 @@ public class PagoController:Controller{
         return RedirectToAction("Index", "Home");
     }
     public IActionResult Crear(int Id){
+        Console.WriteLine($@"Id del contrato {Id}");
         Contrato c = repoContrato.Obtener(Id);
         if(c != null){
             Pago p = new Pago{
@@ -54,12 +55,17 @@ public class PagoController:Controller{
 
     [HttpPost]
     public IActionResult Guardar(Pago pago){
-        if(pago.IdPago == 0){
-            repo.Crear(pago, Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value));
-        }else{
-            repo.Modificar(pago);
+        if(ModelState.IsValid){ 
+            Console.WriteLine($@"Id del pago {pago.IdPago}");
+            if(pago.IdPago == 0){
+                repo.Crear(pago, Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value));
+            }else{
+                repo.Modificar(pago);
+            }
+            return RedirectToAction("Index", "Pago", new { Id = pago.IdContrato });
         }
-        return RedirectToAction("Index", "Pago", new { id = pago.IdContrato });
+        pago.contrato = repoContrato.Obtener(pago.IdContrato);
+        return View("Crear", pago);
     }
     
     [Authorize(Roles = "Administrador")]

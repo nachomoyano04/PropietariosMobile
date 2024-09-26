@@ -48,7 +48,9 @@ const llenarTablaContratos = (contratos, IdInmueble) => {
     let maqueta = "";
     if(contratos.length > 0){
         for(let c of contratos){
-            console.log(c);
+            console.log(c.fechaAnulacion);
+            console.log(new Date(c.fechaAnulacion))
+            console.log(new Date())
             maqueta += 
             `<tr>
                 <td><a href="/Inquilino/Detalle/${c.idInquilino}">${c.inquilino.nombre} ${c.inquilino.apellido}</a></td>
@@ -61,7 +63,7 @@ const llenarTablaContratos = (contratos, IdInmueble) => {
                 </td>
                 <td><a href="/Pago/Index/${c.idContrato}" class="btn btn-primary">Pagos</a></td>
                 <td><a href="/Contrato/Detalles/${c.idContrato}" class="btn btn-editbt"><i class="fa-solid fa-list"></i></a>
-                ${c.fechaAnulacion === '0001-01-01T00:00:00'?'':`<a href="/Contrato/Crear/${IdInmueble}" class="btn btn-detallebt">Renovar</a>`}
+                ${c.fechaAnulacion != '0001-01-01T00:00:00' || new Date(c.fechaFin) <= new Date()?`<a href="/Contrato/Crear/${IdInmueble}" class="btn btn-detallebt">Renovar</a>`:''}
                 </td>
                 </tr>
             `;

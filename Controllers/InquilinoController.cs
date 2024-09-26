@@ -73,7 +73,7 @@ public class InquilinoController : Controller{
             inquilino = repo.Obtener(Id);
             inquilino.Estado = true;
             repo.Modificar(inquilino);
-            return RedirectToAction("Detalle", "Inquilino", new {Id = inquilino.IdInquilino});
+            return RedirectToAction("Index", "Inquilino");
         }catch (System.Exception){
             _logger.LogInformation("Inquilino/Alta error al dar de alta");
         }
@@ -81,15 +81,17 @@ public class InquilinoController : Controller{
     }
 
     [HttpPost]
-    public IActionResult Guardar(int Id, Inquilino inquilino){
-        Id = inquilino.IdInquilino;
-        inquilino.Estado= true;
-        if(Id == 0){
-            repo.Crear(inquilino);
-        }else{
-            repo.Modificar(inquilino);
+    public IActionResult Guardar(Inquilino inquilino){
+        if(ModelState.IsValid){
+            inquilino.Estado= true;
+            if(inquilino.IdInquilino == 0){
+                repo.Crear(inquilino);
+            }else{
+                repo.Modificar(inquilino);
+            }
+            return RedirectToAction("Index");
         }
-        return RedirectToAction("Index");
+        return View("Crear", inquilino);
     }
 
     [Authorize(Roles = "Administrador")]

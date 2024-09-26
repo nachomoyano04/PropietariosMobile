@@ -45,38 +45,46 @@ buscarFiltroFechas.addEventListener("click", () => {
 
 let tablaInmuebles = document.querySelector("#tablaInmuebles");
 const llenarTablaInmuebles = (inmuebles) => {
-    tablaInmuebles.innerHTML = "";
-    let maqueta = "";
-    console.log(inmuebles);
-    for(let i of inmuebles){
-        let status = i.estado? `
-            <a href="/Inmueble/Editar/${i.idInmueble}" class="btn btn-editar">Editar</a>
-            <form action="/Inmueble/Borrar" method="post" style="display:inline;">
-                <input type="hidden" name="id" value="${i.idInmueble}" />
-                <input type="submit" value="Eliminar" class="btn btn-eliminar" />
-            </form>
-            `:`
-            <form action="/Inmueble/Alta" method="post">
-                <input type="hidden" name="id" value="${i.idInmueble}" />
-                <button type="submit" class="btn mx-1" style="background-color: #343a40;" title="Dar de alta">
-                    <i class="fa-solid fa-arrow-up" style="color: #44ff00;"></i>
-                </button>
-            </form>
-            `;
-        maqueta += `
-            <tr>
-                <td>${i.tipo.observacion}</td>
-                <td>${i.descripcion}</td>
-                <td>${i.cantidadAmbientes}</td>
-                <td>$${i.precio}</td>
-                <td><input disabled class="check-box" type="checkbox" ${i.cochera? 'checked':''}></td>
-                <td><input disabled class="check-box" type="checkbox" ${i.piscina? 'checked':''}></td>
-                <td><input disabled class="check-box" type="checkbox" ${i.mascotas? 'checked':''}></td>
-                <td>
-                    ${status}
-                </td>
-            </tr>`;
+    axios("http://localhost:5203/Home/EsAdministrador")
+    .then(res => {
+        let esAdmin = res.data;
+        tablaInmuebles.innerHTML = "";
+        let maqueta = "";
+        for(let i of inmuebles){
+            let status = '';
+            if(!esAdmin){
+                status = i.estado?`<a href="/Inmueble/Editar/${i.idInmueble}" class="btn btn-editar">Editar</a>`:''; 
+            }else{
+                status = i.estado? `
+                    <a href="/Inmueble/Editar/${i.idInmueble}" class="btn btn-editar">Editar</a>
+                    <form action="/Inmueble/Borrar" method="post" style="display:inline;">
+                        <input type="hidden" name="id" value="${i.idInmueble}" />
+                        <input type="submit" value="Eliminar" class="btn btn-eliminar" />
+                    </form>
+                    `:`
+                    <form action="/Inmueble/Alta" method="post">
+                        <input type="hidden" name="id" value="${i.idInmueble}" />
+                        <button type="submit" class="btn mx-1" style="background-color: #343a40;" title="Dar de alta">
+                            <i class="fa-solid fa-arrow-up" style="color: #44ff00;"></i>
+                        </button>
+                    </form>`;
+            }
+            
+            maqueta += `
+                <tr>
+                    <td>${i.tipo.observacion}</td>
+                    <td>${i.descripcion}</td>
+                    <td>${i.cantidadAmbientes}</td>
+                    <td>$${i.precio}</td>
+                    <td><input disabled class="check-box" type="checkbox" ${i.cochera? 'checked':''}></td>
+                    <td><input disabled class="check-box" type="checkbox" ${i.piscina? 'checked':''}></td>
+                    <td><input disabled class="check-box" type="checkbox" ${i.mascotas? 'checked':''}></td>
+                    <td>
+                        ${status}
+                    </td>
+                </tr>`;
 
-    }
-    tablaInmuebles.innerHTML = maqueta;
+        }
+        tablaInmuebles.innerHTML = maqueta;
+    }).catch(err => console.log(err));
 }

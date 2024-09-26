@@ -63,11 +63,16 @@
                 <td>@c.FechaFin.ToString("dd/MM/yyyy")</td>
                 <td>@(c.FechaAnulacion != DateTime.MinValue ? c.FechaAnulacion.ToString("dd/MM/yyyy") : "---")</td>
                 <td><a href="/Pago/Index/@c.IdContrato" class="btn btn-primary">Pagos</a></td>
-                <td><a href="/Contrato/Detalles/@c.IdContrato" class="btn btn-editbt"><i class="fa-solid fa-list"></i></a></td>
+                <td>
+                    <a href="/Contrato/Detalles/@c.IdContrato" class="btn btn-editbt"><i class="fa-solid fa-list"></i></a>
+                    @if(c.FechaFin <= DateTime.Now || c.FechaAnulacion != DateTime.MinValue){
+                        <a href="/Contrato/Crear/@c.IdInmueble" class="btn btn-detallebt">Renovar</a>                        
+                    }
+                </td>
             </tr>
         }
     </tbody>
 </table>
 @section Scripts {
-    <script src="~/js/contratoScript.js"></script>
+    <script src="~/js/contrato/contratoScript.js"></script>
 }

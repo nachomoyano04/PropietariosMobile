@@ -90,32 +90,37 @@ const rellenarTablaPropietarios = () => {
 }
 
 const llenarTablaPropietarios = (tabla, elementos) => {
-    tabla.innerHTML = "";
-    let maqueta = "";
-    for(let e of elementos){
-        maqueta += `<tr>
-                <td>${e.dni}</td>
-                <td>${e.nombre}</td>
-                <td>${e.apellido}</td>
-                <td>${e.telefono}</td>
-                <td>${e.correo}</td>
-                <td class="d-flex align-items-center w-auto">
-                    <a class="btn btn-editbt mx-1" href="/Propietario/Editar/${e.idPropietario}">
-                        <i class="fa-solid fa-pen-to-square"></i>
-                    </a>
-                    <form action="/Propietario/Borrar" class="mx-1" method="post">
-                        <input type="hidden" name="id" value="${e.idPropietario}" />
-                        <button type="submit" class="btn btn-borrarbt" title="Borrar">
-                            <i class="fa-solid fa-trash"></i>
-                        </button>
-                    </form> 
-                    <a class="btn btn-detallebt mx-1" href="/Propietario/Detalle/${e.idPropietario}">
-                        <i class="fa-solid fa-list"></i>
-                    </a>
-                </td>
-            </tr>`
-    }
-    tabla.innerHTML = maqueta;
+    axios("http://localhost:5203/Home/EsAdministrador")
+    .then(res => {
+        let esAdmin = res.data;
+        tabla.innerHTML = "";
+        let maqueta = "";
+        for(let e of elementos){
+            maqueta += `<tr>
+                    <td>${e.dni}</td>
+                    <td>${e.nombre}</td>
+                    <td>${e.apellido}</td>
+                    <td>${e.telefono}</td>
+                    <td>${e.correo}</td>
+                    <td class="d-flex align-items-center w-auto">
+                        <a class="btn btn-editbt mx-1" href="/Propietario/Editar/${e.idPropietario}">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                        ${esAdmin? `
+                        <form action="/Propietario/Borrar" class="mx-1" method="post">
+                            <input type="hidden" name="id" value="${e.idPropietario}" />
+                            <button type="submit" class="btn btn-borrarbt" title="Borrar">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </form>`:''}                         
+                        <a class="btn btn-detallebt mx-1" href="/Propietario/Detalle/${e.idPropietario}">
+                            <i class="fa-solid fa-list"></i>
+                        </a>
+                    </td>
+                </tr>`
+        }
+        tabla.innerHTML = maqueta;
+    }).catch(err => console.log(err));
 }
 
 //Filtrar por dados de baja
