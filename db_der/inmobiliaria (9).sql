@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 24-09-2024 a las 20:45:38
+-- Tiempo de generación: 26-09-2024 a las 08:48:31
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -56,7 +56,15 @@ INSERT INTO `auditoria` (`idAuditoria`, `idUsuario`, `accion`, `observacion`, `f
 (15, 2, 'Crear Pago', 'Pago creado para contrato ID: 28. Importe: -501234.', '2024-09-24 12:22:57'),
 (16, 2, 'Crear Pago', 'Pago creado para contrato ID: 42. Importe: 0.', '2024-09-24 12:23:30'),
 (17, 2, 'Crear Contrato', 'Contrato creado para inquilino ID: 5 en inmueble ID: 14.', '2024-09-24 15:30:26'),
-(18, 2, 'Crear Pago', 'Pago creado para contrato ID: 47. Importe: 100000.', '2024-09-24 15:30:42');
+(18, 2, 'Crear Pago', 'Pago creado para contrato ID: 47. Importe: 100000.', '2024-09-24 15:30:42'),
+(19, 2, 'Crear Contrato', 'Contrato creado para inquilino ID: 4 en inmueble ID: 14.', '2024-09-25 16:53:28'),
+(20, 2, 'Crear Pago', 'Pago creado para contrato ID: 46. Importe: 1000000.', '2024-09-25 19:19:48'),
+(21, 2, 'Crear Contrato', 'Contrato creado para inquilino ID: 1 en inmueble ID: 7.', '2024-09-25 20:11:14'),
+(22, 2, 'Crear Contrato', 'Contrato creado para inquilino ID: 2 en inmueble ID: 17.', '2024-09-25 20:12:46'),
+(23, 2, 'Crear Contrato', 'Contrato creado para inquilino ID: 1 en inmueble ID: 16.', '2024-09-25 20:15:51'),
+(24, 2, 'Crear Contrato', 'Contrato creado para inquilino ID: 1 en inmueble ID: 8.', '2024-09-25 20:20:22'),
+(25, 15, 'Crear Pago', 'Pago creado para contrato ID: 51. Importe: 1000.', '2024-09-25 22:03:23'),
+(26, 15, 'Crear Pago', 'Pago creado para contrato ID: 51. Importe: 1000.', '2024-09-25 22:03:41');
 
 -- --------------------------------------------------------
 
@@ -88,7 +96,12 @@ INSERT INTO `contrato` (`idContrato`, `idInquilino`, `idInmueble`, `monto`, `fec
 (44, 2, 13, 200, '2024-09-11', '2024-11-28', '0001-01-01', 1),
 (45, 3, 13, 200000, '2024-09-09', '2024-10-11', '0001-01-01', 1),
 (46, 1, 4, 12300000, '2024-09-13', '2024-10-04', '2024-09-24', 1),
-(47, 5, 14, 2412321312, '2024-09-06', '2024-09-28', '0001-01-01', 1);
+(47, 5, 14, 2412321312, '2024-09-06', '2024-09-28', '0001-01-01', 1),
+(48, 4, 14, 1, '2024-09-26', '2024-09-28', '0001-01-01', 1),
+(50, 1, 7, 1000, '2024-09-13', '2024-09-26', '0001-01-01', 1),
+(51, 2, 17, 10000, '2024-09-25', '2024-10-10', '0001-01-01', 1),
+(52, 1, 16, 10000, '2024-09-25', '2024-10-04', '0001-01-01', 1),
+(53, 1, 8, 1000, '2024-09-25', '2024-09-26', '0001-01-01', 1);
 
 -- --------------------------------------------------------
 
@@ -124,7 +137,20 @@ INSERT INTO `direccion` (`idDireccion`, `calle`, `altura`, `cp`, `ciudad`, `coor
 (12, 'Lord Baden Powell', 10, '2000', 'San Jose', '123123 12'),
 (13, 'Lord Baden Powell', 10, '2000', 'San Jose', '123123 12'),
 (14, 'Guemes ', 20, '5715', 'Los Angeles', '1234 1232'),
-(15, 'Guemes ', 20, '5715', 'Los Angeles', '1234 1232');
+(15, 'Guemes ', 20, '5715', 'Los Angeles', '1234 1232'),
+(16, 'Mitre', 10, '2000', 'Buenos Aires', '1000000'),
+(17, 'Mitres', 10, '2000', 'Buenos Aires', '1000000'),
+(18, 'Mitre', 20, '3223', 'San Luisss', '1234 1232'),
+(19, 'Mitre', 20, '3223', 'San Luisss', '1234 1232'),
+(20, 'Gustavo Cerati', 14, '6000', 'Adelia Maria', '-12344 123123'),
+(21, 'Gustavo Cerati', 14, '6000', 'Adelia Maria', '-12344 123123'),
+(22, 'Mitre', 20, '3223', 'San Luisss', '1234 1232'),
+(23, 'Gustavo Cerati', 14, '6000', 'Adelia Maria', '-12344 123123'),
+(24, 'Carlos perez', 12, '5324', 'Carlos paz', '123123213123.42'),
+(25, 'Carlos perez', 12, '5324', 'Carlos paz', '123123213123.42'),
+(26, 'Carlos perez', 12, '5324', 'Carlos paz', '123123213123.42'),
+(27, 'Carlos perez', 12, '5324', 'Carlos paz', '123123213123.42'),
+(28, 'Carlos perez', 12, '5324', 'San Luis', '123123213123.42');
 
 -- --------------------------------------------------------
 
@@ -155,15 +181,18 @@ CREATE TABLE `inmueble` (
 
 INSERT INTO `inmueble` (`idInmueble`, `idPropietario`, `idDireccion`, `idTipo`, `metros2`, `cantidadAmbientes`, `disponible`, `precio`, `descripcion`, `cochera`, `piscina`, `mascotas`, `urlImagen`, `estado`) VALUES
 (3, 2, 1, 8, '123', 2123, 1, 1000, 'Lindo inmueble', 1, 1, 1, 'https://imgar.zonapropcdn.com/avisos/1/00/50/31/01/85/360x266/1930226378.jpg?isFirstImage=true', 0),
-(4, 2, 1, 14, '2', 2, 1, 2, 'Departamento en nueva cordoba', 1, 0, 0, 'https://pics.nuroa.com/departamento_en_venta_en_villa_carlos_paz_centrico_cordoba_37_m2_2360009724864991483.jpg', 1),
+(4, 2, 27, 14, '2', 3, 1, 2, 'Departamento en nueva cordoba', 1, 0, 0, 'https://pics.nuroa.com/departamento_en_venta_en_villa_carlos_paz_centrico_cordoba_37_m2_2360009724864991483.jpg', 1),
 (7, 10, 1, 10, '12', 3, 1, 1, 'Cabaña a las afuera de Villa Carlos Paz', 1, 1, 1, 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/440749717.jpg?k=83f268be156bdbded33925621e94b30433fe9b2ab892a8e8f1b0e9b010975549&o=&hp=1', 1),
-(8, 2, 1, 14, '1000', 2, 0, 500000, 'Departamento en Villa Carlos Paz', 0, 0, 0, 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/315048793.jpg?k=84f3d87ae94b55202a0a589b18ce58131fa536e97cf1eacdc3e6cca53ae643e3&o=&hp=1', 1),
+(8, 2, 28, 14, '1000', 2, 0, 500000, 'Departamento en Villa Carlos Paz', 0, 0, 0, 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/315048793.jpg?k=84f3d87ae94b55202a0a589b18ce58131fa536e97cf1eacdc3e6cca53ae643e3&o=&hp=1', 1),
 (9, 9, 1, 8, '2000', 3, 0, 410000, 'Departamento en villa carlos paz', 0, 0, 1, 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/315048793.jpg?k=84f3d87ae94b55202a0a589b18ce58131fa536e97cf1eacdc3e6cca53ae643e3&o=&hp=1', 1),
 (10, 2, 2, 6, '1,450', 2, 1, 111, 'Depto de juan', 0, 1, 0, 'https://photos.zillowstatic.com/fp/f9bbd7d817a6e6a324e32373cfde69b8-sc_768_512.webp', 1),
 (11, 2, 5, 6, '1,450', 2, 1, 111, 'Depto de juan becerra', 0, 1, 0, 'https://photos.zillowstatic.com/fp/f9bbd7d817a6e6a324e32373cfde69b8-sc_768_512.webp', 1),
 (12, 2, 4, 6, '1,450', 2, 1, 111, 'Depto de juan', 0, 1, 0, 'https://photos.zillowstatic.com/fp/f9bbd7d817a6e6a324e32373cfde69b8-sc_768_512.webp', 1),
 (13, 2, 13, 11, '323', 12, 1, 800, 'Casa con una buena pileta', 0, 1, 0, 'https://storage.googleapis.com/portales-prod-images/204/property-images/2023/4/b04e4c24-5564-405d-a427-f40aab7b924c.jpeg', 1),
-(14, 1, 15, 11, '1000', 16, 1, 30000000, 'Mansion en LA', 1, 1, 1, 'https://st3.idealista.com/news/archivos/styles/fullwidth_xl/public/2020-06/im-191825.jpg?VersionId=H30j04J4vZFBf8nX6Otwwe0l4Vjfo96b&itok=lgCc-eBK', 1);
+(14, 1, 15, 11, '1000', 16, 1, 30000000, 'Mansion en LA', 1, 1, 1, 'https://st3.idealista.com/news/archivos/styles/fullwidth_xl/public/2020-06/im-191825.jpg?VersionId=H30j04J4vZFBf8nX6Otwwe0l4Vjfo96b&itok=lgCc-eBK', 1),
+(15, 10, 17, 11, '1000', 10, 1, 20000, 'Casa en buenos aires', 0, 1, 0, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQf0RNuH1TZedpOnp_9C4h3Z38B_jURcEk8nA&s', 0),
+(16, 1, 22, 11, '10', 4, 1, 2000, 'Casa linda', 0, 1, 0, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQf0RNuH1TZedpOnp_9C4h3Z38B_jURcEk8nA&s', 1),
+(17, 3, 23, 6, '123.50', 1, 1, 10000, 'Alto campo', 0, 0, 0, 'https://img.freepik.com/foto-gratis/gran-paisaje-verde-cubierto-cesped-rodeado-arboles_181624-14827.jpg', 1);
 
 -- --------------------------------------------------------
 
@@ -190,7 +219,11 @@ INSERT INTO `inquilino` (`idInquilino`, `dni`, `apellido`, `nombre`, `telefono`,
 (2, '44480378', 'Moyano Guzmán', 'Ignacio', '2657356970', 'nachomoyag@gmail.com', 1),
 (3, '12345678', 'García', 'Laura', '600123456', 'laura.garcia@example.com', 1),
 (4, '23456789B', 'Martínez', 'Javier', '600234567', 'javier.martinez@example.com', 1),
-(5, '34567890C', 'López', 'María', '600345678', 'maria.lopez@example.com', 1);
+(5, '34567890C', 'López', 'María', '600345678', 'maria.lopez@example.com', 1),
+(6, '0000001', 'Andreani', 'asdasd', '2654754512', 'andreani@asdasd', 1),
+(7, '1000002', 'Messi Cuccittini', 'Lionel Andrés', '11546232878', 'lio123@gmail.com', 1),
+(8, '23456789B', 'Martínez', 'asdasd', '600234567', 'javier.martinez@example.com', 0),
+(9, '0000001', 'Andreani', 'Ignacio', '2654754512', 'andreaniqasd@asd', 0);
 
 -- --------------------------------------------------------
 
@@ -227,7 +260,10 @@ INSERT INTO `pago` (`idPago`, `idContrato`, `fechaPago`, `importe`, `numeroPago`
 (13, 46, '2024-09-24', 36900000, '0', 'Multa por contrato anulado', 1),
 (14, 28, '2024-09-24', -501234, '0', 'Multa por contrato anulado', 1),
 (15, 42, '2024-09-24', 0, '0', 'Multa por contrato anulado', 1),
-(16, 47, '2024-09-24', 10000, '1', 'Primer pago', 0);
+(16, 47, '2024-09-24', 10000, '1', 'Primer pago', 0),
+(17, 46, '2024-09-25', 1000000, '2', 'Segundo pago', 1),
+(18, 51, '2024-09-13', 1000, '1', 'primer pago', 1),
+(19, 51, '2024-09-25', 1000, '1', 'Primer pa', 0);
 
 -- --------------------------------------------------------
 
@@ -255,8 +291,10 @@ INSERT INTO `propietario` (`idPropietario`, `dni`, `apellido`, `nombre`, `telefo
 (3, '123', 'Escudero', 'Marilena', '1354321', 'mari@', 1),
 (8, '11100001', 'Bertolini', 'Maria Ines', '124431212', 'ines@gmail.com', 1),
 (9, '56789012E', 'González', 'Ana', '600567890', 'ana.gonzalez@example.com', 1),
-(10, '67890123F', 'Pérez', 'Luis', '600678901', 'luis.perez@example.com', 1),
-(11, '41245732', 'Rudiger', 'Antonio', '265878265', 'rudiger@gmail.com', 1);
+(10, '67890123F', 'asda', 'Luis', '600678901', 'luis.perez@example.com', 1),
+(11, '41245732', 'Rudiger', 'Antonio', '265878265', 'rudiger@gmail.com', 1),
+(12, 'asd', 'asd', 'asd', '2', 'asdqa@sdasd', 0),
+(13, '265721585', 'Paredes', 'Leandro', '156445612', 'lean@gmail', 1);
 
 -- --------------------------------------------------------
 
@@ -274,8 +312,11 @@ CREATE TABLE `tipo` (
 --
 
 INSERT INTO `tipo` (`idTipo`, `observacion`) VALUES
+(18, 'ca'),
 (10, 'Cabaña'),
+(17, 'Cam'),
 (6, 'Campo'),
+(16, 'Campos'),
 (11, 'Casa'),
 (14, 'Departamento'),
 (8, 'Edificio');
@@ -302,17 +343,25 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`idUsuario`, `email`, `password`, `rol`, `avatar`, `nombre`, `apellido`, `estado`) VALUES
-(2, 'nachomoyag@gmail.com', '$2a$12$WNaPCMdtqQLv5FKruY3iHeEYz6UFBx6sC3i/tfazxyusK5vOh0bea', 'Administrador', '/img/Avatar/default.jpg', 'Ignacio', 'Moyano Guzmán', 1),
-(3, 'carlos@gmail', '$2a$12$649jxapLpF1Nq3YhtFUa/uGzGDQ3NdWgeDVJj45UzZSMRn2SOhscC', 'Administrador', '/img/Avatar/default.jpg', 'Juan', 'Fernandez', 1),
-(4, 'pepe@gmail', '$2a$12$beh4c8g26FYfZZ75bdM4M.XAFJbebyS5lR2j0BPYW2moxYD2Gct3S', 'Empleado', '/img/Avatar/default.jpg', 'pepe', 'pepe', 1),
+(2, 'nachomoyag@gmail.com', '$2a$12$68wsE1AfQm4fI7XGU.vlyOPCZavrXMpa2.FNhBttvkfPIyOKe/gSe', 'Administrador', '/img/Avatar/Marvel image.jpg', 'Nacho', 'Moyano Guzmán', 1),
+(3, 'carlos@gmail', '$2a$12$649jxapLpF1Nq3YhtFUa/uGzGDQ3NdWgeDVJj45UzZSMRn2SOhscC', 'Administrador', '/img/Avatar/default.jpg', 'Juan', 'Fernandez', 0),
+(4, 'pepe@gmail', '$2a$12$YTHGWXMdV1sEZcRkAPF/Qe0uXG9RoGQlWOXn7azk2z4pxQBBIC.IW', 'Empleado', '/img/Avatar/desktop wallpaper 4.jpg', 'pepe', 'pepe', 1),
 (5, 'carlitos@carlitos', '$2a$12$6wrIjY9DK8XKNnywJK.TvOBqab9ecimtPoUJbezBCL2/Dfj8bXpkW', 'Administrador', '/img/Avatar/default.jpg', 'carlitos', 'carlitos', 1),
 (6, 'juan@gmail.com', '$2a$12$FFuETpPr5K/ISDa1z7RUieVCuigRVV4yvS60R62ts79q1sZBjuHce', 'Empleado', '/img/Avatar/default.jpg', 'Juan', 'Becerrrad', 1),
 (8, 'peit@gmail.com', '$2a$12$K0N0zmTnCBPnUhy/5cVS/uFN0s5gDKk6HuRiD6bVD8n5tVZbWW3Vy', 'Empleado', '/img/Avatar/default.jpg', 'Juan', 'Moyano Guzmán', 1),
 (9, 'aaa@gmai', '$2a$12$./kCHY789ggueLDVEfLvwusOVvcwzyyOg0ugo/X0GJN6rb.apbYzS', 'Empleado', '/img/Avatar/default.jpg', 'pepe', 'Fernandez', 1),
 (10, 'aaa@asdas', '$2a$12$ayciiUF8QtSLIwxXrI6F6OCP1esq.wFfu6Pqqf4bB0UF/KNb/eJOK', 'Empleado', '/img/Avatar/default.jpg', 'Ignacio', 'Becerrrad', 1),
-(11, 'nachomoyag@gmail.comsss', '$2a$12$tcr68BAy14PX4/BMLjjiLuZWzqfkwsShpp.i2QXGjsZnHR89j1eme', 'Empleado', '/img/Avatar/Marvel image.jpg', 'Juan', 'Moyano Guzmán', 0),
+(11, 'nachomoyag@gmail.comsss', '$2a$12$tcr68BAy14PX4/BMLjjiLuZWzqfkwsShpp.i2QXGjsZnHR89j1eme', 'Empleado', '/img/Avatar/Marvel image.jpg', 'Juan', 'Moyano Guzmán', 1),
 (12, 'angelito@gmail.com', '$2a$12$0Xpqe3TB/DKFQWVVH7CZ1u8vvIeLK8LJbS8a3hvN7hq.oRVONgvoy', 'Empleado', '/img/Avatar/img_avatar.png', 'Angel', 'Di maria', 1),
-(13, 'ana@gmail', '$2a$12$S18CRxVhVtXOUbT0gjv9UeRfmpajzVMmMs1MO02A1uyJflZnsFlPq', 'Empleado', '/img/Avatar/img_avatar.png', 'analia', 'martinez', 1);
+(13, 'ana@gmail', '$2a$12$S18CRxVhVtXOUbT0gjv9UeRfmpajzVMmMs1MO02A1uyJflZnsFlPq', 'Empleado', '/img/Avatar/img_avatar.png', 'analia', 'martinez', 1),
+(14, 'messi@gmail', '$2a$12$0EbDogr0IHHrILjf3SLgX.zu225Jp92.neyFZlvxnjFO1gQs0wCyy', 'Administrador', '/img/Avatar/default.jpg', 'Lionel', 'Messi', 0),
+(15, 'manu@gmail', '$2a$12$7XzNdjXm/lETEo0XmDaMf.CytpyenUKg62QwT2wML5IMeyjtdii.2', 'Administrador', '/img/Avatar/desktop wallpaper.jpg', 'Emanuel', 'Ginobili', 1),
+(16, 'asdasd@asdasd', '$2a$12$LA25T1wVkvJF6biZq6HTceqaaOI65KSle.q7UO9pD520hbohlRajO', 'Administrador', '/img/Avatar/coding.jpg', 'asdasd', 'asdasd', 1),
+(17, 'devin@gmail.com', '$2a$12$CohRIxHeQO1MjVE3wbB4ieiav1yY1T3LTS7RFtYxyRh80lQyT98k2', 'Administrador', '/img/Avatar/default.jpg', 'Devin', 'Booker', 1),
+(18, 'nachomoyag@gmail', '$2a$12$ujoZnjw1kWNEZS7/dJ9rveCklNg4m4yPosd8KFW4.EbCUki2zEwti', 'Administrador', '/img/Avatar/Marvel image.jpg', 'Nacho', 'Moyano', 1),
+(19, 'curry@gmail.com', '$2a$12$17uCSRZH6Ay49JdkkWgNSe81MIXJWtdg0vVxevYto5g/pHrOGBe0C', 'Administrador', '/img/Avatar/desktop wallpaper 3.jpg', 'Wardell', 'Curry', 1),
+(20, 'neymar@gmail', '$2a$12$9RT6PlO5RpzGgLl0VPuPjup4TwHOurwK0QCUkJ0LwB5mXWf7t0uIO', 'Empleado', '/img/Avatar/default.jpg', 'Neymar', 'Jr', 1),
+(21, 'maradona@gmail.com', '$2a$12$ySVUyhLGTy.oBdgF3Z47EeAiPPVLcqQrfrr2ZRox/zDtjJntAH.ay', 'Empleado', '/img/Avatar/desktop wallpaper 3.jpg', 'Diego', 'Maradona', 1);
 
 --
 -- Índices para tablas volcadas
@@ -388,55 +437,55 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `auditoria`
 --
 ALTER TABLE `auditoria`
-  MODIFY `idAuditoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `idAuditoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT de la tabla `contrato`
 --
 ALTER TABLE `contrato`
-  MODIFY `idContrato` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `idContrato` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT de la tabla `direccion`
 --
 ALTER TABLE `direccion`
-  MODIFY `idDireccion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `idDireccion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT de la tabla `inmueble`
 --
 ALTER TABLE `inmueble`
-  MODIFY `idInmueble` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `idInmueble` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `inquilino`
 --
 ALTER TABLE `inquilino`
-  MODIFY `idInquilino` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `idInquilino` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `pago`
 --
 ALTER TABLE `pago`
-  MODIFY `idPago` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `idPago` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT de la tabla `propietario`
 --
 ALTER TABLE `propietario`
-  MODIFY `idPropietario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `idPropietario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `tipo`
 --
 ALTER TABLE `tipo`
-  MODIFY `idTipo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `idTipo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `idUsuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `idUsuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- Restricciones para tablas volcadas
