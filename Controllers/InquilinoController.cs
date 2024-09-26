@@ -91,7 +91,11 @@ public class InquilinoController : Controller{
             }
             return RedirectToAction("Index");
         }
-        return View("Crear", inquilino);
+        if(inquilino.IdInquilino == 0){
+            return View("Crear", inquilino);
+        }else{
+            return View("Editar", inquilino);
+        }
     }
 
     [Authorize(Roles = "Administrador")]

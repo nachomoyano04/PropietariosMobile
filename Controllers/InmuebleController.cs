@@ -124,9 +124,20 @@ public class InmuebleController : Controller
                 return View("Crear", modelo.Inmueble);
             }
         }
+        var errores = ModelState.Values.SelectMany(v => v.Errors);
+        foreach (var error in errores)
+        {
+            Console.WriteLine(error.ErrorMessage);
+        }
         modelo.Propietarios = _repoProp.Listar();
         modelo.Tipos = _repoTipo.Listar();
-        return View("Crear", modelo);
+        if(modelo.Inmueble.IdInmueble == 0){
+            return View("Crear", modelo);
+        }else{
+            modelo.Inmueble = _repo.Obtener(modelo.Inmueble.IdInmueble);
+            modelo.Direccion = _repoDire.Obtener(modelo.Direccion.IdDireccion);
+            return View("Editar", modelo);
+        }
     }
 
     [Authorize(Roles = "Administrador")]

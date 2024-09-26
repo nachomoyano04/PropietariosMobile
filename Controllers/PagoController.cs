@@ -65,7 +65,11 @@ public class PagoController:Controller{
             return RedirectToAction("Index", "Pago", new { Id = pago.IdContrato });
         }
         pago.contrato = repoContrato.Obtener(pago.IdContrato);
-        return View("Crear", pago);
+        if(pago.IdPago == 0){
+            return View("Crear", pago);
+        }else{
+            return View("Editar", pago);
+        }
     }
     
     [Authorize(Roles = "Administrador")]

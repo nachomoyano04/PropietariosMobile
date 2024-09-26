@@ -38,7 +38,11 @@ public class TipoController: Controller{
                 ModelState.AddModelError("", "Oops ha ocurrido un error al intentar guardar el tipo");
             }
         }
-        return View("Crear", tipo);
+        if(tipo.IdTipo == 0){
+            return View("Crear", tipo);
+        }else{
+            return View("Editar", tipo);
+        }
     }
     
     [Authorize(Roles = "Administrador")]

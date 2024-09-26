@@ -64,7 +64,11 @@ public class PropietarioController : Controller{
             }
             return RedirectToAction("Index");
         }
-        return View("Crear", propietario);
+        if(propietario.IdPropietario == 0){
+            return View("Crear", propietario);
+        }else{
+            return View("Editar", propietario);
+        }
     }
 
 
