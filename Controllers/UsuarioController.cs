@@ -35,7 +35,6 @@ public class UsuarioController: Controller{
         return RedirectToAction("Index", "Home");
     }
 
-    [Authorize(Roles = "Administrador")]
     public IActionResult CambiarPassword(int id){
         Usuario u = repo.Obtener(id);
         if(u != null){
@@ -114,7 +113,6 @@ public class UsuarioController: Controller{
     }
 
 
-    [Authorize(Roles = "Administrador")]
     [HttpPost]
     public IActionResult CambiarPassword(UsuarioEditar usuario){
         if(ModelState.IsValid){
