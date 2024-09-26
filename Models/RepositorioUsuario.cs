@@ -2,6 +2,7 @@
 using MySql.Data.MySqlClient;
 using ProyetoInmobiliaria.Models;
 using BCrypt.Net;
+using System.Security.Claims;
 
 public class RepositorioUsuario:RepositorioBase{
 public RepositorioUsuario(): base(){  
@@ -42,21 +43,41 @@ public RepositorioUsuario(): base(){
 
 
     // listar todos los usuarios activos
-    public List<Usuario> Listar()
-    {
+    public List<Usuario> Listar(){
         List<Usuario> usuarios = new List<Usuario>();
-        using (MySqlConnection connection = new MySqlConnection(ConnectionString))
-        {
+        using (MySqlConnection connection = new MySqlConnection(ConnectionString)){
             connection.Open();
-            string query = "SELECT * FROM usuario WHERE estado = 1"; 
-            using (MySqlCommand command = new MySqlCommand(query, connection))
-            {
-                using (MySqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        Usuario usuario = new Usuario
-                        {
+            string query = "SELECT * FROM usuario WHERE estado = true"; 
+            using (MySqlCommand command = new MySqlCommand(query, connection)){
+                using (MySqlDataReader reader = command.ExecuteReader()){
+                    while (reader.Read()){
+                        Usuario usuario = new Usuario{
+                            IdUsuario = reader.GetInt32("idUsuario"),
+                            Email = reader.GetString("email"),
+                            Password = reader.GetString("password"),
+                            Rol = reader.GetString("rol"),
+                            Avatar = reader.IsDBNull(reader.GetOrdinal("avatar")) ? null : reader.GetString("avatar"),
+                            Nombre = reader.GetString("nombre"),
+                            Apellido = reader.GetString("apellido"),
+                            Estado = reader.GetBoolean("estado")
+                        };
+                        usuarios.Add(usuario);
+                    }
+                }
+            }
+        }
+        return usuarios;
+    }
+
+    public List<Usuario> ListarDadosDeBaja(){
+        List<Usuario> usuarios = new List<Usuario>();
+        using (MySqlConnection connection = new MySqlConnection(ConnectionString)){
+            connection.Open();
+            string query = "SELECT * FROM usuario WHERE estado = false"; 
+            using (MySqlCommand command = new MySqlCommand(query, connection)){
+                using (MySqlDataReader reader = command.ExecuteReader()){
+                    while (reader.Read()){
+                        Usuario usuario = new Usuario{
                             IdUsuario = reader.GetInt32("idUsuario"),
                             Email = reader.GetString("email"),
                             Password = reader.GetString("password"),
@@ -75,12 +96,13 @@ public RepositorioUsuario(): base(){
     }
 
 
+
     public Usuario Obtener(int id){
         Usuario usuario = null;
         using (MySqlConnection connection = new MySqlConnection(ConnectionString))
         {
             connection.Open();
-            string query = "SELECT * FROM usuario WHERE idUsuario = @IdUsuario"; 
+            string query = "SELECT * FROM usuario WHERE idUsuario = @IdUsuario AND estado = true"; 
             using (MySqlCommand command = new MySqlCommand(query, connection)){
                 command.Parameters.AddWithValue("@IdUsuario", id);
                 using (MySqlDataReader reader = command.ExecuteReader()){
@@ -119,13 +141,11 @@ public RepositorioUsuario(): base(){
                 if (!string.IsNullOrWhiteSpace(nuevaPassword)){
                     command.Parameters.AddWithValue("@PasswordUsuario", encriptar(nuevaPassword));
                 }
-                command.Parameters.AddWithValue("@PasswordUsuario", encriptar(usuario.Password));
                 command.Parameters.AddWithValue("@RolUsuario", usuario.Rol);
                 command.Parameters.AddWithValue("@AvatarUsuario", usuario.Avatar);
                 command.Parameters.AddWithValue("@NombreUsuario", usuario.Nombre);
                 command.Parameters.AddWithValue("@ApellidoUsuario", usuario.Apellido);
                 command.Parameters.AddWithValue("@IdUsuario", usuario.IdUsuario);
-
                 filasAfectadas = command.ExecuteNonQuery();
             }
         }
@@ -138,6 +158,20 @@ public RepositorioUsuario(): base(){
         using (MySqlConnection connection = new MySqlConnection(ConnectionString)){
             connection.Open();
             string query = "UPDATE usuario SET estado = false WHERE idUsuario = @IdUsuario"; 
+            using (MySqlCommand command = new MySqlCommand(query, connection)){
+                command.Parameters.AddWithValue("@IdUsuario", id);
+                filasAfectadas = command.ExecuteNonQuery();
+            }
+        }
+        return filasAfectadas;
+    }
+
+    // dar de alta un usuario
+    public int Alta(int id){
+        int filasAfectadas = 0;
+        using (MySqlConnection connection = new MySqlConnection(ConnectionString)){
+            connection.Open();
+            string query = "UPDATE usuario SET estado = true WHERE idUsuario = @IdUsuario"; 
             using (MySqlCommand command = new MySqlCommand(query, connection)){
                 command.Parameters.AddWithValue("@IdUsuario", id);
                 filasAfectadas = command.ExecuteNonQuery();

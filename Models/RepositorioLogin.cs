@@ -19,25 +19,20 @@ public class RepositorioLogin : RepositorioBase
         {
             using(MySqlConnection connection = new MySqlConnection(ConnectionString)){//ConnectionStrin es heredado del RepositorioBase
                 connection.Open(); 
-
-                string query = "SELECT * FROM usuario WHERE email = @email";
+                string query = "SELECT * FROM usuario WHERE email = @email AND estado = true";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@email", model.Email);
                 MySqlDataReader reader = command.ExecuteReader();
-                if (reader.Read()) // busca datos, si encuentra devuelve true
-                {
+                if (reader.Read()){
                     string passwordHash = reader["password"].ToString(); // recupero passs
-                    if (VerificarHashPassword(model.Password, passwordHash))
-                    {
-                        usuarioEncontrado = new Usuario //  pass correcto creo objeto y lo paso
-                        {
+                    if (VerificarHashPassword(model.Password, passwordHash)){
+                        usuarioEncontrado = new Usuario{
                             IdUsuario = reader.GetInt32("idUsuario"),
                             Nombre = reader["nombre"].ToString(),
                             Email = reader["email"].ToString(),
                             Rol = reader["rol"].ToString(),
                             Apellido= reader["apellido"].ToString(),
                             Avatar = reader.GetString("avatar")
-                            
                         };
                     }
                 }
