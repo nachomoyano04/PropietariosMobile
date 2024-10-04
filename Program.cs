@@ -1,8 +1,16 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
+var configuration = builder.Configuration;
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<DataContext>(
+	options => options.UseMySql(
+		configuration["ConnectionStrings:Server=localhost;User=root;Password=;Database=inmobiliaria;SslMode=none"],
+		ServerVersion.AutoDetect(configuration["ConnectionStrings:Server=localhost;User=root;Password=;Database=inmobiliaria;SslMode=none"])
+	)
+);
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
