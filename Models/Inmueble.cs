@@ -1,20 +1,24 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using ProyetoInmobiliaria.Models;
 public class Inmueble{
     [Key]
     public int IdInmueble {get; set;}
 
+    [ForeignKey("IdPropietario")]
+    public Propietario? propietario {get; set;}
     [Required(ErrorMessage = "Debe elegir un propietario")]
     public int IdPropietario {get; set;}
     
+    [ForeignKey("IdDireccion")]
+    public Direccion? direccion {get; set;} 
     public int IdDireccion {get; set;}
     
+    [ForeignKey("IdTipo")]
+    public Tipo? tipo {get; set;}
     [Required(ErrorMessage = "Debe elegir un tipo de inmueble.")]
     public int IdTipo {get; set;}
 
-    public Propietario? propietario {get; set;}
-    public Direccion? direccion {get; set;} 
-    public Tipo? tipo {get; set;}
     
     [Required(ErrorMessage = "Los metros cuadrados son obligatorios.")]
     [Range(1, double.MaxValue, ErrorMessage = "Los metros cuadrados deben ser mayores que 0.")]

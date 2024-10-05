@@ -7,8 +7,8 @@ var configuration = builder.Configuration;
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<DataContext>(
 	options => options.UseMySql(
-		configuration["ConnectionStrings:Server=localhost;User=root;Password=;Database=inmobiliaria;SslMode=none"],
-		ServerVersion.AutoDetect(configuration["ConnectionStrings:Server=localhost;User=root;Password=;Database=inmobiliaria;SslMode=none"])
+		configuration["ConnectionString"],
+		ServerVersion.AutoDetect(configuration["ConnectionString"])
 	)
 );
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
