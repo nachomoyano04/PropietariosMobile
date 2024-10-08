@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using ProyetoInmobiliaria.Models;
 [Route("api/[controller]")]
@@ -10,16 +11,17 @@ public class PropietarioApiController:ControllerBase{
     }
 
     //http://localhost:5203/api/PropietarioApi/id
+    [HttpPut] //para cuando no necesite pasar el id porque tengo en la claim el id logueado
+    // public IActionResult EditarPropietario([FromForm] Propietario propietario){
+        // int IdPropietario = Int32.Parse(User.FindFirst("idPropietario").Value);
     [HttpPut("{id}")]
     public IActionResult EditarPropietario(int id, [FromForm] Propietario propietario){
         if(context.Propietario.Find(id) != null){
-            propietario.IdPropietario = id;
             context.Update(propietario);
             context.SaveChanges();
             return Ok();
         }
         return NotFound();
     }
-
 
 }

@@ -17,7 +17,7 @@ public class InmuebleApiController:ControllerBase{
 
     //http://localhost:5203/api/InmuebleApi
     [HttpPost]
-    public IActionResult GuardarInmueble([FromForm]Inmueble inmueble){
+    public IActionResult CrearInmueble([FromForm]Inmueble inmueble){
         context.Add(inmueble);
         context.SaveChanges();
         return Ok();
@@ -27,7 +27,6 @@ public class InmuebleApiController:ControllerBase{
     [HttpPut("{id}")]
     public IActionResult EditarInmueble(int id, Inmueble inmueble){
         if(context.Inmueble.Find(id) != null){
-            inmueble.IdInmueble = id;
             context.Update(inmueble);
             context.SaveChanges();
             return Ok();
