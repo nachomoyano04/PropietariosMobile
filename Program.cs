@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
+builder.WebHost.UseUrls("http://localhost:5203");
 var configuration = builder.Configuration;
 
 // Add services to the container.
@@ -18,12 +19,16 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         //options.LogoutPath = "/Account/Logout";
         options.AccessDeniedPath = "/Home/Index";
     });
- builder.Services.AddAuthorization(options =>
+builder.Services.AddAuthorization(options =>
     {
         options.AddPolicy("Administrador", policy => policy.RequireRole("Administrador"));
     });
 builder.Services.AddControllersWithViews();
 var app = builder.Build();
+app.UseCors(x => x
+	.AllowAnyOrigin()
+	.AllowAnyMethod()
+	.AllowAnyHeader());
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
