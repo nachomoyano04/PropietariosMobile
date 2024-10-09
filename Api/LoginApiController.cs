@@ -9,10 +9,4 @@ public class LoginApiController : ControllerBase{
     public LoginApiController(DataContext context){
         this.context = context;
     }
-
-    // [HttpGet("{id}")]
-    // public IActionResult GetPropietarios(int id){
-    //     Propietario? propietario = context.Propietario.SingleOrDefault(p => p.IdPropietario == id);
-    //     return Ok(propietario);
-    // }
 }

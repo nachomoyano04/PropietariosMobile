@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 var builder = WebApplication.CreateBuilder(args);
 builder.WebHost.UseUrls("http://localhost:5203");
 var configuration = builder.Configuration;
@@ -18,7 +19,21 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.LoginPath = "/Login/Index";
         //options.LogoutPath = "/Account/Logout";
         options.AccessDeniedPath = "/Home/Index";
-    });
+    })
+    .AddJwtBearer(options => {
+        options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters{
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = configuration["TokenAuthentication:Issuer"],
+            ValidAudience = configuration["TokenAuthenticacion:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(
+                configuration["TokenAuthentication:SecretKey"]
+            ))
+        }
+    })
+    ;
 builder.Services.AddAuthorization(options =>
     {
         options.AddPolicy("Administrador", policy => policy.RequireRole("Administrador"));
