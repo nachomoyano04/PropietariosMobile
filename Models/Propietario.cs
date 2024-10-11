@@ -1,5 +1,6 @@
 
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProyetoInmobiliaria.Models;
 public class Propietario{
@@ -23,5 +24,8 @@ public class Propietario{
     [Required(ErrorMessage = "El Correo es obligatorio")]
     [EmailAddress(ErrorMessage = "Formato de correo no válido.")]
     public string Correo { get; set; } = "";
+    public string Password {get; set;} = "";
+    [NotMapped]
+    public IFormFile? Avatar {get; set;}
     public Boolean Estado { get; set; }
 }

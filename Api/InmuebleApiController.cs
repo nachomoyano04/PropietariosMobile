@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 [Route("api/[controller]")]
 [ApiController]
 public class InmuebleApiController:ControllerBase{
@@ -10,6 +11,7 @@ public class InmuebleApiController:ControllerBase{
     //http://localhost:5203/api/InmuebleApi/id
     [HttpGet("{id}")]
     public IActionResult GetInmueblesPorPropietario(int id){
+        // List<Inmueble>inmuebles = context.Inmueble.Where(i => i.IdPropietario == id).Include(i => i.propietario).ToList();
         List<Inmueble>inmuebles = context.Inmueble.Where(i => i.IdPropietario == id).ToList();
         return Ok(inmuebles);
     }

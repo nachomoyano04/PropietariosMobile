@@ -1,8 +1,9 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 var builder = WebApplication.CreateBuilder(args);
-builder.WebHost.UseUrls("http://localhost:5203");
+builder.WebHost.UseUrls("http://localhost:5203", "http://*:5203");
 var configuration = builder.Configuration;
 
 // Add services to the container.
@@ -13,13 +14,7 @@ builder.Services.AddDbContext<DataContext>(
 		ServerVersion.AutoDetect(configuration["ConnectionString"])
 	)
 );
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options =>
-    {
-        options.LoginPath = "/Login/Index";
-        //options.LogoutPath = "/Account/Logout";
-        options.AccessDeniedPath = "/Home/Index";
-    })
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options => {
         options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters{
             ValidateIssuer = true,
@@ -31,7 +26,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
             IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(
                 configuration["TokenAuthentication:SecretKey"]
             ))
-        }
+        };
     })
     ;
 builder.Services.AddAuthorization(options =>
