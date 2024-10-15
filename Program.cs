@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -7,7 +7,7 @@ builder.WebHost.UseUrls("http://localhost:5203", "http://*:5203");
 var configuration = builder.Configuration;
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+// builder.Services.AddControllersWithViews(); // lo especifico mas abajo
 builder.Services.AddDbContext<DataContext>(
 	options => options.UseMySql(
 		configuration["ConnectionString"],
@@ -16,23 +16,23 @@ builder.Services.AddDbContext<DataContext>(
 );
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options => {
-        options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters{
+        options.TokenValidationParameters = new TokenValidationParameters{
             ValidateIssuer = true,
             ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
             ValidIssuer = configuration["TokenAuthentication:Issuer"],
-            ValidAudience = configuration["TokenAuthenticacion:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(
+            ValidAudience = configuration["TokenAuthentication:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(
                 configuration["TokenAuthentication:SecretKey"]
             ))
         };
     })
     ;
-builder.Services.AddAuthorization(options =>
-    {
-        options.AddPolicy("Administrador", policy => policy.RequireRole("Administrador"));
-    });
+// builder.Services.AddAuthorization(options =>       // no necesito roles para mi sistema de propietario
+//     {
+//         options.AddPolicy("Administrador", policy => policy.RequireRole("Administrador"));
+//     });
 builder.Services.AddControllersWithViews();
 var app = builder.Build();
 app.UseCors(x => x

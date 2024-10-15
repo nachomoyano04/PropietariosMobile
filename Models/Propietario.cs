@@ -25,7 +25,6 @@ public class Propietario{
     [EmailAddress(ErrorMessage = "Formato de correo no válido.")]
     public string Correo { get; set; } = "";
     public string Password {get; set;} = "";
-    [NotMapped]
-    public IFormFile? Avatar {get; set;}
-    public Boolean Estado { get; set; }
+    public string Avatar{get; set;} = "";
+    public bool Estado { get; set; }
 }
