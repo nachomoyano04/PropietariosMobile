@@ -2,6 +2,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 [Route("api/[controller]")]
 [ApiController]
 public class InmuebleApiController:ControllerBase{
@@ -10,16 +11,7 @@ public class InmuebleApiController:ControllerBase{
         this.context = context;
     }
 
-    // //http://localhost:5203/api/InmuebleApi/id
-    // [Authorize]
-    // [HttpGet("{id}")]
-    // public IActionResult GetInmueblesPorPropietario(int id){
-    //     // List<Inmueble>inmuebles = context.Inmueble.Where(i => i.IdPropietario == id).Include(i => i.propietario).ToList();
-    //     List<Inmueble>inmuebles = context.Inmueble.Where(i => i.IdPropietario == id).ToList();
-    //     return Ok(inmuebles);
-    // }
-    
-    //http://localhost:5203/api/InmuebleApi
+    //http://localhost:5203/api/inmuebleapi
     [Authorize]
     [HttpGet]
     public IActionResult GetInmueblesPorPropietario(){
@@ -33,7 +25,8 @@ public class InmuebleApiController:ControllerBase{
     }
 
 
-    //http://localhost:5203/api/InmuebleApi
+    //http://localhost:5203/api/inmuebleapi
+    [Authorize]
     [HttpPost]
     public IActionResult CrearInmueble([FromForm]Inmueble inmueble){
         context.Add(inmueble);
@@ -41,7 +34,8 @@ public class InmuebleApiController:ControllerBase{
         return Ok();
     }
 
-    //http://localhost:5203/api/InmuebleApi/id
+    //http://localhost:5203/api/inmuebleapi/id
+    [Authorize]
     [HttpPut("{id}")]
     public IActionResult EditarInmueble(int id, Inmueble inmueble){
         if(context.Inmueble.Find(id) != null){
@@ -50,5 +44,31 @@ public class InmuebleApiController:ControllerBase{
             return Ok();
         }
         return NotFound();
+    }
+
+    //http://localhost:5203/api/inmuebleapi/id
+    [Authorize]
+    [HttpGet("{id}")]
+    public IActionResult GetInmueblePorId(int id){
+        int idPropietario = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+        var inmueble = context.Inmueble.Where(e => e.IdInmueble == id && e.IdPropietario == idPropietario).ToList();
+        if(inmueble != null && !inmueble.IsNullOrEmpty()){
+            return Ok(inmueble);
+        }else{
+            return Unauthorized();
+        }
+    }
+
+    //http://localhost:5203/api/inmuebleapi/disponibilidad/id
+    [Authorize]
+    [HttpPut("disponibilidad/{id}")]
+    public IActionResult CambiarDisponibilidad(int id){
+        var inmueble = context.Inmueble.Find(id);
+        if(inmueble != null){
+            //logica para cambiar el estado
+            return Ok();
+        }else{
+            return Unauthorized();
+        }
     }
 }

@@ -56,6 +56,7 @@ public class PropietarioApiController:ControllerBase{
             }
             context.Entry(propietarioBD).State = EntityState.Detached;
             propietario.IdPropietario = IdPropietario;
+            propietario.Estado = true;
             context.Propietario.Update(propietario);
             context.SaveChanges();
             return Ok("Datos del perfil actualizados correctamente...");
@@ -72,7 +73,7 @@ public class PropietarioApiController:ControllerBase{
         return Ok(propietario);
     }
 
-    //http://localhost:5203/api/propietarioapi/crear   //SOLO PARA DESARROLLO
+    //SOLO PARA DESARROLLO //http://localhost:5203/api/propietarioapi/crear   //SOLO PARA DESARROLLO
     [AllowAnonymous]
     [HttpPost("crear")]
     public IActionResult Crear([FromForm] Propietario p){
