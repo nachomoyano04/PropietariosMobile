@@ -15,12 +15,12 @@
                 <label class="form-label" asp-for="Contrato.IdInmueble">Inmueble</label>
                 @if(@Model.Inmueble != null && Model.Inmueble.IdInmueble != 0){
                         <input type="hidden" asp-for="Contrato.IdInmueble" value="@Model.Inmueble.IdInmueble">
-                        <input type="text" disabled class="form-control" value="@Model.Inmueble.direccion.Calle @Model.Inmueble.direccion.Altura @Model.Inmueble.direccion.Ciudad. Tipo @Model.Inmueble.tipo.Observacion">
+                        <input type="text" disabled class="form-control" value="@Model.Inmueble.direccion.Calle @Model.Inmueble.direccion.Altura @Model.Inmueble.direccion.Ciudad. Tipo @Model.Inmueble.tipo">
                 }else{
                     <select class="form-control" asp-for="Contrato.IdInmueble">
 
                         @foreach(var m in Model.Inmuebles){
-                            <option value="@m.IdInmueble">@m.direccion.Calle @m.direccion.Altura, @m.direccion.Ciudad. Tipo @m.tipo.Observacion</option>
+                            <option value="@m.IdInmueble">@m.direccion.Calle @m.direccion.Altura, @m.direccion.Ciudad. Tipo @m.tipo</option>
                         }
                     </select>
                 }

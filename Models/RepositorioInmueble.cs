@@ -26,7 +26,7 @@ RepositorioDireccion repoDire = new RepositorioDireccion();
             using(MySqlCommand command = new MySqlCommand(query, connection)){
                 command.Parameters.AddWithValue("@IdPropietario", inmueble.IdPropietario);
                 command.Parameters.AddWithValue("@IdDireccion", inmueble.IdDireccion);
-                command.Parameters.AddWithValue("@IdTipo", inmueble.IdTipo);
+                command.Parameters.AddWithValue("@IdTipo", inmueble.tipo);
                 command.Parameters.AddWithValue("@Metros2", inmueble.Metros2);
                 command.Parameters.AddWithValue("@CantidadAmbientes", inmueble.CantidadAmbientes);
                 command.Parameters.AddWithValue("@Disponible", inmueble.Disponible);
@@ -55,7 +55,7 @@ RepositorioDireccion repoDire = new RepositorioDireccion();
             using(MySqlCommand command = new MySqlCommand(query, connection)){
                 command.Parameters.AddWithValue("@IdPropietario", inmueble.IdPropietario);
                 command.Parameters.AddWithValue("@IdDireccion", inmueble.IdDireccion);
-                command.Parameters.AddWithValue("@IdTipo", inmueble.IdTipo);
+                command.Parameters.AddWithValue("@IdTipo", inmueble.tipo);
                 command.Parameters.AddWithValue("@Metros2", inmueble.Metros2);
                 command.Parameters.AddWithValue("@CantidadAmbientes", inmueble.CantidadAmbientes);
                 command.Parameters.AddWithValue("@Disponible", inmueble.Disponible);
@@ -84,15 +84,13 @@ RepositorioDireccion repoDire = new RepositorioDireccion();
                     while(reader.Read()){
                         Propietario p = repoPropie.Obtener(reader.GetInt32("IdPropietario"));
                         Direccion d = repoDire.Obtener(reader.GetInt32("IdDireccion"));
-                        Tipo t = repoTipo.Obtener(reader.GetInt32("IdTipo"));
                         Inmueble inmueble = new Inmueble{
                             IdPropietario= p.IdPropietario,
                             IdDireccion= d.IdDireccion,
-                            IdTipo = t.IdTipo,
+                            tipo = reader.GetString("tipo"),
                             IdInmueble = reader.GetInt32("IdInmueble"),
                             propietario = p,
                             direccion = d,
-                            tipo = t,
                             Metros2 = reader.GetString("metros2"),
                             CantidadAmbientes = reader.GetInt32("cantidadAmbientes"),
                             Disponible = reader.GetBoolean("disponible"),
@@ -125,15 +123,13 @@ RepositorioDireccion repoDire = new RepositorioDireccion();
                     while(reader.Read()){
                         Propietario p = repoPropie.Obtener(reader.GetInt32("IdPropietario"));
                         Direccion d = repoDire.Obtener(reader.GetInt32("IdDireccion"));
-                        Tipo t = repoTipo.Obtener(reader.GetInt32("IdTipo"));
                         Inmueble inmueble = new Inmueble{
                             IdPropietario= p.IdPropietario,
                             IdDireccion= d.IdDireccion,
-                            IdTipo = t.IdTipo,
+                            tipo = reader.GetString("tipo"),
                             IdInmueble = reader.GetInt32("IdInmueble"),
                             propietario = p,
                             direccion = d,
-                            tipo = t,
                             Metros2 = reader.GetString("metros2"),
                             CantidadAmbientes = reader.GetInt32("cantidadAmbientes"),
                             Disponible = reader.GetBoolean("disponible"),
@@ -163,15 +159,13 @@ RepositorioDireccion repoDire = new RepositorioDireccion();
                     while(reader.Read()){
                         Propietario p = repoPropie.Obtener(reader.GetInt32("IdPropietario"));
                         Direccion d = repoDire.Obtener(reader.GetInt32("IdDireccion"));
-                        Tipo t = repoTipo.Obtener(reader.GetInt32("IdTipo"));
                         Inmueble inmueble = new Inmueble{
                             IdPropietario= p.IdPropietario,
                             IdDireccion= d.IdDireccion,
-                            IdTipo = t.IdTipo,
+                            tipo = reader.GetString("tipo"),
                             IdInmueble = reader.GetInt32("IdInmueble"),
                             propietario = p,
                             direccion = d,
-                            tipo = t,
                             Metros2 = reader.GetString("metros2"),
                             CantidadAmbientes = reader.GetInt32("cantidadAmbientes"),
                             Disponible = reader.GetBoolean("disponible"),
@@ -201,15 +195,13 @@ RepositorioDireccion repoDire = new RepositorioDireccion();
                     while(reader.Read()){
                         Propietario p = repoPropie.Obtener(reader.GetInt32("IdPropietario"));
                         Direccion d = repoDire.Obtener(reader.GetInt32("IdDireccion"));
-                        Tipo t = repoTipo.Obtener(reader.GetInt32("IdTipo"));
                         Inmueble inmueble = new Inmueble{
                             IdPropietario= p.IdPropietario,
                             IdDireccion= d.IdDireccion,
-                            IdTipo = t.IdTipo,
+                            tipo = reader.GetString("tipo"),
                             IdInmueble = reader.GetInt32("IdInmueble"),
                             propietario = p,
                             direccion = d,
-                            tipo = t,
                             Metros2 = reader.GetString("metros2"),
                             CantidadAmbientes = reader.GetInt32("cantidadAmbientes"),
                             Disponible = reader.GetBoolean("disponible"),
@@ -242,15 +234,13 @@ RepositorioDireccion repoDire = new RepositorioDireccion();
                     while(reader.Read()){
                         Propietario p = repoPropie.Obtener(reader.GetInt32("IdPropietario"));
                         Direccion d = repoDire.Obtener(reader.GetInt32("IdDireccion"));
-                        Tipo t = repoTipo.Obtener(reader.GetInt32("IdTipo"));
                         Inmueble inmueble = new Inmueble{
                             IdPropietario= p.IdPropietario,
                             IdDireccion= d.IdDireccion,
-                            IdTipo = t.IdTipo,
+                            tipo = reader.GetString("tipo"),
                             IdInmueble = reader.GetInt32("IdInmueble"),
                             propietario = p,
                             direccion = d,
-                            tipo = t,
                             Metros2 = reader.GetString("metros2"),
                             CantidadAmbientes = reader.GetInt32("cantidadAmbientes"),
                             Disponible = reader.GetBoolean("disponible"),
@@ -282,15 +272,13 @@ RepositorioDireccion repoDire = new RepositorioDireccion();
                     if (reader.Read()){
                         Propietario p = repoPropie.Obtener(reader.GetInt32("idPropietario"));
                         Direccion d = repoDire.Obtener(reader.GetInt32("idDireccion"));
-                        Tipo t = repoTipo.Obtener(reader.GetInt32("idTipo"));
                         inmueble = new Inmueble{
                             IdPropietario= reader.GetInt32("idPropietario"),
                             IdDireccion = reader.GetInt32("idDireccion"),
-                            IdTipo = reader.GetInt32("idTipo"),
                             IdInmueble = reader.GetInt32("idInmueble"),
                             propietario = p,
                             direccion = d,
-                            tipo = t,
+                            tipo = reader.GetString("tipo"),
                             Metros2 = reader.GetString("metros2"),
                             CantidadAmbientes = reader.GetInt32("cantidadAmbientes"),
                             Disponible = reader.GetBoolean("disponible"),

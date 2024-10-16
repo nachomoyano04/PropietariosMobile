@@ -65,13 +65,32 @@ public class PropietarioApiController:ControllerBase{
     }
 
     //http://localhost:5203/api/propietarioapi
-    [HttpGet]
     [Authorize]
+    [HttpGet]
     public IActionResult GetPropietario(){
         var IdPropietario = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
         var propietario = context.Propietario.Find(IdPropietario);
         return Ok(propietario);
     }
+
+    //http://localhost:5203/api/propietarioapi/password
+    [Authorize]
+    [HttpPut("password")]
+    public IActionResult ChangePassword([FromForm] string Password){
+        var IdPropietario = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+        var propietario = context.Propietario.Find(IdPropietario);
+        if(propietario != null){
+            if(!Password.IsNullOrEmpty()){
+                propietario.Password = HashearPassword(Password);
+                context.SaveChanges();
+                return Ok("Campos guardados correctamente!");
+            }else{
+                return BadRequest("Falta parametro.");
+            }
+        }
+        return NotFound();
+    }
+
 
     //SOLO PARA DESARROLLO //http://localhost:5203/api/propietarioapi/crear   //SOLO PARA DESARROLLO
     [AllowAnonymous]

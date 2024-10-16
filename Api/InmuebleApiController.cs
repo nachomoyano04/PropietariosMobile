@@ -18,7 +18,7 @@ public class InmuebleApiController:ControllerBase{
         var IdPropietario = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
         var propietario = context.Propietario.Find(IdPropietario);
         if(propietario != null){
-            List<Inmueble>inmuebles = context.Inmueble.Where(i => i.IdPropietario == IdPropietario).ToList();
+            List<Inmueble>inmuebles = context.Inmueble.Where(i => i.IdPropietario == IdPropietario).Include(e => e.direccion).ToList();
             return Ok(inmuebles);
         }
         return BadRequest();
@@ -51,7 +51,7 @@ public class InmuebleApiController:ControllerBase{
     [HttpGet("{id}")]
     public IActionResult GetInmueblePorId(int id){
         int idPropietario = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-        var inmueble = context.Inmueble.Where(e => e.IdInmueble == id && e.IdPropietario == idPropietario).ToList();
+        var inmueble = context.Inmueble.Where(e => e.IdInmueble == id && e.IdPropietario == idPropietario).Include(e => e.direccion).ToList();
         if(inmueble != null && !inmueble.IsNullOrEmpty()){
             return Ok(inmueble);
         }else{
@@ -63,10 +63,19 @@ public class InmuebleApiController:ControllerBase{
     [Authorize]
     [HttpPut("disponibilidad/{id}")]
     public IActionResult CambiarDisponibilidad(int id){
-        var inmueble = context.Inmueble.Find(id);
+        int IdPropietario = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+        var inmueble = context.Inmueble.First(e => e.IdInmueble == id && e.IdPropietario == IdPropietario);
         if(inmueble != null){
-            //logica para cambiar el estado
-            return Ok();
+            string mensaje;
+            if(inmueble.Disponible){
+                inmueble.Disponible = false;
+                mensaje = "Inmueble fuera de disponibilidad";
+            }else{
+                inmueble.Disponible = true;
+                mensaje = "Inmueble disponible";
+            }
+            context.SaveChanges();
+            return Ok(mensaje);
         }else{
             return Unauthorized();
         }

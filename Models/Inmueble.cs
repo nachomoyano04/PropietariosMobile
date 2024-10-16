@@ -14,11 +14,8 @@ public class Inmueble{
     public Direccion? direccion {get; set;} 
     public int IdDireccion {get; set;}
     
-    [ForeignKey("IdTipo")]
-    public Tipo? tipo {get; set;}
-    [Required(ErrorMessage = "Debe elegir un tipo de inmueble.")]
-    public int IdTipo {get; set;}
-
+    public string tipo {get; set;}
+    public string Uso {get; set;} = "";
     
     [Required(ErrorMessage = "Los metros cuadrados son obligatorios.")]
     [Range(1, double.MaxValue, ErrorMessage = "Los metros cuadrados deben ser mayores que 0.")]
@@ -27,18 +24,18 @@ public class Inmueble{
     [Required(ErrorMessage = "Debe especificar la cantidad de ambientes")]
     public int CantidadAmbientes {get; set;}
     
-    public Boolean Disponible {get; set;}
+    public bool Disponible {get; set;}
     
     [Required(ErrorMessage = "Debe ingresar el precio.")]
     [Range(0.01, double.MaxValue, ErrorMessage = "El precio debe ser mayor que 0.")]
-    public Decimal Precio {get; set;}
+    public decimal Precio {get; set;}
     
     [Required(ErrorMessage = "Debe ingresar una descripción.")]
     public string Descripcion {get; set;}
-    public Boolean Cochera {get; set;}
-    public Boolean Piscina {get; set;}
-    public Boolean Mascotas {get; set;}
-    public Boolean Estado {get; set;}
+    public bool Cochera {get; set;}
+    public bool Piscina {get; set;}
+    public bool Mascotas {get; set;}
+    public bool Estado {get; set;}
     
     [Required(ErrorMessage = "Debe ingresar una url para la imagen...")]
     public string UrlImagen {get; set;}

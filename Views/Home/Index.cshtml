@@ -38,7 +38,7 @@
     <select id="selectTipos" class="form-select me-2">
         <option disabled hidden selected>Elija un tipo</option>
         @foreach(var item in Model.Tipos){
-            <option value="@item.IdTipo">@item.Observacion</option>
+            <option value="@item.IdTipo">@item</option>
         }
     </select>
     <div class="d-flex align-items-center me-3">
@@ -55,7 +55,7 @@
         <a href="@Url.Action("Detalles","Inmueble", new { id = item.IdInmueble})">
             <div class="cardInmueble">
                 <img src="@item.UrlImagen" alt="">
-                <h2>@item.tipo.Observacion</h2>
+                <h2>@item.tipo</h2>
                 <p>@item.Descripcion</p>
             </div>
         </a>
