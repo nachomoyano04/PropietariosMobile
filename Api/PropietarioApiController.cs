@@ -36,7 +36,7 @@ public class PropietarioApiController:ControllerBase{
     //http://localhost:5203/api/propietarioapi
     [HttpPut]
     [Authorize]
-    public IActionResult EditarPropietario([FromForm] Propietario propietario, [FromForm] IFormFile? avatarApi){
+    public IActionResult EditarPropietario([FromForm] Propietario propietario){
         var IdPropietario = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
         var propietarioBD = context.Propietario.SingleOrDefault(p => p.IdPropietario == IdPropietario);
         if(propietarioBD != null){
@@ -44,15 +44,6 @@ public class PropietarioApiController:ControllerBase{
                 propietario.Password = propietarioBD.Password;
             }else{
                 propietario.Password = HashearPassword(propietario.Password);
-            }
-            if(avatarApi != null && avatarApi.Length > 0){
-                var ruta = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/Avatar", avatarApi.FileName);
-                using(var stream = new FileStream(ruta, FileMode.Create)){
-                    avatarApi.CopyTo(stream);
-                }
-                propietario.Avatar = avatarApi.FileName;
-            }else{
-                propietario.Avatar = propietarioBD.Avatar;
             }
             context.Entry(propietarioBD).State = EntityState.Detached;
             propietario.IdPropietario = IdPropietario;
@@ -62,6 +53,26 @@ public class PropietarioApiController:ControllerBase{
             return Ok("Datos del perfil actualizados correctamente...");
         }
         return NotFound();
+    }
+
+    //http://localhost:5203/api/propietarioapi/avatar
+    [Authorize]
+    [HttpPut("avatar")]
+    public IActionResult EditarAvatar([FromForm] IFormFile avatar){
+        int IdPropietario = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+        var propietario = context.Propietario.Find(IdPropietario); 
+        if(propietario != null){
+            if(avatar != null && avatar.Length > 0){
+                var ruta = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/Avatar", avatar.FileName);
+                using(var stream = new FileStream(ruta, FileMode.Create)){
+                    avatar.CopyTo(stream);
+                }
+                propietario.Avatar = avatar.FileName;
+                context.SaveChanges();      
+                return Ok("Avatar actualizado");
+            }
+        }
+        return Unauthorized();
     }
 
     //http://localhost:5203/api/propietarioapi

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using ProyetoInmobiliaria.Models;
 public class Contrato{
     [Key]
@@ -9,7 +10,11 @@ public class Contrato{
     
     [Required(ErrorMessage = "El campo Inmueble es obligatorio.")]
     public int IdInmueble {get; set;}
+    [ForeignKey("IdInquilino")]
+
     public Inquilino? inquilino {get; set;}
+    [ForeignKey("IdInmueble")]
+    
     public Inmueble? inmueble {get; set;}
 
     [Required(ErrorMessage = "El Monto es obligatorio.")]
