@@ -10,4 +10,5 @@ public class DataContext:DbContext{
     public DbSet<Inmueble> Inmueble {get;set;}
     public DbSet<Contrato> Contrato {get;set;}
     public DbSet<Pago> Pago {get; set;}
+    public DbSet<Direccion> Direccion {get; set;}
 }

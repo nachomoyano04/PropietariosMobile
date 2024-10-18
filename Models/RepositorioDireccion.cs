@@ -15,9 +15,9 @@ public class RepositorioDireccion:RepositorioBase{
             using(MySqlCommand command = new MySqlCommand(query, connection)){
                 command.Parameters.AddWithValue("@Calle", direccion.Calle);
                 command.Parameters.AddWithValue("@Altura", direccion.Altura);
-                command.Parameters.AddWithValue("@Cp", direccion.Cp);
+                // command.Parameters.AddWithValue("@Cp", direccion.Cp);
                 command.Parameters.AddWithValue("@Ciudad", direccion.Ciudad);
-                command.Parameters.AddWithValue("@Coordenadas", direccion.Coordenadas);
+                // command.Parameters.AddWithValue("@Coordenadas", direccion.Coordenadas);
                 idCreado = Convert.ToInt32(command.ExecuteScalar());
             }
         }
@@ -34,9 +34,9 @@ public class RepositorioDireccion:RepositorioBase{
             using(MySqlCommand command = new MySqlCommand(query, connection)){
                 command.Parameters.AddWithValue("@Calle", Direccion.Calle);
                 command.Parameters.AddWithValue("@Altura", Direccion.Altura);
-                command.Parameters.AddWithValue("@Cp", Direccion.Cp);
+                // command.Parameters.AddWithValue("@Cp", Direccion.Cp);
                 command.Parameters.AddWithValue("@Ciudad", Direccion.Ciudad);
-                command.Parameters.AddWithValue("@Coordenadas", Direccion.Coordenadas);
+                // command.Parameters.AddWithValue("@Coordenadas", Direccion.Coordenadas);
                 command.Parameters.AddWithValue("@IdDireccion", Direccion.IdDireccion);
                 filasAfectadas = command.ExecuteNonQuery();
             }
@@ -57,9 +57,9 @@ public class RepositorioDireccion:RepositorioBase{
                             IdDireccion = reader.GetInt32("idDireccion"),
                             Calle = reader.GetString("calle"),
                             Altura = reader.GetInt32("altura"),
-                            Cp = reader.GetString("cp"),
+                            // Cp = reader.GetString("cp"),
                             Ciudad = reader.GetString("ciudad"),
-                            Coordenadas = reader.GetString("coordenadas")
+                            // Coordenadas = reader.GetString("coordenadas")
                             };
                         Direcciones.Add(direccion);
                     }
@@ -83,9 +83,9 @@ public class RepositorioDireccion:RepositorioBase{
                             IdDireccion = idDireccion,
                             Calle = reader.GetString("calle"),
                             Altura = reader.GetInt32("altura"),
-                            Cp = reader.GetString("cp"),
+                            // Cp = reader.GetString("cp"),
                             Ciudad = reader.GetString("ciudad"),
-                            Coordenadas = reader.GetString("coordenadas")
+                            // Coordenadas = reader.GetString("coordenadas")
                         };
                     }
                 }
@@ -108,46 +108,3 @@ public class RepositorioDireccion:RepositorioBase{
         return filasAfectadas;
     }    
 }
-// public class RepositorioDireccion{
-//     private readonly InmobiliariaContext context;
-
-//     public RepositorioDireccion(){
-//         context = new InmobiliariaContext();
-//     }
-
-//     //Crear
-//     public int Crear(Direccion direccion){
-//         var entidadCreada = context.Add(direccion);
-//         context.SaveChanges();
-//         return entidadCreada.Entity.IdDireccion;
-//     }
-
-//     //Modificar
-//     public int Modificar(Direccion direccion){
-//         context.Update(direccion);
-//         int filasAfectadas = context.SaveChanges();
-//         return filasAfectadas;
-//     }
-
-//     //Listar
-//     public List<Direccion> Listar(){
-//         return context.Direccion.ToList();
-//     }
-
-//     //Obtener
-//     public Direccion Obtener(int IdDireccion){
-//         return context.Direccion.Find(IdDireccion);
-//     }
-
-//     //Eliminar
-//     public int Eliminar(int IdDireccion){
-//         Direccion direccion = Obtener(IdDireccion);
-//         int filasAfectadas = 0;
-//         if(direccion != null){
-//             context.Remove(direccion);
-//             filasAfectadas = context.SaveChanges();
-//         }
-//         return filasAfectadas;
-//     }
-
-// }

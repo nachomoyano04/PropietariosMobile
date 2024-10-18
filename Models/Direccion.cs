@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 public class Direccion{
     [Key]
@@ -10,12 +11,9 @@ public class Direccion{
     [Required(ErrorMessage = "Debe ingresar una altura.")]
     public int Altura {get; set;}
 
-    [Required(ErrorMessage = "Debe ingresar un codigo postal.")]
-    public string Cp {get; set;}
-
     [Required(ErrorMessage = "Debe ingresar una ciudad.")]
     public string Ciudad {get; set;}
 
-    [Required(ErrorMessage = "Debe ingresar coordenadas.")]
-    public string Coordenadas {get; set;}
+    // public string Cp {get; set;}
+    // public string Coordenadas {get; set;}
 }

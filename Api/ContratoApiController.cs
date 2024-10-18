@@ -13,7 +13,7 @@ public class ContratoApiController: ControllerBase{
         this.context = context;
     }
     
-    //http://localhost:5204/api/contratoapi
+    //http://localhost:5203/api/contratoapi             //*PROBADO*//
     [Authorize]
     [HttpGet]
     public IActionResult GetContratos(){ //todos los contratos asociados a los inmuebles del propietario
@@ -27,7 +27,7 @@ public class ContratoApiController: ControllerBase{
     
 
 
-    //http://localhost:5203/api/contratoapi/id
+    //http://localhost:5203/api/contratoapi/id             //*PROBADO*//
     [Authorize]
     [HttpGet("{id}")]
     public IActionResult GetContratosPorInmueble(int id){
@@ -36,7 +36,7 @@ public class ContratoApiController: ControllerBase{
         return Ok(contratos);
     }
 
-    //http://localhost:5203/api/contratoapi/inquilino/id
+    //http://localhost:5203/api/contratoapi/inquilino/id             //*PROBADO*//
     [Authorize]
     [HttpGet("inquilino/{id}")]
     public IActionResult GetInquilinoPorContrato(int id){
@@ -51,7 +51,7 @@ public class ContratoApiController: ControllerBase{
     }
 
 
-    //http://localhost:5203/api/contratoapi/pagos/id
+    //http://localhost:5203/api/contratoapi/pagos/id             //*PROBADO*//
     [Authorize]
     [HttpGet("pagos/{id}")]
     public IActionResult GetPagosPorContrato(int id){

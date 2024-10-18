@@ -25,13 +25,23 @@ public class InmuebleApiController:ControllerBase{
     }
 
 
-    //http://localhost:5203/api/inmuebleapi
+    //http://localhost:5203/api/inmuebleapi     /*CHEQUEADO*/
     [Authorize]
     [HttpPost]
-    public IActionResult CrearInmueble([FromForm]Inmueble inmueble){
-        context.Add(inmueble);
+    public IActionResult CrearInmueble([FromForm]Inmueble inmueble, [FromForm]Direccion direccion){
+        context.Direccion.Add(direccion);
         context.SaveChanges();
-        return Ok();
+        if(direccion.IdDireccion > 0){
+            int IdPropietario = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            inmueble.IdPropietario = IdPropietario;
+            inmueble.IdDireccion = direccion.IdDireccion;
+            inmueble.Estado = true;
+            inmueble.Disponible = false;
+            context.Add(inmueble);
+            context.SaveChanges();
+            return Ok("Inmueble creado correctamente");
+        }
+        return BadRequest();
     }
 
     //http://localhost:5203/api/inmuebleapi/id

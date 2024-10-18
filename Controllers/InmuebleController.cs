@@ -107,9 +107,9 @@ public class InmuebleController : Controller
             Direccion direccion = new Direccion{
                 Calle = modelo.Direccion.Calle,
                 Altura  = modelo.Direccion.Altura,
-                Cp = modelo.Direccion.Cp,
+                // Cp = modelo.Direccion.Cp,
                 Ciudad = modelo.Direccion.Ciudad,
-                Coordenadas = modelo.Direccion.Coordenadas,
+                // Coordenadas = modelo.Direccion.Coordenadas,
             };
             int keyDireccion = _repoDire.Crear(direccion);
             modelo.Inmueble.IdDireccion = keyDireccion;
