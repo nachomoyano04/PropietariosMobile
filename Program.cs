@@ -6,8 +6,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.WebHost.UseUrls("http://localhost:5203", "http://*:5203");
 var configuration = builder.Configuration;
 
-// Add services to the container.
-// builder.Services.AddControllersWithViews(); // lo especifico mas abajo
 builder.Services.AddDbContext<DataContext>(
 	options => options.UseMySql(
 		configuration["ConnectionString"],
@@ -28,7 +26,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ))
         };
     })
-    ;
+;
+// para acceder al context sin una llamada http y poder usar el user.claims
+builder.Services.AddHttpContextAccessor(); 
+
 // builder.Services.AddAuthorization(options =>       // no necesito roles para mi sistema de propietario
 //     {
 //         options.AddPolicy("Administrador", policy => policy.RequireRole("Administrador"));

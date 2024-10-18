@@ -9,18 +9,30 @@ using Microsoft.IdentityModel.Tokens;
 using ProyetoInmobiliaria.Models;
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class PropietarioApiController:ControllerBase{
     private DataContext context;
     private IConfiguration configuration;
+    private int IdPropietario;
     
-    public PropietarioApiController(DataContext context, IConfiguration configuration){
+    public PropietarioApiController(DataContext context, IConfiguration configuration, IHttpContextAccessor httpContextAccessor){
         this.context = context;
         this.configuration = configuration;
+        string claim =  httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        IdPropietario = ParsearId(claim);
     }
 
-    //http://localhost:5203/api/propietarioapi/login
-    [HttpPost("login")]
+    //metodo que obtiene de la claim el id del propietario si no es nulo
+    private int ParsearId(string? claim){
+        if(!claim.IsNullOrEmpty()){
+            return Int32.Parse(claim);
+        }
+        return 0;
+    }
+
+    //http://localhost:5203/api/propietarioapi/login    CHEQUEADO
     [AllowAnonymous]
+    [HttpPost("login")]
     public IActionResult Login([FromForm] LoginPropietario login){
         Propietario propietario = context.Propietario.SingleOrDefault(e => e.Correo.ToLower() == login.Correo.ToLower());
         if(propietario != null){
@@ -35,9 +47,7 @@ public class PropietarioApiController:ControllerBase{
     
     //http://localhost:5203/api/propietarioapi
     [HttpPut]
-    [Authorize]
     public IActionResult EditarPropietario([FromForm] Propietario propietario){
-        var IdPropietario = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
         var propietarioBD = context.Propietario.SingleOrDefault(p => p.IdPropietario == IdPropietario);
         if(propietarioBD != null){
             if(propietario.Password.IsNullOrEmpty()){
@@ -56,10 +66,8 @@ public class PropietarioApiController:ControllerBase{
     }
 
     //http://localhost:5203/api/propietarioapi/avatar
-    [Authorize]
     [HttpPut("avatar")]
     public IActionResult EditarAvatar([FromForm] IFormFile avatar){
-        int IdPropietario = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
         var propietario = context.Propietario.Find(IdPropietario); 
         if(propietario != null){
             if(avatar != null && avatar.Length > 0){
@@ -75,20 +83,16 @@ public class PropietarioApiController:ControllerBase{
         return Unauthorized();
     }
 
-    //http://localhost:5203/api/propietarioapi
-    [Authorize]
+    //http://localhost:5203/api/propietarioapi    CHEQUEADO
     [HttpGet]
     public IActionResult GetPropietario(){
-        var IdPropietario = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
         var propietario = context.Propietario.Find(IdPropietario);
         return Ok(propietario);
     }
 
-    //http://localhost:5203/api/propietarioapi/password
-    [Authorize]
+    //http://localhost:5203/api/propietarioapi/password     CHEQUEADO
     [HttpPut("password")]
     public IActionResult ChangePassword([FromForm] string Password){
-        var IdPropietario = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
         var propietario = context.Propietario.Find(IdPropietario);
         if(propietario != null){
             if(!Password.IsNullOrEmpty()){
