@@ -18,7 +18,7 @@ public class ContratoApiController: ControllerBase{
     //http://localhost:5203/api/contratoapi             //*CHEQUEADO*//
     [HttpGet]
     public IActionResult GetContratos(){ //todos los contratos asociados a los inmuebles del propietario
-        var contratos = context.Contrato.Include(c => c.inmueble).Where(c => c.inmueble.IdPropietario == IdPropietario);
+        var contratos = context.Contrato.Include(c => c.inmueble).Include(c => c.inquilino).Where(c => c.inmueble.IdPropietario == IdPropietario);
         if(!contratos.IsNullOrEmpty()){
             return Ok(contratos);
         }
