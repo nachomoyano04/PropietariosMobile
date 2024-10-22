@@ -97,15 +97,19 @@ public class PropietarioApiController:ControllerBase{
 
     //http://localhost:5203/api/propietarioapi/password     CHEQUEADO
     [HttpPut("password")]
-    public IActionResult ChangePassword([FromForm] string Password){
+    public IActionResult ChangePassword([FromForm] string PasswordVieja, [FromForm] string Password){
         var propietario = context.Propietario.Find(IdPropietario);
         if(propietario != null){
-            if(!Password.IsNullOrEmpty()){
-                propietario.Password = HashearPassword(Password);
-                context.SaveChanges();
-                return Ok("Campos guardados correctamente!");
+            if(!Password.IsNullOrEmpty() && !PasswordVieja.IsNullOrEmpty()){
+                if(propietario.Password == HashearPassword(PasswordVieja)){
+                    propietario.Password = HashearPassword(Password);
+                    context.SaveChanges();
+                    return Ok("Campos guardados correctamente!");
+                }else{
+                    return Ok("La password vieja no coincide");
+                }
             }else{
-                return BadRequest("Falta parametro.");
+                return BadRequest("Debe completar todos los campos");
             }
         }
         return NotFound();
