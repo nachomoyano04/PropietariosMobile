@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using MimeKit;
 using ProyetoInmobiliaria.Models;
 [Route("api/[controller]")]
 [ApiController]
@@ -14,10 +15,13 @@ public class PropietarioApiController:ControllerBase{
     private DataContext context;
     private IConfiguration configuration;
     private int IdPropietario;
+
+    private IWebHostEnvironment environment;
     
-    public PropietarioApiController(DataContext context, IConfiguration configuration, IHttpContextAccessor httpContextAccessor){
+    public PropietarioApiController(DataContext context, IConfiguration configuration, IHttpContextAccessor httpContextAccessor, IWebHostEnvironment environment){
         this.context = context;
         this.configuration = configuration;
+        this.environment = environment;
         string claim =  httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         IdPropietario = ParsearId(claim);
     }
@@ -58,6 +62,7 @@ public class PropietarioApiController:ControllerBase{
             context.Entry(propietarioBD).State = EntityState.Detached;
             propietario.IdPropietario = IdPropietario;
             propietario.Estado = true;
+            propietario.Avatar = propietarioBD.Avatar;
             context.Propietario.Update(propietario);
             context.SaveChanges();
             return Ok("Datos del perfil actualizados correctamente...");
@@ -106,15 +111,52 @@ public class PropietarioApiController:ControllerBase{
         return NotFound();
     }
 
+    [HttpGet("generarPassword")]
+    public IActionResult GenerarPassword(){
+        //generamos la nueva clave "random"
+        Random random = new Random(Environment.TickCount);
+        string password = "";
+        string caracteres = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789";
+        for(int i = 0; i < 8; i++){
+            password += caracteres[random.Next(0, caracteres.Length)];
+        }
+        //actualizamos el propietario con esa clave hasheada
+        var propietario = context.Propietario.FirstOrDefault(e => e.IdPropietario == IdPropietario);
+        propietario.Password = HashearPassword(password);
+        int filasAfectadas = context.SaveChanges();
+        Console.WriteLine($"Filas afectadas: {filasAfectadas}");
+        if(filasAfectadas > 0){
+            //mandamos el mail
+            string mensajeEnHtml = $"<h1>Bienvenido nuevamente {propietario.Nombre}!</h1>"
+            +$"<p>Su nueva password es: {password}</p>";
+            EnviarMail("Inmobiliaria", "nachomoyag@gmail.com", propietario.Nombre, propietario.Correo, mensajeEnHtml);
+			return Ok("Password generada correctamente");
+        }else{
+            return BadRequest("No se pudo pisar la password en generar password");
+        }
+    }
 
-    //SOLO PARA DESARROLLO //http://localhost:5203/api/propietarioapi/crear   //SOLO PARA DESARROLLO
+    //http://localhost:5203/api/propietarioapi/recuperarpassword
     [AllowAnonymous]
-    [HttpPost("crear")]
-    public IActionResult Crear([FromForm] Propietario p){
-        p.Password = HashearPassword(p.Password);
-        context.Propietario.Add(p);
-        context.SaveChanges();
-        return Ok($"idPropietario: {p.IdPropietario}");
+    [HttpPost("recuperarPassword")]
+    public IActionResult RecuperarPassword([FromForm] string correo){
+        var propietario = context.Propietario.FirstOrDefault(e => e.Correo == correo);
+        if(propietario != null){
+            string dominio = "";
+            if(environment.IsDevelopment()){
+                // dominio = HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
+                dominio = "http://localhost:5203/api/propietarioapi/generarPassword";
+            }else{
+                dominio = "www.myinmobiliaria.com";
+            }
+            string token = GenerarToken(propietario);
+            dominio += $"?access_token={token}";
+            string mensajeEnHtml = $"<h1>Hola {propietario.Nombre}!</h1>"
+            +$"<p>Para generar una nueva password acceda al siguiente link {dominio}</p>";
+            EnviarMail("Inmobiliaria", "nachomoyag@gmail.com", propietario.Nombre, propietario.Correo, mensajeEnHtml);
+            return Ok("Email de recuperacion enviado");
+        }
+        return BadRequest("No existe un usuario con ese email.");
     }
 
     //metodo para verificar que las password coinciden
@@ -150,6 +192,26 @@ public class PropietarioApiController:ControllerBase{
                         iterationCount: 1000,
                         numBytesRequested: 256 / 8));
         return hash;
+    }
+
+    //metodo para enviar mails
+    public void EnviarMail(string emisor, string emisorCorreo, string destinatario, string destinatarioCorreo, string mensajeEnHtml){
+        var mensaje = new MimeKit.MimeMessage();
+        mensaje.To.Add(new MailboxAddress(destinatario, destinatarioCorreo));
+        mensaje.From.Add(new MailboxAddress(emisor, emisorCorreo));
+        mensaje.Subject = "Mensaje de recuperacion de contraseña";
+        mensaje.Body = new TextPart("html"){
+            Text = mensajeEnHtml
+        };
+        MailKit.Net.Smtp.SmtpClient client = new MailKit.Net.Smtp.SmtpClient();
+        client.ServerCertificateValidationCallback = (object sender,
+                System.Security.Cryptography.X509Certificates.X509Certificate certificate,
+                System.Security.Cryptography.X509Certificates.X509Chain chain,
+                System.Net.Security.SslPolicyErrors sslPolicyErrors) =>
+            { return true; };
+            client.Connect("smtp.gmail.com", 465, MailKit.Security.SecureSocketOptions.Auto);
+            client.Authenticate(configuration["SMPT:User"], configuration["SMPT:Password"]);//estas credenciales deben estar en el user secrets
+            client.Send(mensaje);
     }
 
 }

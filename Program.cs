@@ -25,8 +25,22 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 configuration["TokenAuthentication:SecretKey"]
             ))
         };
-    })
-;
+        //opcion para poder pasar el token por queryparams
+        options.Events = new JwtBearerEvents{
+            OnMessageReceived = context => {
+                //leemos el token desde el queryparams
+                var access_token = context.Request.Query["access_token"];
+                //ruta
+                var path = context.HttpContext.Request.Path;
+                if(!access_token.IsNullOrEmpty() &&
+                    (path.StartsWithSegments("/api/propietarioapi/generarpassword") || 
+                    path.StartsWithSegments("/api/propietarioapi/generarpassword"))){
+                        context.Token = access_token;
+                }
+                return Task.CompletedTask;
+            }
+        };
+    });
 // para acceder al context sin una llamada http y poder usar el user.claims
 builder.Services.AddHttpContextAccessor(); 
 
