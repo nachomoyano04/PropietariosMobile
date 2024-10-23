@@ -54,11 +54,19 @@ public class PropietarioApiController:ControllerBase{
     public IActionResult EditarPropietario([FromForm] Propietario propietario){
         var propietarioBD = context.Propietario.SingleOrDefault(p => p.IdPropietario == IdPropietario);
         if(propietarioBD != null){
-            if(propietario.Password.IsNullOrEmpty()){
-                propietario.Password = propietarioBD.Password;
-            }else{
-                propietario.Password = HashearPassword(propietario.Password);
+            if(!propietario.Correo.IsNullOrEmpty()){ //si decide cambiar el correo, chequear de que no exista ya...
+                var prop = context.Propietario.FirstOrDefault(p => p.Correo.ToLower() == propietario.Correo.ToLower());
+                if(prop != null && prop.IdPropietario != IdPropietario){
+                    return BadRequest("El correo ya existe");
+                }
             }
+            if(!propietario.Dni.IsNullOrEmpty()){ //si decide cambiar el dni, chequear que no exista ya
+                var prop = context.Propietario.FirstOrDefault(p => p.Dni == propietario.Dni);
+                if(prop != null && prop.IdPropietario != IdPropietario){
+                    return BadRequest("El dni ya existe");
+                }
+            }
+            propietario.Password = propietarioBD.Password; //CHEQUEAR ESTO PERO LA PASSWORD NO SE EDITA EN EL EDITAR PROPIETARIO
             context.Entry(propietarioBD).State = EntityState.Detached;
             propietario.IdPropietario = IdPropietario;
             propietario.Estado = true;
