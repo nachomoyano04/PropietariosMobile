@@ -32,16 +32,18 @@ public class InmuebleApiController:ControllerBase{
         context.Direccion.Add(direccion);
         context.SaveChanges();
         if(direccion.IdDireccion > 0){
+            inmueble.UrlImagen = "default.png";
             inmueble.IdPropietario = IdPropietario;
             inmueble.IdDireccion = direccion.IdDireccion;
             inmueble.Estado = true;
             inmueble.Disponible = false;
-            context.Add(inmueble);
+            context.Inmueble.Add(inmueble);
             context.SaveChanges();
-            return Ok("Inmueble creado correctamente");
+            return Ok(inmueble.IdInmueble+"");
         }
-        return BadRequest();
+        return BadRequest("La direccion no se insertó");
     }
+
 
     //http://localhost:5203/api/inmuebleapi/id          /*CHEQUEADO*/
     [HttpPut("{id}")]
@@ -50,12 +52,11 @@ public class InmuebleApiController:ControllerBase{
         if(inm != null){
             var dir = context.Direccion.FirstOrDefault(i => i.IdDireccion == inm.IdDireccion);
             if(dir != null){
-                if(inmueble.IdPropietario == IdPropietario){
+                if(inm.IdPropietario == IdPropietario){
                     //editamos los campos de direccion
                     dir.Calle = direccion.Calle;
                     dir.Altura = direccion.Altura;
                     dir.Ciudad = direccion.Ciudad;
-                    inmueble.IdDireccion = dir.IdDireccion;
                     //copiamos los campos que llegan desde el form en el inmueble que trackeamos
                     inm.CantidadAmbientes = inmueble.CantidadAmbientes;
                     inm.Cochera = inmueble.Cochera;
@@ -63,19 +64,38 @@ public class InmuebleApiController:ControllerBase{
                     inm.direccion = dir;
                     inm.Disponible = inmueble.Disponible;
                     inm.IdDireccion = dir.IdDireccion;
-                    inm.IdPropietario = inmueble.IdPropietario;
                     inm.Mascotas = inmueble.Mascotas;
                     inm.Metros2 = inmueble.Metros2;
                     inm.Piscina = inmueble.Piscina;
                     inm.Precio = inmueble.Precio;
                     inm.tipo = inmueble.tipo;
-                    inm.UrlImagen = inmueble.UrlImagen;
                     inm.Uso = inmueble.tipo;
-                    int filasAfectadas = context.SaveChanges();
+                    context.SaveChanges();
                     return Ok("Datos del inmueble actualizados correctamente...");
                 }else{
                     return Unauthorized();
                 }
+            }
+        }
+        return BadRequest();
+    }
+
+    [HttpPut("imagen/{id}")]
+    public IActionResult EditarImagenInmueble(int id, [FromForm] IFormFile imagen){
+        var inmueble = context.Inmueble.FirstOrDefault(i => i.IdInmueble == id);
+        if(inmueble != null){
+            if(imagen != null && imagen.Length > 0){
+                var fileName = $"{IdPropietario}_{Guid.NewGuid()}{Path.GetExtension(imagen.FileName)}";
+                var ruta = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/Inmueble", fileName);
+                using(var stream = new FileStream(ruta, FileMode.Create)){
+                    imagen.CopyTo(stream);
+                }
+                inmueble.UrlImagen = fileName;
+                int filasAfectadas = context.SaveChanges();
+                if(filasAfectadas > 0){
+                    return Ok("Imagen de inmueble modificada");
+                }
+                return Ok("No se modificó ninguna fila");
             }
         }
         return BadRequest();

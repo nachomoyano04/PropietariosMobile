@@ -33,8 +33,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 //ruta
                 var path = context.HttpContext.Request.Path;
                 if(!access_token.IsNullOrEmpty() &&
-                    (path.StartsWithSegments("/api/propietarioapi/generarpassword") || 
-                    path.StartsWithSegments("/api/propietarioapi/generarpassword"))){
+                    path.StartsWithSegments("/api/propietarioapi/generarpassword")){
                         context.Token = access_token;
                 }
                 return Task.CompletedTask;

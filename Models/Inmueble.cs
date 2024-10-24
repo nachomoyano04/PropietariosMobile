@@ -35,8 +35,6 @@ public class Inmueble{
     public bool Cochera {get; set;}
     public bool Piscina {get; set;}
     public bool Mascotas {get; set;}
-    public bool Estado {get; set;}
-    
-    [Required(ErrorMessage = "Debe ingresar una url para la imagen...")]
+    public bool Estado {get; set;}    
     public string UrlImagen {get; set;}
 }

@@ -84,11 +84,12 @@ public class PropietarioApiController:ControllerBase{
         var propietario = context.Propietario.Find(IdPropietario); 
         if(propietario != null){
             if(avatar != null && avatar.Length > 0){
-                var ruta = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/Avatar", avatar.FileName);
+                var fileName = $"{IdPropietario}_{Guid.NewGuid()}{Path.GetExtension(avatar.FileName)}";
+                var ruta = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/Avatar", fileName);
                 using(var stream = new FileStream(ruta, FileMode.Create)){
                     avatar.CopyTo(stream);
                 }
-                propietario.Avatar = avatar.FileName;
+                propietario.Avatar = fileName;
                 context.SaveChanges();      
                 return Ok("Avatar actualizado");
             }
@@ -113,9 +114,8 @@ public class PropietarioApiController:ControllerBase{
                     propietario.Password = HashearPassword(Password);
                     context.SaveChanges();
                     return Ok("Campos guardados correctamente!");
-                }else{
-                    return Ok("La password vieja no coincide");
                 }
+                return BadRequest("La password actual no coincide");
             }else{
                 return BadRequest("Debe completar todos los campos");
             }
