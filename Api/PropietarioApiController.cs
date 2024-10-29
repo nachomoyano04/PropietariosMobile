@@ -148,6 +148,18 @@ public class PropietarioApiController:ControllerBase{
         }
     }
 
+    [HttpPut("NuevaPassword")]
+    public IActionResult NuevaPassword([FromForm] string nuevaPassword){
+        Console.WriteLine($"nueva password: {nuevaPassword}");
+        var propietario = context.Propietario.FirstOrDefault(p => p.IdPropietario == IdPropietario);
+        if(propietario != null){
+            propietario.Password = HashearPassword(nuevaPassword);
+            context.SaveChanges();
+            return Ok("Password cambiada.");
+        }
+        return BadRequest("No existe propietario.");
+    }
+
     //http://localhost:5203/api/propietarioapi/recuperarpassword
     [AllowAnonymous]
     [HttpPost("recuperarPassword")]
@@ -157,14 +169,15 @@ public class PropietarioApiController:ControllerBase{
             string dominio = "";
             if(environment.IsDevelopment()){
                 // dominio = HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
-                dominio = "http://localhost:5203/api/propietarioapi/generarPassword";
+                dominio = "http://192.168.1.9:5203/api/propietarioapi/nuevaPassword";
             }else{
                 dominio = "www.myinmobiliaria.com";
             }
             string token = GenerarToken(propietario);
             dominio += $"?access_token={token}";
             string mensajeEnHtml = $"<h1>Hola {propietario.Nombre}!</h1>"
-            +$"<p>Para generar una nueva password acceda al siguiente link {dominio}</p>";
+            +"<p>Para elegir una nueva password toque el siguiente boton:</p>"
+            +$"<a href='{dominio}'><button style='background-color:#007bff; padding: 5px; margin: 10px 0px;'>Nueva password</button></a>";
             EnviarMail("Inmobiliaria", "nachomoyag@gmail.com", propietario.Nombre, propietario.Correo, mensajeEnHtml);
             return Ok("Email de recuperacion enviado");
         }
