@@ -101,7 +101,10 @@ public class PropietarioApiController:ControllerBase{
     [HttpGet]
     public IActionResult GetPropietario(){
         var propietario = context.Propietario.Find(IdPropietario);
-        return Ok(propietario);
+        if(propietario != null){
+            return Ok(propietario);
+        }
+        return Unauthorized(401);
     }
 
     //http://localhost:5203/api/propietarioapi/password     CHEQUEADO
@@ -203,8 +206,9 @@ public class PropietarioApiController:ControllerBase{
         var token = new JwtSecurityToken(configuration["TokenAuthentication:Issuer"],
         configuration["TokenAuthentication:Audience"],
         claims,
-        expires: DateTime.Now.AddMinutes(15),
+        expires: DateTime.Now.AddSeconds(1),
         signingCredentials: credenciales);
+        Console.WriteLine($"El token expira en: {DateTime.Now.AddSeconds(1)}");
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
 
