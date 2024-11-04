@@ -17,7 +17,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         options.TokenValidationParameters = new TokenValidationParameters{
             ValidateIssuer = true,
             ValidateAudience = true,
-            ClockSkew = TimeSpan.Zero,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
             ValidIssuer = configuration["TokenAuthentication:Issuer"],

@@ -153,7 +153,6 @@ public class PropietarioApiController:ControllerBase{
 
     [HttpPut("NuevaPassword")]
     public IActionResult NuevaPassword([FromForm] string nuevaPassword){
-        Console.WriteLine($"nueva password: {nuevaPassword}");
         var propietario = context.Propietario.FirstOrDefault(p => p.IdPropietario == IdPropietario);
         if(propietario != null){
             propietario.Password = HashearPassword(nuevaPassword);
@@ -206,9 +205,8 @@ public class PropietarioApiController:ControllerBase{
         var token = new JwtSecurityToken(configuration["TokenAuthentication:Issuer"],
         configuration["TokenAuthentication:Audience"],
         claims,
-        expires: DateTime.Now.AddSeconds(1),
+        expires: DateTime.Now.AddMinutes(120),
         signingCredentials: credenciales);
-        Console.WriteLine($"El token expira en: {DateTime.Now.AddSeconds(1)}");
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
 
