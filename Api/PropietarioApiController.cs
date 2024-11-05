@@ -116,7 +116,7 @@ public class PropietarioApiController:ControllerBase{
                 if(propietario.Password == HashearPassword(PasswordVieja)){
                     propietario.Password = HashearPassword(Password);
                     context.SaveChanges();
-                    return Ok("Campos guardados correctamente!");
+                    return Ok("Password actualizada correctamente!");
                 }
                 return BadRequest("La password actual no coincide");
             }else{
@@ -171,7 +171,7 @@ public class PropietarioApiController:ControllerBase{
             string dominio = "";
             if(environment.IsDevelopment()){
                 // dominio = HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
-                dominio = "http://192.168.1.9:5203/api/propietarioapi/nuevaPassword";
+                dominio = "http://192.168.1.7:5203/api/propietarioapi/nuevaPassword";
             }else{
                 dominio = "www.myinmobiliaria.com";
             }
