@@ -175,6 +175,7 @@ public class PropietarioApiController:ControllerBase{
             }else{
                 dominio = "www.myinmobiliaria.com";
             }
+            Console.WriteLine($"dominio: {dominio}");
             string token = GenerarToken(propietario);
             dominio += $"?access_token={token}";
             string mensajeEnHtml = $"<h1>Hola {propietario.Nombre}!</h1>"

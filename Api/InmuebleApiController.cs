@@ -62,14 +62,13 @@ public class InmuebleApiController:ControllerBase{
                     inm.Cochera = inmueble.Cochera;
                     inm.Descripcion = inmueble.Descripcion;
                     inm.direccion = dir;
-                    inm.Disponible = inmueble.Disponible;
                     inm.IdDireccion = dir.IdDireccion;
                     inm.Mascotas = inmueble.Mascotas;
                     inm.Metros2 = inmueble.Metros2;
                     inm.Piscina = inmueble.Piscina;
                     inm.Precio = inmueble.Precio;
                     inm.tipo = inmueble.tipo;
-                    inm.Uso = inmueble.tipo;
+                    inm.Uso = inmueble.Uso;
                     context.SaveChanges();
                     return Ok("Datos del inmueble actualizados correctamente...");
                 }else{
